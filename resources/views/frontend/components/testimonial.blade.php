@@ -33,7 +33,7 @@
             <div class="d-flex align-items-center justify-content-center">
                 {{-- Client Image --}}
                 <div class="me-3">
-                    <img src="{{ $testimonial->image ? asset('uploads/testimonials/' . $testimonial->image) : asset('assets/images/default-avatar.jpg') }}"
+                    <img src="{{ $testimonial->image ? asset('storage/testimonials/' . $testimonial->image) : asset('assets/images/default-avatar.svg') }}"
                          alt="{{ $testimonial->name }}"
                          class="rounded-circle testimonial-img"
                          width="60" height="60"
@@ -77,7 +77,7 @@
 
         {{-- Client --}}
         <div class="d-flex align-items-center justify-content-center">
-            <img src="{{ $testimonial->image ? asset('uploads/testimonials/' . $testimonial->image) : asset('assets/images/default-avatar.jpg') }}"
+            <img src="{{ $testimonial->image ? asset('storage/testimonials/' . $testimonial->image) : asset('assets/images/default-avatar.svg') }}"
                  alt="{{ $testimonial->name }}"
                  class="rounded-circle me-3"
                  width="80" height="80"

@@ -51,7 +51,7 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link {{ Request::routeIs('contact') ? 'active' : '' }}"
-                       href="{{ route('contact') }}">Contact</a>
+                       href="{{ route('contact.index') }}">Contact</a>
                 </li>
             </ul>
 
@@ -64,7 +64,7 @@
                 </button>
 
                 {{-- Add Property Button --}}
-                <a href="{{ route('contact') }}?subject=list_property" class="btn btn-primary btn-sm">
+                <a href="{{ route('contact.index') }}?subject=list_property" class="btn btn-primary btn-sm">
                     <i class="fas fa-plus"></i>
                     <span class="d-none d-lg-inline ms-1">List Property</span>
                 </a>

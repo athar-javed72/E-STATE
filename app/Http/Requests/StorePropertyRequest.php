@@ -6,23 +6,33 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class StorePropertyRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
-     * Get the validation rules that apply to the request.
-     *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
     public function rules(): array
     {
         return [
-            //
+            'title' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'address' => 'nullable|string|max:255',
+            'city' => 'nullable|string|max:100',
+            'state' => 'nullable|string|max:100',
+            'zip' => 'nullable|string|max:20',
+            'type' => 'required|in:house,apartment,condo,villa',
+            'listing_type' => 'required|in:for_sale,for_rent',
+            'price' => 'required|numeric|min:0',
+            'bedrooms' => 'nullable|integer|min:0',
+            'bathrooms' => 'nullable|integer|min:0',
+            'area' => 'nullable|integer|min:0',
+            'parking' => 'nullable|integer|min:0',
+            'agent_id' => 'nullable|exists:agents,id',
+            'featured' => 'boolean',
+            'status' => 'in:active,sold,pending,inactive',
         ];
     }
 }

@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Contact;
+use App\Models\NewsletterSubscriber;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 
 class ContactController extends Controller
@@ -104,5 +104,37 @@ class ContactController extends Controller
                 'message' => 'Something went wrong. Please try again later.'
             ], 500);
         }
+    }
+
+    /**
+     * Newsletter subscription
+     */
+    public function newsletterSubscribe(Request $request)
+    {
+        $validated = $request->validate([
+            'email' => 'required|email|max:255',
+        ], [
+            'email.required' => 'Please enter your email address.',
+            'email.email' => 'Please enter a valid email address.',
+        ]);
+
+        $existing = NewsletterSubscriber::where('email', $validated['email'])->first();
+        if ($existing) {
+            $existing->update(['is_active' => true]);
+            return response()->json([
+                'success' => true,
+                'message' => 'You are already subscribed. We will keep you updated!',
+            ]);
+        }
+
+        NewsletterSubscriber::create([
+            'email' => $validated['email'],
+            'is_active' => true,
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Thank you for subscribing to our newsletter!',
+        ]);
     }
 }

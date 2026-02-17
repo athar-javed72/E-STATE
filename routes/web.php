@@ -1,11 +1,13 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\PropertyController;
 use App\Http\Controllers\Frontend\AgentController;
 use App\Http\Controllers\Frontend\BlogController;
 use App\Http\Controllers\Frontend\ContactController;
+use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,6 +18,11 @@ use App\Http\Controllers\Frontend\ContactController;
 | Clean, SEO-friendly URLs with proper naming
 |
 */
+
+// Authentication (simple login for admin area)
+Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [LoginController::class, 'login']);
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 // Home & Static Pages
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -48,11 +55,11 @@ Route::prefix('contact')->name('contact.')->group(function () {
     Route::post('/', [ContactController::class, 'store'])->name('store');
 });
 
-// Additional Frontend Routes
+// Additional Frontend Routes (AJAX)
 Route::group(['prefix' => 'api/frontend', 'as' => 'api.'], function () {
-    // AJAX Routes for frontend interactions
     Route::post('property/wishlist/{property}', [PropertyController::class, 'toggleWishlist'])->name('property.wishlist');
     Route::post('property/contact/{property}', [PropertyController::class, 'contactAgent'])->name('property.contact');
+    Route::post('contact/property-inquiry', [ContactController::class, 'propertyInquiry'])->name('contact.property-inquiry');
     Route::get('search/suggestions', [PropertyController::class, 'searchSuggestions'])->name('search.suggestions');
     Route::post('newsletter/subscribe', [ContactController::class, 'newsletterSubscribe'])->name('newsletter.subscribe');
 });
@@ -66,3 +73,11 @@ Route::get('/robots.txt', function () {
     return response("User-agent: *\nDisallow: /admin\nDisallow: /api\n\nSitemap: " . url('/sitemap.xml'))
         ->header('Content-Type', 'text/plain');
 })->name('robots');
+
+// Admin area (protected by authentication)
+Route::prefix('admin')
+    ->name('admin.')
+    ->middleware('auth')
+    ->group(function () {
+        Route::get('/', [AdminDashboardController::class, 'index'])->name('dashboard');
+    });

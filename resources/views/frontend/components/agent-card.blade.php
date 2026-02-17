@@ -7,7 +7,7 @@
     <div class="card h-100 shadow-sm border-0 agent-card-hover">
         {{-- Agent Image --}}
         <div class="position-relative overflow-hidden">
-            <img src="{{ $agent->image ? asset('uploads/agents/' . $agent->image) : asset('assets/images/default-agent.jpg') }}"
+            <img src="{{ $agent->avatar ? asset('storage/agents/' . $agent->avatar) : asset('assets/images/default-avatar.svg') }}"
                  class="card-img-top agent-img"
                  alt="{{ $agent->name }}"
                  style="height: 250px; object-fit: cover;">

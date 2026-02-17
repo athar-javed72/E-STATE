@@ -8,9 +8,7 @@
                 <div class="footer-section">
                     {{-- Logo --}}
                     <div class="mb-3">
-                        <img src="{{ asset('assets/images/logo-white.png') }}"
-                             alt="FindState"
-                             style="height: 40px;">
+                        <strong class="text-white" style="font-size: 1.5rem;">FindState</strong>
                     </div>
 
                     <p class="text-light opacity-75 mb-3">
@@ -48,10 +46,10 @@
                         <li><a href="{{ route('home') }}" class="text-decoration-none text-light opacity-75">Home</a></li>
                         <li><a href="{{ route('about') }}" class="text-decoration-none text-light opacity-75">About Us</a></li>
                         <li><a href="{{ route('services') }}" class="text-decoration-none text-light opacity-75">Services</a></li>
-                        <li><a href="{{ route('properties') }}" class="text-decoration-none text-light opacity-75">Properties</a></li>
-                        <li><a href="{{ route('agents') }}" class="text-decoration-none text-light opacity-75">Our Agents</a></li>
-                        <li><a href="{{ route('blog') }}" class="text-decoration-none text-light opacity-75">Blog</a></li>
-                        <li><a href="{{ route('contact') }}" class="text-decoration-none text-light opacity-75">Contact</a></li>
+                        <li><a href="{{ route('properties.index') }}" class="text-decoration-none text-light opacity-75">Properties</a></li>
+                        <li><a href="{{ route('agents.index') }}" class="text-decoration-none text-light opacity-75">Our Agents</a></li>
+                        <li><a href="{{ route('blog.index') }}" class="text-decoration-none text-light opacity-75">Blog</a></li>
+                        <li><a href="{{ route('contact.index') }}" class="text-decoration-none text-light opacity-75">Contact</a></li>
                     </ul>
                 </div>
             </div>
@@ -61,13 +59,13 @@
                 <div class="footer-section">
                     <h5 class="text-white fw-bold mb-3">Property Types</h5>
                     <ul class="list-unstyled footer-links">
-                        <li><a href="{{ route('properties', ['type' => 'house']) }}" class="text-decoration-none text-light opacity-75">Houses</a></li>
-                        <li><a href="{{ route('properties', ['type' => 'apartment']) }}" class="text-decoration-none text-light opacity-75">Apartments</a></li>
-                        <li><a href="{{ route('properties', ['type' => 'villa']) }}" class="text-decoration-none text-light opacity-75">Villas</a></li>
-                        <li><a href="{{ route('properties', ['type' => 'commercial']) }}" class="text-decoration-none text-light opacity-75">Commercial</a></li>
-                        <li><a href="{{ route('properties', ['type' => 'land']) }}" class="text-decoration-none text-light opacity-75">Land</a></li>
-                        <li><a href="{{ route('properties', ['purpose' => 'sale']) }}" class="text-decoration-none text-light opacity-75">For Sale</a></li>
-                        <li><a href="{{ route('properties', ['purpose' => 'rent']) }}" class="text-decoration-none text-light opacity-75">For Rent</a></li>
+                        <li><a href="{{ route('properties.index', ['type' => 'house']) }}" class="text-decoration-none text-light opacity-75">Houses</a></li>
+                        <li><a href="{{ route('properties.index', ['type' => 'apartment']) }}" class="text-decoration-none text-light opacity-75">Apartments</a></li>
+                        <li><a href="{{ route('properties.index', ['type' => 'villa']) }}" class="text-decoration-none text-light opacity-75">Villas</a></li>
+                        <li><a href="{{ route('properties.index', ['type' => 'commercial']) }}" class="text-decoration-none text-light opacity-75">Commercial</a></li>
+                        <li><a href="{{ route('properties.index', ['type' => 'land']) }}" class="text-decoration-none text-light opacity-75">Land</a></li>
+                        <li><a href="{{ route('properties.index', ['listing_type' => 'for_sale']) }}" class="text-decoration-none text-light opacity-75">For Sale</a></li>
+                        <li><a href="{{ route('properties.index', ['listing_type' => 'for_rent']) }}" class="text-decoration-none text-light opacity-75">For Rent</a></li>
                     </ul>
                 </div>
             </div>

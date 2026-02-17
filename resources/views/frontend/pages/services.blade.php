@@ -36,7 +36,7 @@
                     From buying your first home to managing investment properties,
                     we provide comprehensive real estate services tailored to your needs.
                 </p>
-                <a href="{{ route('contact') }}" class="btn btn-warning btn-lg">
+                <a href="{{ route('contact.index') }}" class="btn btn-warning btn-lg">
                     Get Started Today
                 </a>
             </div>
@@ -82,7 +82,7 @@
                         <li class="mb-2"><i class="fas fa-check text-success me-2"></i> Negotiation Support</li>
                         <li class="mb-2"><i class="fas fa-check text-success me-2"></i> Legal Assistance</li>
                     </ul>
-                    <a href="{{ route('properties') }}" class="btn btn-outline-primary">
+                <a href="{{ route('properties.index') }}" class="btn btn-outline-primary">
                         Browse Properties
                     </a>
                 </div>
@@ -108,7 +108,7 @@
                         <li class="mb-2"><i class="fas fa-check text-success me-2"></i> Marketing & Promotion</li>
                         <li class="mb-2"><i class="fas fa-check text-success me-2"></i> Negotiation & Closing</li>
                     </ul>
-                    <a href="{{ route('contact') }}" class="btn btn-outline-success">
+                    <a href="{{ route('contact.index') }}" class="btn btn-outline-success">
                         Request a Valuation
                     </a>
                 </div>
@@ -133,7 +133,7 @@
                         <li class="mb-2"><i class="fas fa-check text-success me-2"></i> Lease Agreements</li>
                         <li class="mb-2"><i class="fas fa-check text-success me-2"></i> Property Management</li>
                     </ul>
-                    <a href="{{ route('properties', ['type' => 'rent']) }}" class="btn btn-outline-warning text-dark">
+                    <a href="{{ route('properties.index', ['listing_type' => 'for_rent']) }}" class="btn btn-outline-warning text-dark">
                         View Rentals
                     </a>
                 </div>
@@ -151,7 +151,7 @@
                 <p class="mb-0">Contact our team today for a free consultation and let us help you achieve your real estate goals.</p>
             </div>
             <div class="col-lg-4 text-lg-end">
-                <a href="{{ route('contact') }}" class="btn btn-light btn-lg fw-bold">
+                <a href="{{ route('contact.index') }}" class="btn btn-light btn-lg fw-bold">
                     Get in Touch
                 </a>
             </div>

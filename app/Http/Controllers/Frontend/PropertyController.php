@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Property;
-use App\Models\Agent;
+use App\Models\Contact;
 use Illuminate\Http\Request;
 
 class PropertyController extends Controller
@@ -121,5 +121,91 @@ class PropertyController extends Controller
             ->paginate(12);
 
         return response()->json($properties);
+    }
+
+    /**
+     * Toggle wishlist (session-based for guests)
+     */
+    public function toggleWishlist(Property $property)
+    {
+        $wishlist = session()->get('wishlist', []);
+        $id = $property->id;
+
+        if (in_array($id, $wishlist)) {
+            $wishlist = array_values(array_diff($wishlist, [$id]));
+            $added = false;
+        } else {
+            $wishlist[] = $id;
+            $added = true;
+        }
+
+        session()->put('wishlist', $wishlist);
+
+        return response()->json([
+            'success' => true,
+            'in_wishlist' => $added,
+            'message' => $added ? 'Added to wishlist.' : 'Removed from wishlist.',
+        ]);
+    }
+
+    /**
+     * Submit property inquiry (contact agent)
+     */
+    public function contactAgent(Request $request, Property $property)
+    {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+            'phone' => 'nullable|string|max:20',
+            'message' => 'required|string|min:10',
+        ]);
+
+        Contact::create([
+            'property_id' => $property->id,
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'phone' => $validated['phone'] ?? null,
+            'subject' => 'Inquiry: ' . $property->title,
+            'message' => $validated['message'],
+            'type' => 'property_inquiry',
+            'status' => 'new',
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Your inquiry has been sent. We will get back to you soon.',
+        ]);
+    }
+
+    /**
+     * Search suggestions for autocomplete
+     */
+    public function searchSuggestions(Request $request)
+    {
+        $q = $request->get('q', '');
+        if (strlen($q) < 2) {
+            return response()->json(['suggestions' => []]);
+        }
+
+        $properties = Property::where('status', 'active')
+            ->where(function ($query) use ($q) {
+                $query->where('title', 'like', "%{$q}%")
+                    ->orWhere('address', 'like', "%{$q}%")
+                    ->orWhere('city', 'like', "%{$q}%");
+            })
+            ->limit(8)
+            ->get(['id', 'title', 'slug', 'city', 'price']);
+
+        $suggestions = $properties->map(function ($p) {
+            return [
+                'id' => $p->id,
+                'title' => $p->title,
+                'url' => route('properties.show', $p->slug),
+                'city' => $p->city,
+                'price' => number_format($p->price),
+            ];
+        });
+
+        return response()->json(['suggestions' => $suggestions]);
     }
 }

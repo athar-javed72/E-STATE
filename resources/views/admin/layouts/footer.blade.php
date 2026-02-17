@@ -22,7 +22,7 @@
                     <li><a href="{{ route('agents.index') }}">Agents</a></li>
                     <li><a href="{{ route('blog.index') }}">Blog</a></li>
                     <li><a href="{{ route('about') }}">About</a></li>
-                    <li><a href="{{ route('contact') }}">Contact</a></li>
+                    <li><a href="{{ route('contact.index') }}">Contact</a></li>
                 </ul>
             </div>
 

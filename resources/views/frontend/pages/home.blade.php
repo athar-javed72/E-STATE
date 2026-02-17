@@ -7,7 +7,7 @@
 
 {{-- Hero Section --}}
 <section class="hero-section bg-primary text-white position-relative overflow-hidden">
-    <div class="hero-bg position-absolute top-0 start-0 w-100 h-100" style="background: linear-gradient(135deg, rgba(0,123,255,0.8) 0%, rgba(0,86,179,0.9) 100%), url('{{ asset('assets/images/hero-bg.jpg') }}') center/cover;"></div>
+    <div class="hero-bg position-absolute top-0 start-0 w-100 h-100" style="background: linear-gradient(135deg, rgba(0,123,255,0.9) 0%, rgba(0,86,179,0.95) 100%);"></div>
 
     <div class="container position-relative" style="z-index: 2;">
         <div class="row min-vh-100 align-items-center py-5">
@@ -271,7 +271,7 @@
                 <div class="col-lg-4">
                     <article class="blog-card h-100" data-aos="fade-up">
                         <div class="card h-100 border-0 shadow-sm">
-                            <img src="{{ $blog->featured_image ? asset('uploads/blogs/' . $blog->featured_image) : asset('assets/images/blog-placeholder.jpg') }}"
+                            <img src="{{ $blog->featured_image ? asset('storage/blogs/' . $blog->featured_image) : asset('assets/images/placeholder-600x400.svg') }}"
                                  class="card-img-top blog-img" alt="{{ $blog->title }}">
 
                             <div class="card-body d-flex flex-column">
@@ -325,7 +325,7 @@
                     <a href="{{ route('properties.index') }}" class="btn btn-light btn-lg">
                         <i class="fas fa-search me-2"></i>Browse Properties
                     </a>
-                    <a href="{{ route('contact') }}" class="btn btn-outline-light btn-lg">
+                    <a href="{{ route('contact.index') }}" class="btn btn-outline-light btn-lg">
                         <i class="fas fa-phone me-2"></i>Contact Us
                     </a>
                 </div>

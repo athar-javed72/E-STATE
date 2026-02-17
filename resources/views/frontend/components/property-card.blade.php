@@ -7,7 +7,7 @@
     <div class="card h-100 shadow-sm border-0">
         {{-- Property Image --}}
         <div class="card-img-wrapper position-relative">
-            <img src="{{ $property->featured_image ? asset('uploads/properties/' . $property->featured_image) : asset('assets/images/property-placeholder.jpg') }}"
+            <img src="{{ $property->featured_image ? asset('storage/properties/' . $property->featured_image) : asset('assets/images/placeholder-600x400.svg') }}"
                  class="card-img-top property-img"
                  alt="{{ $property->title }}"
                  loading="lazy">
@@ -109,7 +109,7 @@
                 {{-- Agent Info --}}
                 @if($property->agent)
                     <div class="d-flex align-items-center mb-3">
-                        <img src="{{ $property->agent->avatar ? asset('uploads/agents/' . $property->agent->avatar) : asset('assets/images/default-avatar.jpg') }}"
+                        <img src="{{ $property->agent->avatar ? asset('storage/agents/' . $property->agent->avatar) : asset('assets/images/default-avatar.svg') }}"
                              alt="{{ $property->agent->name }}"
                              class="rounded-circle me-2"
                              width="30" height="30">

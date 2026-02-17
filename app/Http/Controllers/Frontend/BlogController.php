@@ -63,4 +63,27 @@ class BlogController extends Controller
 
         return view('frontend.pages.blog-single', compact('blog', 'relatedPosts', 'recentPosts'));
     }
+
+    /**
+     * Display blog posts by category
+     */
+    public function category($category)
+    {
+        $blogs = Blog::where('status', 'published')
+            ->where('category', $category)
+            ->latest()
+            ->paginate(9);
+
+        $categories = Blog::where('status', 'published')
+            ->distinct()
+            ->pluck('category')
+            ->filter();
+
+        $recentPosts = Blog::where('status', 'published')
+            ->latest()
+            ->limit(5)
+            ->get();
+
+        return view('frontend.pages.blog', compact('blogs', 'categories', 'recentPosts'))->with('currentCategory', $category);
+    }
 }

@@ -1,4 +1,99 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="600" height="400" viewBox="0 0 600 400">
-  <rect width="600" height="400" fill="#e9ecef"/>
-  <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="#adb5bd" font-family="sans-serif" font-size="18">No image</text>
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="400" viewBox="0 0 600 400" role="img" aria-label="Property image placeholder">
+  <!-- Background gradient -->
+  <defs>
+    <linearGradient id="bgGradient" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#dbeafe"/>
+      <stop offset="50%" stop-color="#e5e7eb"/>
+      <stop offset="100%" stop-color="#e5f3ff"/>
+    </linearGradient>
+    <linearGradient id="accentGradient" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#2563eb"/>
+      <stop offset="100%" stop-color="#1d4ed8"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Soft background -->
+  <rect width="600" height="400" fill="url(#bgGradient)" rx="24" ry="24" />
+
+  <!-- Sun -->
+  <circle cx="480" cy="90" r="26" fill="#fbbf24" opacity="0.9" />
+
+  <!-- Clouds -->
+  <g fill="#ffffff" opacity="0.9">
+    <ellipse cx="120" cy="90" rx="36" ry="18" />
+    <ellipse cx="150" cy="90" rx="28" ry="14" />
+    <ellipse cx="135" cy="80" rx="22" ry="12" />
+
+    <ellipse cx="210" cy="70" rx="32" ry="16" opacity="0.85" />
+    <ellipse cx="238" cy="70" rx="24" ry="12" opacity="0.9" />
+    <ellipse cx="225" cy="62" rx="18" ry="10" opacity="0.8" />
+  </g>
+
+  <!-- Ground -->
+  <rect x="0" y="250" width="600" height="150" fill="#d1fae5" />
+  <rect x="0" y="260" width="600" height="140" fill="#bbf7d0" />
+
+  <!-- Property base shadow -->
+  <ellipse cx="300" cy="275" rx="170" ry="18" fill="#000000" opacity="0.08" />
+
+  <!-- House group -->
+  <g transform="translate(150,150)">
+    <!-- House body -->
+    <rect x="40" y="60" width="220" height="120" rx="8" ry="8" fill="#ffffff" />
+    <!-- Left side accent -->
+    <rect x="40" y="60" width="70" height="120" rx="8" ry="8" fill="#e5e7eb" />
+
+    <!-- Roof -->
+    <polygon points="30,70 150,0 270,70 250,80 150,20 50,80" fill="url(#accentGradient)" />
+
+    <!-- Chimney -->
+    <rect x="185" y="10" width="24" height="46" fill="#1e40af" />
+    <rect x="182" y="8" width="30" height="8" fill="#1d4ed8" rx="2" ry="2" />
+
+    <!-- Door -->
+    <rect x="80" y="120" width="46" height="60" rx="6" ry="6" fill="#1f2937" />
+    <circle cx="118" cy="150" r="3" fill="#fbbf24" />
+
+    <!-- Windows -->
+    <g fill="#eff6ff" stroke="#d1d5db" stroke-width="2">
+      <!-- Left tall window -->
+      <rect x="55" y="82" width="36" height="28" rx="4" ry="4" />
+      <!-- Center window -->
+      <rect x="138" y="90" width="42" height="32" rx="4" ry="4" />
+      <line x1="159" y1="90" x2="159" y2="122" stroke="#d1d5db" stroke-width="2" />
+      <line x1="138" y1="106" x2="180" y2="106" stroke="#d1d5db" stroke-width="2" />
+      <!-- Right window -->
+      <rect x="205" y="90" width="34" height="28" rx="4" ry="4" />
+    </g>
+
+    <!-- Balcony / railing -->
+    <rect x="130" y="126" width="70" height="8" rx="4" ry="4" fill="#e5e7eb" />
+    <g stroke="#d1d5db" stroke-width="3">
+      <line x1="138" y1="126" x2="138" y2="138" />
+      <line x1="150" y1="126" x2="150" y2="138" />
+      <line x1="162" y1="126" x2="162" y2="138" />
+      <line x1="174" y1="126" x2="174" y2="138" />
+      <line x1="186" y1="126" x2="186" y2="138" />
+      <line x1="198" y1="126" x2="198" y2="138" />
+    </g>
+
+    <!-- Small bushes -->
+    <g fill="#22c55e">
+      <circle cx="56" cy="170" r="10" />
+      <circle cx="70" cy="172" r="8" />
+      <circle cx="234" cy="170" r="10" />
+      <circle cx="246" cy="172" r="8" />
+    </g>
+  </g>
+
+  <!-- Bottom decorative strip -->
+  <rect x="0" y="340" width="600" height="60" fill="#111827" opacity="0.92" />
+  <rect x="0" y="338" width="600" height="2" fill="#1f2937" />
+
+  <!-- Simple bars to suggest UI / details -->
+  <g transform="translate(120,352)" opacity="0.85">
+    <rect x="0" y="0" width="120" height="12" rx="6" ry="6" fill="#e5e7eb" />
+    <rect x="140" y="0" width="60" height="12" rx="6" ry="6" fill="#4ade80" />
+    <rect x="220" y="0" width="80" height="12" rx="6" ry="6" fill="#60a5fa" />
+  </g>
 </svg>

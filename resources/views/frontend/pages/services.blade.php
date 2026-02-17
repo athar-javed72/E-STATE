@@ -41,7 +41,7 @@
                 </a>
             </div>
             <div class="col-lg-6" data-aos="fade-left">
-                <img src="{{ asset('assets/images/services-hero.jpg') }}"
+                <img src="{{ asset('assets/images/placeholder-600x400.svg') }}"
                      class="img-fluid rounded-3"
                      alt="Real Estate Services">
             </div>

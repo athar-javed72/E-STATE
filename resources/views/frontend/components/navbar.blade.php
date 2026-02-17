@@ -1,29 +1,43 @@
-{{-- Navigation Bar --}}
-<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm fixed-top">
+{{-- Navigation Bar - Light centered style (Logo | Centered Nav | Search + User) --}}
+<nav class="navbar navbar-expand-lg fixed-top fs-navbar">
     <div class="container">
-        {{-- Logo --}}
-        <a class="navbar-brand" href="{{ route('home') }}">
-            <strong class="text-primary">FindState</strong>
+        {{-- Logo / Brand (left) --}}
+        <a class="navbar-brand d-flex align-items-center fs-navbar-brand" href="{{ route('home') }}">
+            <div class="fs-navbar-logo d-inline-flex align-items-center justify-content-center me-2">
+                <i class="fas fa-building fs-navbar-logo-icon"></i>
+            </div>
+            <span class="fs-navbar-title">FindState</span>
         </a>
 
-        {{-- Mobile Toggle Button --}}
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        {{-- Mobile Toggle --}}
+        <button class="navbar-toggler fs-navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
-        {{-- Navigation Links --}}
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto me-4">
+        {{-- Centered Nav + Right Icons --}}
+        <div class="collapse navbar-collapse fs-navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav fs-navbar-links mx-auto">
+                {{-- Home --}}
                 <li class="nav-item">
-                    <a class="nav-link {{ Request::routeIs('home') ? 'active' : '' }}"
+                    <a class="nav-link fs-nav-link {{ Request::routeIs('home') ? 'active' : '' }}"
                        href="{{ route('home') }}">Home</a>
                 </li>
+
+                {{-- About Us --}}
                 <li class="nav-item">
-                    <a class="nav-link {{ Request::routeIs('about') ? 'active' : '' }}"
-                       href="{{ route('about') }}">About</a>
+                    <a class="nav-link fs-nav-link {{ Request::routeIs('about') ? 'active' : '' }}"
+                       href="{{ route('about') }}">About Us</a>
                 </li>
+
+                {{-- Services --}}
+                <li class="nav-item">
+                    <a class="nav-link fs-nav-link {{ Request::routeIs('services') ? 'active' : '' }}"
+                       href="{{ route('services') }}">Services</a>
+                </li>
+
+                {{-- Properties (dropdown) --}}
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle {{ Request::routeIs('properties.*') ? 'active' : '' }}"
+                    <a class="nav-link fs-nav-link dropdown-toggle {{ Request::routeIs('properties.*') ? 'active' : '' }}"
                        href="#" role="button" data-bs-toggle="dropdown">
                         Properties
                     </a>
@@ -37,37 +51,82 @@
                         <li><a class="dropdown-item" href="{{ route('properties.index', ['type' => 'condo']) }}">Condos</a></li>
                     </ul>
                 </li>
+
+                {{-- Our Agents --}}
                 <li class="nav-item">
-                    <a class="nav-link {{ Request::routeIs('agents.*') ? 'active' : '' }}"
-                       href="{{ route('agents.index') }}">Agents</a>
+                    <a class="nav-link fs-nav-link {{ Request::routeIs('agents.*') ? 'active' : '' }}"
+                       href="{{ route('agents.index') }}">Our Agents</a>
                 </li>
+
+                {{-- Blog --}}
                 <li class="nav-item">
-                    <a class="nav-link {{ Request::routeIs('blog.*') ? 'active' : '' }}"
+                    <a class="nav-link fs-nav-link {{ Request::routeIs('blog.*') ? 'active' : '' }}"
                        href="{{ route('blog.index') }}">Blog</a>
                 </li>
+
+                {{-- Contact --}}
                 <li class="nav-item">
-                    <a class="nav-link {{ Request::routeIs('services') ? 'active' : '' }}"
-                       href="{{ route('services') }}">Services</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link {{ Request::routeIs('contact') ? 'active' : '' }}"
+                    <a class="nav-link fs-nav-link {{ Request::routeIs('contact') ? 'active' : '' }}"
                        href="{{ route('contact.index') }}">Contact</a>
                 </li>
             </ul>
 
-            {{-- Search & CTA Buttons --}}
-            <div class="d-flex align-items-center gap-2">
-                {{-- Quick Search Toggle --}}
-                <button class="btn btn-outline-primary btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#searchModal">
-                    <i class="fas fa-search"></i>
-                    <span class="d-none d-md-inline ms-1">Search</span>
+            {{-- Right: Search + User icons only --}}
+            <div class="d-flex align-items-center gap-3 fs-navbar-actions">
+                {{-- Search icon --}}
+                <button class="btn btn-link p-0 border-0 fs-navbar-icon-btn" type="button" data-bs-toggle="modal" data-bs-target="#searchModal" aria-label="Search">
+                    <i class="fas fa-search fs-navbar-icon"></i>
                 </button>
 
-                {{-- Add Property Button --}}
-                <a href="{{ route('contact.index') }}?subject=list_property" class="btn btn-primary btn-sm">
-                    <i class="fas fa-plus"></i>
-                    <span class="d-none d-lg-inline ms-1">List Property</span>
-                </a>
+                {{-- User / Login icon --}}
+                @auth
+                    <div class="dropdown fs-navbar-profile">
+                        <a href="#" class="d-flex align-items-center text-decoration-none fs-navbar-profile-toggle fs-navbar-icon-btn p-0 border-0 bg-transparent"
+                           id="navbarProfileDropdown" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Profile">
+                            <i class="fas fa-user-circle fs-navbar-icon fs-navbar-icon-user"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end shadow-sm mt-2 fs-navbar-dropdown" aria-labelledby="navbarProfileDropdown">
+                            <li class="px-3 py-2">
+                                <div class="d-flex align-items-center">
+                                    <div class="fs-profile-avatar fs-profile-avatar-sm me-2">
+                                        @if (Auth::user()->avatar_url ?? false)
+                                            <img src="{{ Auth::user()->avatar_url }}" alt="">
+                                        @else
+                                            <span class="fs-profile-initial">{{ strtoupper(mb_substr(Auth::user()->name ?? 'U', 0, 1)) }}</span>
+                                        @endif
+                                    </div>
+                                    <div class="d-flex flex-column">
+                                        <span class="fs-profile-name text-dark">{{ Auth::user()->name }}</span>
+                                        <span class="fs-profile-role">Member</span>
+                                    </div>
+                                </div>
+                            </li>
+                            <li><hr class="dropdown-divider"></li>
+                            @if (Route::has('profile.show'))
+                                <li><a class="dropdown-item" href="{{ route('profile.show') }}"><i class="fas fa-user-circle me-2"></i>My Profile</a></li>
+                            @endif
+                            @if (Route::has('properties.index'))
+                                <li><a class="dropdown-item" href="{{ route('properties.index', ['listing_type' => 'my_listings']) }}"><i class="fas fa-home me-2"></i>My Listings</a></li>
+                            @endif
+                            @if (Route::has('favorites.index'))
+                                <li><a class="dropdown-item" href="{{ route('favorites.index') }}"><i class="fas fa-heart me-2"></i>Saved Properties</a></li>
+                            @endif
+                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <form method="POST" action="{{ route('logout') }}">
+                                    @csrf
+                                    <button type="submit" class="dropdown-item text-danger">
+                                        <i class="fas fa-sign-out-alt me-2"></i>Logout
+                                    </button>
+                                </form>
+                            </li>
+                        </ul>
+                    </div>
+                @else
+                    <a href="{{ route('login') }}" class="fs-navbar-icon-btn p-0 border-0 bg-transparent text-decoration-none" aria-label="Login">
+                        <i class="fas fa-user fs-navbar-icon"></i>
+                    </a>
+                @endauth
             </div>
         </div>
     </div>

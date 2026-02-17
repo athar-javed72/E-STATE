@@ -9,3 +9,244 @@
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
 }
+
+@layer components {
+    /* --- Premium Dark Glassy Navbar --- */
+    .fs-navbar {
+        background: radial-gradient(circle at top left, #1e3a8a 0, #020617 45%, #000000 100%);
+        backdrop-filter: blur(18px);
+        -webkit-backdrop-filter: blur(18px);
+        border-bottom: 1px solid rgba(148, 163, 184, 0.25);
+        box-shadow: 0 20px 40px rgba(15, 23, 42, 0.6);
+        padding-block: 0.85rem;
+        transition: padding 220ms ease, background-color 220ms ease, box-shadow 220ms ease, transform 220ms ease;
+        z-index: 1030;
+        animation: fs-nav-slide-down 650ms cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+
+    .fs-navbar-scrolled {
+        padding-block: 0.45rem;
+        background: rgba(2, 6, 23, 0.98);
+        box-shadow: 0 18px 35px rgba(15, 23, 42, 0.85);
+        transform: translateY(0);
+    }
+
+    .fs-navbar-brand {
+        color: #e5e7eb;
+        text-decoration: none;
+    }
+
+    .fs-navbar-logo {
+        width: 38px;
+        height: 38px;
+        border-radius: 9999px;
+        background: radial-gradient(circle at 30% 0, #38bdf8 0, #1d4ed8 35%, #0f172a 100%);
+        box-shadow: 0 0 0 1px rgba(148, 163, 184, 0.45), 0 10px 30px rgba(59, 130, 246, 0.55);
+        color: #eff6ff;
+    }
+
+    .fs-navbar-logo-icon {
+        font-size: 1.05rem;
+    }
+
+    .fs-navbar-title {
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        font-size: 0.86rem;
+        color: #f9fafb;
+    }
+
+    .fs-navbar-subtitle {
+        font-size: 0.72rem;
+        color: #cbd5f5;
+    }
+
+    .fs-navbar-links .nav-item + .nav-item {
+        margin-left: 0.35rem;
+    }
+
+    .fs-nav-link {
+        position: relative;
+        font-size: 0.88rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: #e5e7eb !important;
+        padding-inline: 0.75rem !important;
+        padding-block: 0.35rem !important;
+        border-radius: 9999px;
+        transition: color 180ms ease, background-color 180ms ease, transform 160ms ease;
+    }
+
+    .fs-nav-link::after {
+        content: '';
+        position: absolute;
+        inset-inline: 0.85rem;
+        bottom: 0.15rem;
+        height: 2px;
+        border-radius: 9999px;
+        background: linear-gradient(to right, #22c55e, #38bdf8);
+        transform-origin: center;
+        transform: scaleX(0);
+        opacity: 0;
+        transition: transform 180ms ease-out, opacity 180ms ease-out;
+    }
+
+    .fs-nav-link:hover,
+    .fs-nav-link:focus {
+        color: #f9fafb !important;
+        background: rgba(15, 23, 42, 0.36);
+        transform: translateY(-1px);
+    }
+
+    .fs-nav-link:hover::after,
+    .fs-nav-link:focus::after,
+    .fs-nav-link.active::after {
+        transform: scaleX(1);
+        opacity: 1;
+    }
+
+    .fs-nav-link.active {
+        color: #facc15 !important;
+        background: rgba(15, 23, 42, 0.5);
+    }
+
+    .fs-navbar-actions .btn {
+        border-radius: 9999px;
+        font-size: 0.8rem;
+        padding-block: 0.3rem;
+        padding-inline: 0.9rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.3rem;
+        white-space: nowrap;
+    }
+
+    .fs-navbar-search {
+        border-color: rgba(148, 163, 184, 0.7);
+        color: #e5e7eb;
+        background-color: rgba(15, 23, 42, 0.45);
+    }
+
+    .fs-navbar-search:hover {
+        background-color: rgba(15, 23, 42, 0.8);
+        border-color: #38bdf8;
+        color: #e0f2fe;
+    }
+
+    .fs-navbar-cta {
+        background: linear-gradient(to right, #22c55e, #16a34a);
+        border: none;
+        box-shadow: 0 14px 30px rgba(22, 163, 74, 0.6);
+    }
+
+    .fs-navbar-cta:hover {
+        background: linear-gradient(to right, #4ade80, #22c55e);
+        box-shadow: 0 16px 36px rgba(34, 197, 94, 0.8);
+    }
+
+    /* --- Profile Avatar / Auth --- */
+    .fs-navbar-profile-toggle {
+        color: #e5e7eb;
+    }
+
+    .fs-profile-avatar {
+        width: 36px;
+        height: 36px;
+        border-radius: 9999px;
+        position: relative;
+        overflow: hidden;
+        border: 2px solid rgba(248, 250, 252, 0.9);
+        background: radial-gradient(circle at 30% 0, #38bdf8 0, #0f172a 45%, #020617 100%);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 10px 30px rgba(15, 23, 42, 0.9);
+    }
+
+    .fs-profile-avatar-sm {
+        width: 30px;
+        height: 30px;
+    }
+
+    .fs-profile-avatar img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+
+    .fs-profile-initial {
+        font-size: 0.9rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        color: #e0f2fe;
+        text-transform: uppercase;
+    }
+
+    .fs-profile-name {
+        font-size: 0.8rem;
+        font-weight: 600;
+        color: #e5e7eb;
+    }
+
+    .fs-profile-role {
+        font-size: 0.7rem;
+        color: #9ca3af;
+    }
+
+    .fs-navbar-auth .btn-outline-light {
+        border-color: rgba(148, 163, 184, 0.85);
+        color: #e5e7eb;
+        background-color: rgba(15, 23, 42, 0.5);
+    }
+
+    .fs-navbar-auth .btn-outline-light:hover {
+        background-color: rgba(15, 23, 42, 0.9);
+        border-color: #38bdf8;
+        color: #e0f2fe;
+    }
+
+    .fs-navbar-auth .btn-light {
+        color: #020617;
+    }
+
+    /* Navbar entrance animation */
+    @keyframes fs-nav-slide-down {
+        0% {
+            transform: translateY(-18px);
+            opacity: 0;
+        }
+        60% {
+            transform: translateY(2px);
+            opacity: 1;
+        }
+        100% {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+
+    @media (max-width: 991.98px) {
+        .fs-navbar {
+            padding-block: 0.6rem;
+        }
+
+        .fs-navbar-links .nav-item + .nav-item {
+            margin-left: 0;
+        }
+
+        .fs-nav-link {
+            padding-inline: 0.5rem !important;
+        }
+
+        .fs-navbar-actions {
+            margin-top: 0.5rem;
+        }
+    }
+}
+
+/* Global page background to remove white strip below footer */
+body {
+    background-color: #020617;
+}

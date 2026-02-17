@@ -4,10 +4,27 @@
 --}}
 
 <div class="property-card h-100" data-aos="fade-up">
-    <div class="card h-100 shadow-sm border-0">
+        <div class="card h-100 shadow-sm border-0">
         {{-- Property Image --}}
+        @php
+            $propertyPlaceholder = asset('assets/images/placeholder-600x400.svg');
+            switch ($property->type) {
+                case 'house':
+                    $propertyPlaceholder = asset('assets/images/property-house.svg');
+                    break;
+                case 'apartment':
+                    $propertyPlaceholder = asset('assets/images/property-apartment.svg');
+                    break;
+                case 'condo':
+                    $propertyPlaceholder = asset('assets/images/property-condo.svg');
+                    break;
+                case 'villa':
+                    $propertyPlaceholder = asset('assets/images/property-villa.svg');
+                    break;
+            }
+        @endphp
         <div class="card-img-wrapper position-relative">
-            <img src="{{ $property->featured_image ? asset('storage/properties/' . $property->featured_image) : asset('assets/images/placeholder-600x400.svg') }}"
+            <img src="{{ $property->featured_image ? asset('storage/properties/' . $property->featured_image) : $propertyPlaceholder }}"
                  class="card-img-top property-img"
                  alt="{{ $property->title }}"
                  loading="lazy">

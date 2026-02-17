@@ -87,7 +87,7 @@
 
             <div class="col-lg-6" data-aos="fade-left">
                 <div class="position-relative">
-                    <img src="{{ asset('assets/images/about-hero.jpg') }}"
+                    <img src="{{ asset('assets/images/placeholder-600x400.svg') }}"
                          class="img-fluid rounded-3 shadow"
                          alt="About FindState">
 
@@ -283,7 +283,7 @@
             <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="100">
                 <div class="team-card text-center">
                     <div class="team-img mb-3">
-                        <img src="{{ asset('assets/images/team-1.jpg') }}"
+                        <img src="{{ asset('assets/images/default-avatar.svg') }}"
                              class="img-fluid rounded-circle"
                              alt="John Smith"
                              style="width: 150px; height: 150px; object-fit: cover;">
@@ -310,7 +310,7 @@
             <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="200">
                 <div class="team-card text-center">
                     <div class="team-img mb-3">
-                        <img src="{{ asset('assets/images/team-2.jpg') }}"
+                        <img src="{{ asset('assets/images/default-avatar.svg') }}"
                              class="img-fluid rounded-circle"
                              alt="Sarah Johnson"
                              style="width: 150px; height: 150px; object-fit: cover;">
@@ -337,7 +337,7 @@
             <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="300">
                 <div class="team-card text-center">
                     <div class="team-img mb-3">
-                        <img src="{{ asset('assets/images/team-3.jpg') }}"
+                        <img src="{{ asset('assets/images/default-avatar.svg') }}"
                              class="img-fluid rounded-circle"
                              alt="Mike Brown"
                              style="width: 150px; height: 150px; object-fit: cover;">

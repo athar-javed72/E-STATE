@@ -13,12 +13,12 @@
     {{-- Open Graph Meta Tags --}}
     <meta property="og:title" content="@yield('og_title', 'FindState - Find Your Dream Property')">
     <meta property="og:description" content="@yield('og_description', 'Find your perfect home with FindState.')">
-    <meta property="og:image" content="@yield('og_image', asset('assets/images/og-default.jpg'))">
+    <meta property="og:image" content="@yield('og_image', asset('assets/images/placeholder-600x400.svg'))">
     <meta property="og:url" content="{{ url()->current() }}">
     <meta property="og:type" content="website">
 
     {{-- Favicon --}}
-    <link rel="icon" type="image/x-icon" href="{{ asset('assets/images/favicon.ico') }}">
+    <link rel="icon" type="image/svg+xml" href="{{ asset('assets/images/default-avatar.svg') }}">
 
     {{-- CSS Files --}}
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">

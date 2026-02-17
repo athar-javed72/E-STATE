@@ -28,7 +28,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css" rel="stylesheet">
 
     {{-- Vite / Tailwind --}}
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @vite(['resources/css/app.css', 'resources/js/app.jsx'])
 
     {{-- Additional CSS --}}
     @stack('css')
@@ -50,13 +50,11 @@
         @yield('content')
     </main>
 
+    {{-- FSM SPA mount point --}}
+    <div id="fsm-root" class="min-h-screen"></div>
+
     {{-- Footer --}}
     @include('frontend.components.footer')
-
-    {{-- Back to Top Button --}}
-    <button id="back-to-top" class="btn btn-primary" style="display: none;">
-        <i class="fas fa-arrow-up"></i>
-    </button>
 
     {{-- JavaScript Files --}}
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.0/dist/jquery.min.js"></script>
@@ -83,19 +81,19 @@
             // Hide preloader
             $('#preloader').fadeOut('slow');
 
-            // Back to top button
+            // Navbar scroll state (shrink on scroll)
             $(window).scroll(function() {
-                if ($(this).scrollTop() > 100) {
-                    $('#back-to-top').fadeIn();
-                } else {
-                    $('#back-to-top').fadeOut();
+                const scrollTop = $(this).scrollTop();
+                const $navbar = $('.fs-navbar');
+                if ($navbar.length) {
+                    if (scrollTop > 10) {
+                        $navbar.addClass('fs-navbar-scrolled');
+                    } else {
+                        $navbar.removeClass('fs-navbar-scrolled');
+                    }
                 }
             });
 
-            $('#back-to-top').click(function() {
-                $('html, body').animate({scrollTop: 0}, 800);
-                return false;
-            });
         });
     </script>
 

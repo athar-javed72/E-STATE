@@ -16,6 +16,7 @@ class TestimonialSeeder extends Seeder
                 'location' => 'Austin, TX',
                 'content' => 'FindState made our first home purchase stress-free. Our agent was patient, professional, and found us the perfect family home within our budget. We couldn’t be happier!',
                 'rating' => 5,
+                'image' => 'client-david-lisa.svg',
                 'status' => 'active',
             ],
             [
@@ -24,6 +25,7 @@ class TestimonialSeeder extends Seeder
                 'location' => 'Miami, FL',
                 'content' => 'I’ve worked with several agencies; FindState stands out for their market knowledge and responsiveness. They helped me secure two rental properties this year.',
                 'rating' => 5,
+                'image' => 'client-jennifer.svg',
                 'status' => 'active',
             ],
             [
@@ -32,6 +34,7 @@ class TestimonialSeeder extends Seeder
                 'location' => 'Seattle, WA',
                 'content' => 'Our house sold in under two weeks at above asking price. The team’s staging advice and marketing strategy really made a difference. Highly recommend.',
                 'rating' => 5,
+                'image' => 'client-robert.svg',
                 'status' => 'active',
             ],
             [
@@ -40,6 +43,7 @@ class TestimonialSeeder extends Seeder
                 'location' => 'Chicago, IL',
                 'content' => 'I was relocating for work and needed a place fast. FindState had great options and helped me sign a lease within a week. Smooth process from start to finish.',
                 'rating' => 5,
+                'image' => 'client-amanda.svg',
                 'status' => 'active',
             ],
             [
@@ -48,6 +52,7 @@ class TestimonialSeeder extends Seeder
                 'location' => 'New York, NY',
                 'content' => 'Professional, discreet, and incredibly knowledgeable about the high-end market. They understood exactly what we were looking for and delivered.',
                 'rating' => 5,
+                'image' => 'client-thomas.svg',
                 'status' => 'active',
             ],
         ];

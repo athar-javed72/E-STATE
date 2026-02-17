@@ -21,9 +21,26 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-8">
+                @php
+                    $propertyPlaceholder = asset('assets/images/placeholder-600x400.svg');
+                    switch ($property->type) {
+                        case 'house':
+                            $propertyPlaceholder = asset('assets/images/property-house.svg');
+                            break;
+                        case 'apartment':
+                            $propertyPlaceholder = asset('assets/images/property-apartment.svg');
+                            break;
+                        case 'condo':
+                            $propertyPlaceholder = asset('assets/images/property-condo.svg');
+                            break;
+                        case 'villa':
+                            $propertyPlaceholder = asset('assets/images/property-villa.svg');
+                            break;
+                    }
+                @endphp
                 <div class="card border-0 shadow-sm mb-4 overflow-hidden">
-                    <img src="{{ $property->featured_image ? asset('storage/properties/' . $property->featured_image) : asset('assets/images/placeholder-600x400.svg') }}"
-                         class="card-img-top" alt="{{ $property->title }}" style="max-height: 450px; object-fit: cover;">
+                    <img src="{{ $property->featured_image ? asset('storage/properties/' . $property->featured_image) : $propertyPlaceholder }}"
+                         class="card-img-top" alt "{{ $property->title }}" style="max-height: 450px; object-fit: cover;">
                     <div class="card-body">
                         <div class="d-flex flex-wrap gap-2 mb-3">
                             <span class="badge bg-primary">{{ ucfirst(str_replace('_', ' ', $property->listing_type)) }}</span>

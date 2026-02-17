@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="400" viewBox="0 0 600 400" role="img" aria-label="Villa property placeholder">
+  <defs>
+    <linearGradient id="villaBg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#dcfce7"/>
+      <stop offset="50%" stop-color="#f5f3ff"/>
+      <stop offset="100%" stop-color="#e0f2fe"/>
+    </linearGradient>
+    <linearGradient id="villaRoof" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f97316"/>
+      <stop offset="100%" stop-color="#c2410c"/>
+    </linearGradient>
+  </defs>
+  <rect width="600" height="400" fill="url(#villaBg)" rx="24" ry="24" />
+  <rect x="0" y="260" width="600" height="140" fill="#bbf7d0" />
+  <ellipse cx="300" cy="275" rx="170" ry="18" fill="#000" opacity="0.08" />
+  <g transform="translate(130,135)">
+    <polygon points="40,90 150,10 260,90 236,106 150,40 64,106" fill="url(#villaRoof)" />
+    <rect x="52" y="90" width="196" height="120" rx="14" ry="14" fill="#ffffff" />
+    <rect x="62" y="110" width="70" height="80" rx="10" ry="10" fill="#fef9c3" />
+    <rect x="168" y="110" width="64" height="54" rx="8" ry="8" fill="#e0f2fe" />
+    <rect x="178" y="120" width="20" height="16" rx="3" ry="3" fill="#bae6fd" />
+    <rect x="204" y="120" width="20" height="16" rx="3" ry="3" fill="#bae6fd" />
+    <rect x="178" y="142" width="20" height="16" rx="3" ry="3" fill="#bae6fd" />
+    <rect x="204" y="142" width="20" height="16" rx="3" ry="3" fill="#bae6fd" />
+    <rect x="102" y="120" width="30" height="70" rx="8" ry="8" fill="#0f172a" />
+    <circle cx="126" cy="155" r="3" fill="#facc15" />
+    <rect x="52" y="170" width="196" height="10" rx="5" ry="5" fill="#e5e7eb" />
+    <g fill="#22c55e">
+      <circle cx="56" cy="192" r="10" />
+      <circle cx="72" cy="196" r="8" />
+      <circle cx="236" cy="192" r="10" />
+      <circle cx="252" cy="196" r="8" />
+    </g>
+    <rect x="222" y="96" width="26" height="20" rx="4" ry="4" fill="#fef3c7" />
+  </g>
+  <rect x="0" y="340" width="600" height="60" fill="#111827" opacity="0.95" />
+  <text x="50%" y="372" text-anchor="middle" fill="#e5e7eb" font-family="system-ui, sans-serif" font-size="20" font-weight="600">
+    Villa
+  </text>
+</svg>
+

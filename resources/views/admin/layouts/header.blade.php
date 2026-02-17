@@ -1,46 +1,23 @@
-<nav class="navbar navbar-expand-lg navbar-light fixed-top">
-    <div class="container">
-        <a class="navbar-brand" href="{{ route('home') }}">
-            <i class="fas fa-home me-2"></i>Findstate
-        </a>
-
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-            <span class="navbar-toggler-icon"></span>
+<header class="navbar navbar-expand-lg navbar-dark bg-dark border-bottom">
+    <div class="container-fluid px-3 px-lg-4">
+        {{-- Mobile menu: open sidebar offcanvas --}}
+        <button class="btn btn-link navbar-toggler d-lg-none text-white p-2 me-2 border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#adminSidebarOffcanvas" aria-controls="adminSidebarOffcanvas" aria-label="Open menu">
+            <i class="fas fa-bars fa-lg"></i>
         </button>
-
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}" href="{{ route('home') }}">
-                        <i class="fas fa-home me-1"></i>Home
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('properties.*') ? 'active' : '' }}" href="{{ route('properties.index') }}">
-                        <i class="fas fa-building me-1"></i>Properties
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('agents.*') ? 'active' : '' }}" href="{{ route('agents.index') }}">
-                        <i class="fas fa-users me-1"></i>Agents
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('blog.*') ? 'active' : '' }}" href="{{ route('blog.index') }}">
-                        <i class="fas fa-newspaper me-1"></i>Blog
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('about') ? 'active' : '' }}" href="{{ route('about') }}">
-                        <i class="fas fa-info-circle me-1"></i>About
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('contact') ? 'active' : '' }}" href="{{ route('contact.index') }}">
-                        <i class="fas fa-envelope me-1"></i>Contact
-                    </a>
-                </li>
-            </ul>
+        <a class="navbar-brand py-2" href="{{ route('admin.dashboard') }}">
+            <i class="fas fa-cog me-2"></i><span class="d-none d-sm-inline">FindState</span> Admin
+        </a>
+        {{-- Desktop: View Site + Logout (hidden on mobile; they're in offcanvas) --}}
+        <div class="d-none d-lg-flex ms-auto align-items-center">
+            <a class="nav-link text-white me-2" href="{{ route('home') }}" target="_blank">
+                <i class="fas fa-external-link-alt me-1"></i>View Site
+            </a>
+            <form method="POST" action="{{ route('logout') }}" class="d-inline">
+                @csrf
+                <button type="submit" class="btn btn-outline-light btn-sm">
+                    <i class="fas fa-sign-out-alt me-1"></i> Logout
+                </button>
+            </form>
         </div>
     </div>
-</nav>
+</header>

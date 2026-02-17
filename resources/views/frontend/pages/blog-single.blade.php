@@ -35,7 +35,7 @@
                     </p>
                 </header>
                 @if($blog->featured_image)
-                    <img src="{{ asset('storage/blogs/' . $blog->featured_image) }}" class="img-fluid rounded mb-4" alt="{{ $blog->title }}">
+                    <img src="{{ asset('storage/' . $blog->featured_image) }}" class="img-fluid rounded mb-4" alt="{{ $blog->title }}">
                 @else
                     <img src="{{ asset('assets/images/placeholder-600x400.svg') }}" class="img-fluid rounded mb-4" alt="">
                 @endif
@@ -50,7 +50,7 @@
                             <div class="col-md-4">
                                 <a href="{{ route('blog.show', $rel->slug) }}" class="text-decoration-none text-dark">
                                     <div class="card border-0 shadow-sm h-100">
-                                        <img src="{{ $rel->featured_image ? asset('storage/blogs/' . $rel->featured_image) : asset('assets/images/placeholder-600x400.svg') }}"
+                                        <img src="{{ $rel->featured_image ? asset('storage/' . $rel->featured_image) : asset('assets/images/placeholder-600x400.svg') }}"
                                              class="card-img-top" alt="{{ $rel->title }}" style="height: 140px; object-fit: cover;">
                                         <div class="card-body">
                                             <h6 class="card-title">{{ Str::limit($rel->title, 50) }}</h6>

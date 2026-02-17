@@ -48,6 +48,7 @@
                         <li><a href="{{ route('services') }}" class="text-decoration-none text-light opacity-75">Services</a></li>
                         <li><a href="{{ route('properties.index') }}" class="text-decoration-none text-light opacity-75">Properties</a></li>
                         <li><a href="{{ route('agents.index') }}" class="text-decoration-none text-light opacity-75">Our Agents</a></li>
+                        <li><a href="{{ route('login') }}" class="text-decoration-none text-light opacity-75">Admin Login</a></li>
                         <li><a href="{{ route('blog.index') }}" class="text-decoration-none text-light opacity-75">Blog</a></li>
                         <li><a href="{{ route('contact.index') }}" class="text-decoration-none text-light opacity-75">Contact</a></li>
                     </ul>

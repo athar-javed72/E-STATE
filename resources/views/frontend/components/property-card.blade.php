@@ -24,7 +24,7 @@
             }
         @endphp
         <div class="card-img-wrapper position-relative">
-            <img src="{{ $property->featured_image ? asset('storage/properties/' . $property->featured_image) : $propertyPlaceholder }}"
+            <img src="{{ $property->featured_image ? asset('storage/' . $property->featured_image) : $propertyPlaceholder }}"
                  class="card-img-top property-img"
                  alt="{{ $property->title }}"
                  loading="lazy">
@@ -126,7 +126,7 @@
                 {{-- Agent Info --}}
                 @if($property->agent)
                     <div class="d-flex align-items-center mb-3">
-                        <img src="{{ $property->agent->avatar ? asset('storage/agents/' . $property->agent->avatar) : asset('assets/images/default-avatar.svg') }}"
+                        <img src="{{ $property->agent->avatar ? asset('storage/' . $property->agent->avatar) : asset('assets/images/default-avatar.svg') }}"
                              alt="{{ $property->agent->name }}"
                              class="rounded-circle me-2"
                              width="30" height="30">

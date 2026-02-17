@@ -22,7 +22,7 @@
         <div class="row">
             <div class="col-lg-4 mb-4">
                 <div class="card border-0 shadow-sm">
-                    <img src="{{ $agent->avatar ? asset('storage/agents/' . $agent->avatar) : asset('assets/images/default-avatar.svg') }}"
+                    <img src="{{ $agent->avatar ? asset('storage/' . $agent->avatar) : asset('assets/images/default-avatar.svg') }}"
                          class="card-img-top" alt="{{ $agent->name }}" style="height: 320px; object-fit: cover;">
                     <div class="card-body text-center">
                         <h2 class="h4 fw-bold">{{ $agent->name }}</h2>

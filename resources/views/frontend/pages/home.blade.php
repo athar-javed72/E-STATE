@@ -271,7 +271,7 @@
                 <div class="col-lg-4">
                     <article class="blog-card h-100" data-aos="fade-up">
                         <div class="card h-100 border-0 shadow-sm">
-                            <img src="{{ $blog->featured_image ? asset('storage/blogs/' . $blog->featured_image) : asset('assets/images/placeholder-600x400.svg') }}"
+                            <img src="{{ $blog->featured_image ? asset('storage/' . $blog->featured_image) : asset('assets/images/placeholder-600x400.svg') }}"
                                  class="card-img-top blog-img" alt="{{ $blog->title }}">
 
                             <div class="card-body d-flex flex-column">

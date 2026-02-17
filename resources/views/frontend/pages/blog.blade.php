@@ -45,7 +45,7 @@
                                 <article class="card border-0 shadow-sm h-100">
                                     <div class="row g-0">
                                         <div class="col-md-4">
-                                            <img src="{{ $blog->featured_image ? asset('storage/blogs/' . $blog->featured_image) : asset('assets/images/placeholder-600x400.svg') }}"
+                                            <img src="{{ $blog->featured_image ? asset('storage/' . $blog->featured_image) : asset('assets/images/placeholder-600x400.svg') }}"
                                                  class="img-fluid rounded-start" alt="{{ $blog->title }}" style="height: 100%; object-fit: cover;">
                                         </div>
                                         <div class="col-md-8">

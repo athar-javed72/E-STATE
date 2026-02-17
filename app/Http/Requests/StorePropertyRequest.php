@@ -31,6 +31,7 @@ class StorePropertyRequest extends FormRequest
             'area' => 'nullable|integer|min:0',
             'parking' => 'nullable|integer|min:0',
             'agent_id' => 'nullable|exists:agents,id',
+            'featured_image' => 'nullable|image|mimes:jpeg,jpg,png,gif,webp|max:2048',
             'featured' => 'boolean',
             'status' => 'in:active,sold,pending,inactive',
         ];

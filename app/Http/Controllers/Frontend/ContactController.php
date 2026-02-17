@@ -39,13 +39,14 @@ class ContactController extends Controller
         }
 
         try {
-            // Store in database
+            // Store in database (general contact form)
             Contact::create([
                 'name' => $request->name,
                 'email' => $request->email,
                 'phone' => $request->phone,
                 'subject' => $request->subject,
                 'message' => $request->message,
+                'type' => 'general',
                 'status' => 'new'
             ]);
 

@@ -39,7 +39,7 @@
                     }
                 @endphp
                 <div class="card border-0 shadow-sm mb-4 overflow-hidden">
-                    <img src="{{ $property->featured_image ? asset('storage/properties/' . $property->featured_image) : $propertyPlaceholder }}"
+                    <img src="{{ $property->featured_image ? asset('storage/' . $property->featured_image) : $propertyPlaceholder }}"
                          class="card-img-top" alt "{{ $property->title }}" style="max-height: 450px; object-fit: cover;">
                     <div class="card-body">
                         <div class="d-flex flex-wrap gap-2 mb-3">
@@ -86,7 +86,7 @@
                 @if($property->agent)
                     <div class="card border-0 shadow-sm mb-4">
                         <div class="card-body text-center">
-                            <img src="{{ $property->agent->avatar ? asset('storage/agents/' . $property->agent->avatar) : asset('assets/images/default-avatar.svg') }}"
+                            <img src="{{ $property->agent->avatar ? asset('storage/' . $property->agent->avatar) : asset('assets/images/default-avatar.svg') }}"
                                  alt="{{ $property->agent->name }}" class="rounded-circle mb-3" width="80" height="80" style="object-fit: cover;">
                             <h5 class="fw-bold">{{ $property->agent->name }}</h5>
                             <p class="text-muted small">{{ $property->agent->designation ?? 'Real Estate Agent' }}</p>

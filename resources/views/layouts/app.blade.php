@@ -28,10 +28,18 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css" rel="stylesheet">
 
     {{-- Vite / Tailwind --}}
-    @vite(['resources/css/app.css', 'resources/js/app.jsx'])
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     {{-- Additional CSS --}}
     @stack('css')
+    <style>
+        #preloader { z-index: 9998 !important; }
+        /* Navbar: 768px+ par hamesha visible - koi bhi CSS override na kare */
+        @media (min-width: 768px) {
+            #navbarMain { display: flex !important; flex-basis: auto !important; flex-grow: 1 !important; align-items: center !important; visibility: visible !important; opacity: 1 !important; height: auto !important; overflow: visible !important; }
+            .site-header .navbar-toggler { display: none !important; }
+        }
+    </style>
 </head>
 <body>
     {{-- Loading Spinner --}}
@@ -50,9 +58,6 @@
         @yield('content')
     </main>
 
-    {{-- FSM SPA mount point --}}
-    <div id="fsm-root" class="min-h-screen"></div>
-
     {{-- Footer --}}
     @include('frontend.components.footer')
 
@@ -65,7 +70,7 @@
     {{-- Page-specific JavaScript --}}
     @stack('js')
 
-    {{-- Initialize AOS --}}
+    {{-- Initialize AOS & Navbar scroll --}}
     <script>
         $(document).ready(function() {
             // Initialize AOS
@@ -81,19 +86,15 @@
             // Hide preloader
             $('#preloader').fadeOut('slow');
 
-            // Navbar scroll state (shrink on scroll)
-            $(window).scroll(function() {
-                const scrollTop = $(this).scrollTop();
-                const $navbar = $('.fs-navbar');
-                if ($navbar.length) {
-                    if (scrollTop > 10) {
-                        $navbar.addClass('fs-navbar-scrolled');
-                    } else {
-                        $navbar.removeClass('fs-navbar-scrolled');
-                    }
+            // Navbar scroll effect
+            var header = document.getElementById('siteHeader');
+            if (header) {
+                function onScroll() {
+                    header.classList.toggle('scrolled', window.scrollY > 20);
                 }
-            });
-
+                window.addEventListener('scroll', onScroll, { passive: true });
+                onScroll();
+            }
         });
     </script>
 

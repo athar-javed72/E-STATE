@@ -6,8 +6,15 @@
         "build": "vite build",
         "dev": "vite"
     },
+    "dependencies": {
+        "@tanstack/react-query": "^5.62.0",
+        "react": "^18.3.1",
+        "react-dom": "^18.3.1",
+        "react-router-dom": "^7.0.0"
+    },
     "devDependencies": {
         "@tailwindcss/vite": "^4.0.0",
+        "@vitejs/plugin-react": "^4.7.0",
         "axios": "^1.8.2",
         "concurrently": "^9.0.1",
         "laravel-vite-plugin": "^1.2.0",

@@ -8,6 +8,10 @@ use App\Http\Controllers\Frontend\AgentController;
 use App\Http\Controllers\Frontend\BlogController;
 use App\Http\Controllers\Frontend\ContactController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\Admin\PropertyController as AdminPropertyController;
+use App\Http\Controllers\Admin\AgentController as AdminAgentController;
+use App\Http\Controllers\Admin\BlogController as AdminBlogController;
+use App\Http\Controllers\Admin\ContactController as AdminContactController;
 
 /*
 |--------------------------------------------------------------------------
@@ -66,7 +70,9 @@ Route::group(['prefix' => 'api/frontend', 'as' => 'api.'], function () {
 
 // SEO & Utility Routes
 Route::get('/sitemap.xml', function () {
-    return response()->view('sitemap')->header('Content-Type', 'text/xml');
+    $properties = \App\Models\Property::where('status', 'active')->orderBy('updated_at', 'desc')->get();
+    $blogs = \App\Models\Blog::where('status', 'published')->orderBy('updated_at', 'desc')->get();
+    return response()->view('sitemap', compact('properties', 'blogs'))->header('Content-Type', 'application/xml');
 })->name('sitemap');
 
 Route::get('/robots.txt', function () {
@@ -80,4 +86,9 @@ Route::prefix('admin')
     ->middleware('auth')
     ->group(function () {
         Route::get('/', [AdminDashboardController::class, 'index'])->name('dashboard');
+
+        Route::resource('properties', AdminPropertyController::class)->except(['show']);
+        Route::resource('agents', AdminAgentController::class)->except(['show']);
+        Route::resource('blogs', AdminBlogController::class)->except(['show']);
+        Route::get('contacts', [AdminContactController::class, 'index'])->name('contacts.index');
     });

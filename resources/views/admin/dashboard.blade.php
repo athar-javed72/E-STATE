@@ -1,75 +1,72 @@
-@extends('layouts.app')
+@extends('admin.layouts.app')
 
-@section('title', 'Admin Dashboard - FindState')
-@section('meta_description', 'Overview of properties, agents, contacts, and content for the FindState platform.')
+@section('title', 'Dashboard')
 
 @section('content')
-<section class="py-4 bg-light border-bottom">
-    <div class="container">
-        <div class="d-flex justify-content-between align-items-center">
-            <div>
-                <h1 class="h3 fw-bold mb-1">Admin Dashboard</h1>
-                <p class="text-muted mb-0">Quick overview of your real estate platform.</p>
-            </div>
-            <form method="POST" action="{{ route('logout') }}">
-                @csrf
-                <button type="submit" class="btn btn-outline-danger btn-sm">
-                    <i class="fas fa-sign-out-alt me-1"></i> Logout
-                </button>
-            </form>
-        </div>
+<section class="py-3 py-md-4 bg-light border-bottom">
+    <div class="container-fluid px-0">
+        <h1 class="h4 h3 fw-bold mb-1">Admin Dashboard</h1>
+        <p class="text-muted small mb-0">Quick overview of your real estate platform.</p>
     </div>
 </section>
 
-<section class="py-5">
-    <div class="container">
-        <div class="row g-4 mb-4">
-            <div class="col-md-3">
-                <div class="card shadow-sm border-0 h-100">
-                    <div class="card-body">
-                        <h6 class="text-muted text-uppercase small mb-1">Properties</h6>
-                        <h3 class="fw-bold mb-0">{{ $stats['properties_total'] }}</h3>
-                        <small class="text-success">{{ $stats['properties_active'] }} active</small><br>
-                        <small class="text-muted">{{ $stats['properties_sold'] }} sold</small>
+<section class="py-4 py-md-5">
+    <div class="container-fluid px-0">
+        <div class="row g-3 g-md-4 mb-4">
+            <div class="col-6 col-md-3">
+                <a href="{{ route('admin.properties.index') }}" class="text-decoration-none text-body">
+                    <div class="card shadow-sm border-0 h-100 card-hover">
+                        <div class="card-body">
+                            <h6 class="text-muted text-uppercase small mb-1">Properties</h6>
+                            <h3 class="fw-bold mb-0">{{ $stats['properties_total'] }}</h3>
+                            <small class="text-success">{{ $stats['properties_active'] }} active</small><br>
+                            <small class="text-muted">{{ $stats['properties_sold'] }} sold</small>
+                        </div>
                     </div>
-                </div>
+                </a>
             </div>
-            <div class="col-md-3">
-                <div class="card shadow-sm border-0 h-100">
-                    <div class="card-body">
-                        <h6 class="text-muted text-uppercase small mb-1">Agents</h6>
-                        <h3 class="fw-bold mb-0">{{ $stats['agents_total'] }}</h3>
-                        <small class="text-muted">Active agents</small>
+            <div class="col-6 col-md-3">
+                <a href="{{ route('admin.agents.index') }}" class="text-decoration-none text-body">
+                    <div class="card shadow-sm border-0 h-100 card-hover">
+                        <div class="card-body">
+                            <h6 class="text-muted text-uppercase small mb-1">Agents</h6>
+                            <h3 class="fw-bold mb-0">{{ $stats['agents_total'] }}</h3>
+                            <small class="text-muted">Active agents</small>
+                        </div>
                     </div>
-                </div>
+                </a>
             </div>
-            <div class="col-md-3">
-                <div class="card shadow-sm border-0 h-100">
-                    <div class="card-body">
-                        <h6 class="text-muted text-uppercase small mb-1">Blog Posts</h6>
-                        <h3 class="fw-bold mb-0">{{ $stats['blogs_published'] }}</h3>
-                        <small class="text-muted">Published articles</small>
+            <div class="col-6 col-md-3">
+                <a href="{{ route('admin.blogs.index') }}" class="text-decoration-none text-body">
+                    <div class="card shadow-sm border-0 h-100 card-hover">
+                        <div class="card-body">
+                            <h6 class="text-muted text-uppercase small mb-1">Blog Posts</h6>
+                            <h3 class="fw-bold mb-0">{{ $stats['blogs_published'] }}</h3>
+                            <small class="text-muted">Published articles</small>
+                        </div>
                     </div>
-                </div>
+                </a>
             </div>
-            <div class="col-md-3">
-                <div class="card shadow-sm border-0 h-100">
-                    <div class="card-body">
-                        <h6 class="text-muted text-uppercase small mb-1">Contacts</h6>
-                        <h3 class="fw-bold mb-0">{{ $stats['contacts_total'] }}</h3>
-                        <small class="text-success">{{ $stats['contacts_new'] }} new</small>
+            <div class="col-6 col-md-3">
+                <a href="{{ route('admin.contacts.index') }}" class="text-decoration-none text-body">
+                    <div class="card shadow-sm border-0 h-100 card-hover">
+                        <div class="card-body">
+                            <h6 class="text-muted text-uppercase small mb-1">Contacts</h6>
+                            <h3 class="fw-bold mb-0">{{ $stats['contacts_total'] }}</h3>
+                            <small class="text-success">{{ $stats['contacts_new'] }} new</small>
+                        </div>
                     </div>
-                </div>
+                </a>
             </div>
         </div>
 
-        <div class="row g-4">
-            <div class="col-lg-7">
+        <div class="row g-3 g-md-4">
+            <div class="col-12 col-lg-7">
                 <div class="card shadow-sm border-0 h-100">
-                    <div class="card-header bg-white border-0">
-                        <h5 class="mb-0 fw-bold">Recent Properties</h5>
+                    <div class="card-header bg-white border-0 py-2 py-md-3">
+                        <h5 class="mb-0 fw-bold small">Recent Properties</h5>
                     </div>
-                    <div class="card-body">
+                    <div class="card-body p-2 p-md-3 overflow-auto">
                         @if($recentProperties->count())
                             <div class="table-responsive">
                                 <table class="table table-sm align-middle mb-0">
@@ -106,12 +103,12 @@
                 </div>
             </div>
 
-            <div class="col-lg-5">
+            <div class="col-12 col-lg-5">
                 <div class="card shadow-sm border-0 h-100">
-                    <div class="card-header bg-white border-0">
-                        <h5 class="mb-0 fw-bold">Recent Contacts</h5>
+                    <div class="card-header bg-white border-0 py-2 py-md-3">
+                        <h5 class="mb-0 fw-bold small">Recent Contacts</h5>
                     </div>
-                    <div class="card-body">
+                    <div class="card-body p-2 p-md-3">
                         @if($recentContacts->count())
                             <div class="list-group list-group-flush">
                                 @foreach($recentContacts as $contact)

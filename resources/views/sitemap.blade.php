@@ -4,7 +4,13 @@
     <url><loc>{{ route('about') }}</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
     <url><loc>{{ route('services') }}</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
     <url><loc>{{ route('properties.index') }}</loc><changefreq>daily</changefreq><priority>0.9</priority></url>
+    @foreach($properties ?? [] as $property)
+    <url><loc>{{ route('properties.show', $property->slug) }}</loc><lastmod>{{ $property->updated_at->toW3cString() }}</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+    @endforeach
     <url><loc>{{ route('agents.index') }}</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
     <url><loc>{{ route('blog.index') }}</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+    @foreach($blogs ?? [] as $blog)
+    <url><loc>{{ route('blog.show', $blog->slug) }}</loc><lastmod>{{ $blog->updated_at->toW3cString() }}</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+    @endforeach
     <url><loc>{{ route('contact.index') }}</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
 </urlset>

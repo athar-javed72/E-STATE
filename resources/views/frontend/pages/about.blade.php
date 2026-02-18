@@ -285,13 +285,13 @@
                     <div class="team-img mb-3">
                         <img src="{{ asset('assets/images/default-avatar.svg') }}"
                              class="img-fluid rounded-circle"
-                             alt="John Smith"
+                             alt="Athar Javed"
                              style="width: 150px; height: 150px; object-fit: cover;">
                     </div>
-                    <h5 class="fw-bold mb-1">John Smith</h5>
-                    <p class="text-muted mb-2">CEO & Founder</p>
+                    <h5 class="fw-bold mb-1">Athar Javed</h5>
+                    <p class="text-muted mb-2">CEO & Co-Founder</p>
                     <p class="small text-muted mb-3">
-                        With 20+ years in real estate, John leads our company with vision and expertise.
+                        With 10+ years in real estate, Athar leads our company with vision and expertise.
                     </p>
                     <div class="social-links">
                         <a href="#" class="btn btn-outline-primary btn-sm rounded-circle me-2">
@@ -312,13 +312,13 @@
                     <div class="team-img mb-3">
                         <img src="{{ asset('assets/images/default-avatar.svg') }}"
                              class="img-fluid rounded-circle"
-                             alt="Sarah Johnson"
+                             alt="Asad Ahmad"
                              style="width: 150px; height: 150px; object-fit: cover;">
                     </div>
-                    <h5 class="fw-bold mb-1">Sarah Johnson</h5>
+                    <h5 class="fw-bold mb-1">Asad Ahmad</h5>
                     <p class="text-muted mb-2">Head of Sales</p>
                     <p class="small text-muted mb-3">
-                        Sarah manages our sales team and ensures exceptional client experiences.
+                        Asad manages our sales team and ensures exceptional client experiences.
                     </p>
                     <div class="social-links">
                         <a href="#" class="btn btn-outline-primary btn-sm rounded-circle me-2">
@@ -339,13 +339,13 @@
                     <div class="team-img mb-3">
                         <img src="{{ asset('assets/images/default-avatar.svg') }}"
                              class="img-fluid rounded-circle"
-                             alt="Mike Brown"
+                             alt="Usman Ali"
                              style="width: 150px; height: 150px; object-fit: cover;">
                     </div>
-                    <h5 class="fw-bold mb-1">Mike Brown</h5>
+                    <h5 class="fw-bold mb-1">Usman Ali</h5>
                     <p class="text-muted mb-2">Operations Manager</p>
                     <p class="small text-muted mb-3">
-                        Mike oversees daily operations and ensures smooth business processes.
+                        Usman oversees daily operations and ensures smooth business processes.
                     </p>
                     <div class="social-links">
                         <a href="#" class="btn btn-outline-primary btn-sm rounded-circle me-2">

@@ -268,7 +268,7 @@
 </section>
 
 {{-- Team Section --}}
-<section class="py-5">
+<section class="py-5 about-team-section">
     <div class="container">
         <div class="row mb-5">
             <div class="col-lg-8 mx-auto text-center">

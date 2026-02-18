@@ -1,0 +1,110 @@
+/* ============================================
+   About Page - Team Section (Customizable)
+   Change variables below to adjust look.
+   ============================================ */
+
+.about-team-section {
+    /* Card */
+    --team-card-bg: #ffffff;
+    --team-card-padding: 1.5rem;
+    --team-card-radius: 0.5rem;
+    --team-card-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+    --team-card-border: 1px solid rgba(0, 0, 0, 0.06);
+
+    /* Avatar */
+    --team-avatar-size: 150px;
+    --team-avatar-border: 3px solid #fff;
+    --team-avatar-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+
+    /* Name & Title */
+    --team-name-size: 1.25rem;
+    --team-name-color: #1a1a2e;
+    --team-title-color: #6c757d;
+    --team-desc-color: #6c757d;
+    --team-desc-size: 0.875rem;
+
+    /* Social Icons */
+    --team-social-size: 2.25rem;
+    --team-social-gap: 0.5rem;
+    --team-social-color: #0d6efd;
+    --team-social-border: #0d6efd;
+    --team-social-hover-bg: #0d6efd;
+    --team-social-hover-color: #fff;
+}
+
+/* Wrapper - add class "about-team-section" to parent if you want scoped variables */
+.team-card {
+    background: var(--team-card-bg, #fff);
+    padding: var(--team-card-padding, 1.5rem);
+    border-radius: var(--team-card-radius, 0.5rem);
+    box-shadow: var(--team-card-shadow, 0 2px 12px rgba(0, 0, 0, 0.06));
+    border: var(--team-card-border, 1px solid rgba(0, 0, 0, 0.06));
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.team-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+}
+
+/* Avatar container & image */
+.team-img {
+    display: inline-block;
+}
+
+.team-img img {
+    width: var(--team-avatar-size, 150px) !important;
+    height: var(--team-avatar-size, 150px) !important;
+    object-fit: cover;
+    border: var(--team-avatar-border, 3px solid #fff);
+    box-shadow: var(--team-avatar-shadow, 0 4px 15px rgba(0, 0, 0, 0.1));
+}
+
+/* Name */
+.team-card h5 {
+    font-size: var(--team-name-size, 1.25rem);
+    color: var(--team-name-color, #1a1a2e);
+}
+
+/* Job title (first paragraph after h5) */
+.team-card .text-muted.mb-2 {
+    color: var(--team-title-color, #6c757d) !important;
+}
+
+/* Description (small text) */
+.team-card .small.text-muted {
+    color: var(--team-desc-color, #6c757d) !important;
+    font-size: var(--team-desc-size, 0.875rem);
+}
+
+/* Social links row */
+.social-links {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: var(--team-social-gap, 0.5rem);
+    flex-wrap: wrap;
+}
+
+/* Social icon buttons - override Bootstrap btn styles with variables */
+.team-card .social-links .btn {
+    width: var(--team-social-size, 2.25rem);
+    height: var(--team-social-size, 2.25rem);
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--team-social-color, #0d6efd);
+    border-color: var(--team-social-border, #0d6efd);
+    transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.team-card .social-links .btn:hover {
+    background: var(--team-social-hover-bg, #0d6efd);
+    color: var(--team-social-hover-color, #fff);
+    border-color: var(--team-social-hover-bg, #0d6efd);
+}
+
+.team-card .social-links .btn i {
+    font-size: 0.9rem;
+}

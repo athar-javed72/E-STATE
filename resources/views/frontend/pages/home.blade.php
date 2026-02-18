@@ -1,426 +1,724 @@
 @extends('layouts.app')
 
-@section('title', 'FindState - Find Your Dream Property')
-@section('meta_description', 'Discover your perfect home with FindState. Browse thousands of properties for sale and rent with detailed listings and expert agents.')
+@section('title', 'FindState - Find Your Perfect Home')
+@section('meta_description', 'Find your perfect home easily with FindState. Trusted listings, verified agents, and a simple search experience.')
 
 @section('content')
 
+{{-- FindState Home: production-ready design system --}}
+@push('css')
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+    --fs-white: #FFFFFF;
+    --fs-bg-secondary: #F7F9FC;
+    --fs-text: #1F2937;
+    --fs-text-muted: #6B7280;
+    --fs-border: #E5E7EB;
+    --fs-accent: #1e5f4a;
+    --fs-accent-hover: #164a3a;
+    --fs-accent-muted: rgba(30, 95, 74, 0.1);
+    --fs-card-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    --fs-card-shadow-hover: 0 10px 40px rgba(0,0,0,0.08);
+    --fs-radius: 12px;
+    --fs-radius-sm: 8px;
+    --fs-section-padding: 4.5rem 0;
+    --fs-container-max: 1200px;
+    --fs-font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+#main-content { font-family: var(--fs-font); }
+#main-content .container { max-width: var(--fs-container-max); }
+.fs-container { max-width: var(--fs-container-max); margin-left: auto; margin-right: auto; padding-left: 1.25rem; padding-right: 1.25rem; }
+@media (min-width: 576px) { .fs-container { padding-left: 1.5rem; padding-right: 1.5rem; } }
+@media (min-width: 992px) { .fs-container { padding-left: 2rem; padding-right: 2rem; } }
+
+/* ----- Hero: full-width image + overlay ----- */
+.fs-hero {
+    min-height: 90vh;
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    background-color: #0f172a;
+    background-image: url('https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1920&q=80');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+.fs-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(15,23,42,0.75) 0%, rgba(15,23,42,0.5) 50%, rgba(15,23,42,0.85) 100%);
+    pointer-events: none;
+}
+.fs-hero .container { position: relative; z-index: 1; }
+.fs-hero h1 {
+    font-family: var(--fs-font);
+    font-size: clamp(2rem, 5vw, 3.25rem);
+    font-weight: 700;
+    color: #FFFFFF;
+    letter-spacing: -0.03em;
+    line-height: 1.15;
+    margin-bottom: 1rem;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+}
+.fs-hero .lead {
+    font-size: 1.125rem;
+    font-weight: 400;
+    color: rgba(255,255,255,0.9);
+    max-width: 520px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 2rem;
+}
+.fs-hero-search {
+    background: var(--fs-white);
+    border-radius: var(--fs-radius);
+    box-shadow: var(--fs-card-shadow-hover);
+    padding: 1.5rem 1.75rem;
+    max-width: 920px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.fs-hero-search .form-control,
+.fs-hero-search .form-select {
+    border: 1px solid var(--fs-border);
+    border-radius: var(--fs-radius-sm);
+    padding: 0.7rem 1rem;
+    font-size: 0.95rem;
+    font-family: var(--fs-font);
+}
+.fs-hero-search .form-control:focus,
+.fs-hero-search .form-select:focus {
+    border-color: var(--fs-accent);
+    box-shadow: 0 0 0 3px var(--fs-accent-muted);
+    outline: none;
+}
+.fs-hero-search .btn-search-cta {
+    background: var(--fs-accent);
+    color: var(--fs-white);
+    border: none;
+    padding: 0.7rem 1.5rem;
+    border-radius: var(--fs-radius-sm);
+    font-weight: 600;
+    font-size: 0.95rem;
+    font-family: var(--fs-font);
+    transition: background 0.2s, transform 0.15s;
+}
+.fs-hero-search .btn-search-cta:hover {
+    background: var(--fs-accent-hover);
+    color: var(--fs-white);
+    transform: translateY(-1px);
+}
+
+/* ----- Trust: pills below hero ----- */
+.fs-trust {
+    padding: 2rem 0;
+    background: var(--fs-bg-secondary);
+    border-bottom: 1px solid var(--fs-border);
+}
+.fs-trust-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.5rem 1rem;
+    background: var(--fs-bg-secondary);
+    border-radius: 999px;
+    color: var(--fs-text);
+    font-size: 0.9rem;
+    font-weight: 500;
+    border: 1px solid var(--fs-border);
+}
+.fs-trust-item i {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--fs-accent-muted);
+    color: var(--fs-accent);
+    border-radius: 50%;
+    font-size: 0.9rem;
+}
+
+/* ----- Section headings ----- */
+.fs-section-title {
+    font-family: var(--fs-font);
+    font-size: clamp(1.5rem, 3vw, 1.875rem);
+    font-weight: 700;
+    color: var(--fs-text);
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.02em;
+}
+.fs-section-subtitle {
+    color: var(--fs-text-muted);
+    font-size: 1rem;
+    margin-bottom: 2rem;
+    font-weight: 400;
+}
+
+/* ----- Popular locations: chips on light gray ----- */
+.fs-locations {
+    padding: var(--fs-section-padding);
+    background: var(--fs-bg-secondary);
+}
+.fs-location-chip {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.6rem 1.25rem;
+    background: var(--fs-white);
+    border: 1px solid var(--fs-border);
+    border-radius: var(--fs-radius);
+    color: var(--fs-text);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.95rem;
+    transition: border-color 0.2s, box-shadow 0.2s, color 0.2s;
+}
+.fs-location-chip:hover {
+    border-color: var(--fs-accent);
+    color: var(--fs-accent);
+    box-shadow: var(--fs-card-shadow);
+}
+
+/* ----- Property type filters: icon buttons ----- */
+.fs-types {
+    padding: var(--fs-section-padding);
+    background: var(--fs-white);
+}
+.fs-type-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    padding: 1.5rem 1rem;
+    background: var(--fs-white);
+    border: 1px solid var(--fs-border);
+    border-radius: var(--fs-radius);
+    color: var(--fs-text);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.95rem;
+    transition: border-color 0.2s, background 0.2s, color 0.2s;
+}
+.fs-type-btn i {
+    font-size: 1.75rem;
+    color: var(--fs-text-muted);
+    transition: color 0.2s;
+}
+.fs-type-btn:hover {
+    background: var(--fs-accent-muted);
+    border-color: var(--fs-accent);
+    color: var(--fs-accent);
+}
+.fs-type-btn:hover i { color: var(--fs-accent); }
+
+/* ----- Recently added: 16:9 cards, light gray section ----- */
+.fs-recent {
+    padding: var(--fs-section-padding);
+    background: var(--fs-bg-secondary);
+}
+.fs-property-card {
+    background: var(--fs-white);
+    border-radius: var(--fs-radius);
+    overflow: hidden;
+    border: 1px solid var(--fs-border);
+    box-shadow: var(--fs-card-shadow);
+    transition: box-shadow 0.25s, transform 0.25s;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.fs-property-card:hover {
+    box-shadow: var(--fs-card-shadow-hover);
+    transform: translateY(-4px);
+}
+.fs-property-card .card-img-wrap {
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background: var(--fs-border);
+}
+.fs-property-card .card-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.fs-property-card .card-body-custom {
+    padding: 1.25rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+.fs-property-card .card-price {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--fs-text);
+    margin-bottom: 0.25rem;
+}
+.fs-property-card .card-location {
+    font-size: 0.9rem;
+    color: var(--fs-text-muted);
+    margin-bottom: 0.5rem;
+}
+.fs-property-card .card-type {
+    font-size: 0.8rem;
+    color: var(--fs-accent);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-top: auto;
+}
+.fs-property-card a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* ----- How it works: icons in circles ----- */
+.fs-steps {
+    padding: var(--fs-section-padding);
+    background: var(--fs-white);
+}
+.fs-step {
+    text-align: center;
+    padding: 1rem 0.5rem;
+}
+.fs-step-icon {
+    width: 56px;
+    height: 56px;
+    margin: 0 auto 1rem;
+    background: var(--fs-accent-muted);
+    color: var(--fs-accent);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.35rem;
+}
+.fs-step h4 {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--fs-text);
+    margin-bottom: 0.25rem;
+}
+.fs-step p {
+    font-size: 0.9rem;
+    color: var(--fs-text-muted);
+    margin: 0;
+}
+
+/* ----- Owner CTA: accent/dark, white text ----- */
+.fs-owner-cta {
+    padding: var(--fs-section-padding);
+    background: var(--fs-accent);
+    color: var(--fs-white);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+.fs-owner-cta::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1920&q=30') center/cover;
+    opacity: 0.12;
+    pointer-events: none;
+}
+.fs-owner-cta .container { position: relative; z-index: 1; }
+.fs-owner-cta h2 {
+    font-size: clamp(1.5rem, 3vw, 1.875rem);
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: var(--fs-white);
+}
+.fs-owner-cta p {
+    color: rgba(255,255,255,0.9);
+    margin-bottom: 1.5rem;
+    max-width: 480px;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 1rem;
+}
+.fs-owner-cta .btn-list {
+    background: var(--fs-white);
+    color: var(--fs-accent);
+    border: none;
+    padding: 0.75rem 2rem;
+    border-radius: var(--fs-radius-sm);
+    font-weight: 600;
+    font-size: 1rem;
+    font-family: var(--fs-font);
+    transition: background 0.2s, transform 0.2s, color 0.2s;
+}
+.fs-owner-cta .btn-list:hover {
+    background: rgba(255,255,255,0.95);
+    color: var(--fs-accent-hover);
+    transform: translateY(-2px);
+}
+
+/* ----- FAQ: white, accordion, smooth ----- */
+.fs-faq {
+    padding: var(--fs-section-padding);
+    background: var(--fs-white);
+}
+.fs-faq .accordion-item {
+    border: 1px solid var(--fs-border);
+    border-radius: var(--fs-radius-sm) !important;
+    margin-bottom: 0.5rem;
+    overflow: hidden;
+}
+.fs-faq .accordion-button {
+    background: var(--fs-white) !important;
+    color: var(--fs-text) !important;
+    font-weight: 600;
+    font-size: 1rem;
+    padding: 1rem 1.25rem;
+    border: none;
+    box-shadow: none !important;
+    font-family: var(--fs-font);
+    transition: color 0.2s ease;
+}
+.fs-faq .accordion-button:not(.collapsed) {
+    color: var(--fs-accent) !important;
+    background: var(--fs-white) !important;
+}
+.fs-faq .accordion-button::after {
+    flex-shrink: 0;
+}
+.fs-faq .accordion-collapse {
+    transition: height 0.3s ease;
+}
+.fs-faq .accordion-body {
+    padding: 0 1.25rem 1rem;
+    color: var(--fs-text-muted);
+    font-size: 0.95rem;
+    font-weight: 400;
+}
+
+/* ----- View all link ----- */
+.fs-view-all {
+    color: var(--fs-accent);
+    font-weight: 600;
+    font-size: 0.95rem;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    transition: color 0.2s;
+}
+.fs-view-all:hover { color: var(--fs-accent-hover); }
+
+@media (max-width: 768px) {
+    .fs-hero { min-height: 75vh; padding: 3rem 0; }
+    .fs-hero-search .row { --bs-gutter-y: 0.75rem; }
+    .fs-hero-search { padding: 1.25rem; }
+}
+</style>
+@endpush
+
 {{-- Hero Section --}}
-<section class="hero-section bg-primary text-white position-relative overflow-hidden">
-    <div class="hero-bg position-absolute top-0 start-0 w-100 h-100" style="background: linear-gradient(135deg, rgba(0,123,255,0.9) 0%, rgba(0,86,179,0.95) 100%);"></div>
-
-    <div class="container position-relative" style="z-index: 2;">
-        <div class="row min-vh-100 align-items-center py-5">
-            <div class="col-lg-8 mx-auto text-center" data-aos="fade-up">
-                <h1 class="display-4 fw-bold mb-4">
-                    Find Your <span class="text-warning">Dream Home</span><br>
-                    With Expert Guidance
-                </h1>
-
-                <p class="lead mb-4">
-                    Discover thousands of verified properties with detailed information,
-                    virtual tours, and connect with trusted real estate agents.
-                </p>
-
-                {{-- Hero Stats --}}
-                <div class="row g-4 mb-5">
-                    <div class="col-6 col-md-3">
-                        <div class="stat-item">
-                            <h3 class="fw-bold mb-1">{{ number_format($propertyStats['total_properties']) }}+</h3>
-                            <small>Properties</small>
+<section class="fs-hero">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-10 text-center">
+                <h1>Find your perfect home easily</h1>
+                <p class="lead">Search verified listings, compare options, and connect with trusted agents—all in one place.</p>
+                <form action="{{ route('properties.index') }}" method="GET" class="fs-hero-search">
+                    <div class="row g-3 align-items-end">
+                        <div class="col-md-4">
+                            <label class="form-label small fw-semibold text-body-secondary">Location</label>
+                            <input type="text" class="form-control" name="search" placeholder="City or area">
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label small fw-semibold text-body-secondary">Property type</label>
+                            <select class="form-select" name="type">
+                                <option value="">Any type</option>
+                                <option value="house">House</option>
+                                <option value="apartment">Apartment</option>
+                                <option value="plot">Plot</option>
+                                <option value="commercial">Commercial</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label small fw-semibold text-body-secondary">Budget</label>
+                            <select class="form-select" name="max_price">
+                                <option value="">Any budget</option>
+                                <option value="100000">Up to $100K</option>
+                                <option value="250000">Up to $250K</option>
+                                <option value="500000">Up to $500K</option>
+                                <option value="1000000">Up to $1M</option>
+                                <option value="10000000">$1M+</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <button type="submit" class="btn btn-search-cta w-100">
+                                <i class="fas fa-search me-1"></i> Search
+                            </button>
                         </div>
                     </div>
-                    <div class="col-6 col-md-3">
-                        <div class="stat-item">
-                            <h3 class="fw-bold mb-1">{{ number_format($propertyStats['properties_sold']) }}+</h3>
-                            <small>Sold</small>
-                        </div>
-                    </div>
-                    <div class="col-6 col-md-3">
-                        <div class="stat-item">
-                            <h3 class="fw-bold mb-1">{{ number_format($propertyStats['happy_customers']) }}+</h3>
-                            <small>Happy Clients</small>
-                        </div>
-                    </div>
-                    <div class="col-6 col-md-3">
-                        <div class="stat-item">
-                            <h3 class="fw-bold mb-1">{{ number_format($propertyStats['total_agents']) }}+</h3>
-                            <small>Expert Agents</small>
-                        </div>
-                    </div>
-                </div>
-
-                {{-- Hero Search Form --}}
-                <div class="hero-search-form">
-                    <form action="{{ route('properties.index') }}" method="GET" class="bg-white rounded-3 p-4 shadow-lg">
-                        <div class="row g-3 align-items-end">
-                            <div class="col-md-3">
-                                <label class="form-label text-dark small fw-bold">Location</label>
-                                <input type="text" class="form-control form-control-lg" name="search" placeholder="Enter city, area...">
-                            </div>
-                            <div class="col-md-2">
-                                <label class="form-label text-dark small fw-bold">Type</label>
-                                <select class="form-select form-select-lg" name="type">
-                                    <option value="">All Types</option>
-                                    <option value="house">House</option>
-                                    <option value="apartment">Apartment</option>
-                                    <option value="condo">Condo</option>
-                                    <option value="villa">Villa</option>
-                                </select>
-                            </div>
-                            <div class="col-md-2">
-                                <label class="form-label text-dark small fw-bold">Purpose</label>
-                                <select class="form-select form-select-lg" name="listing_type">
-                                    <option value="">Buy/Rent</option>
-                                    <option value="for_sale">For Sale</option>
-                                    <option value="for_rent">For Rent</option>
-                                </select>
-                            </div>
-                            <div class="col-md-2">
-                                <label class="form-label text-dark small fw-bold">Budget</label>
-                                <select class="form-select form-select-lg" name="max_price">
-                                    <option value="">Any</option>
-                                    <option value="100000">$100K</option>
-                                    <option value="300000">$300K</option>
-                                    <option value="500000">$500K</option>
-                                    <option value="1000000">$1M+</option>
-                                </select>
-                            </div>
-                            <div class="col-md-3">
-                                <button type="submit" class="btn btn-primary btn-lg w-100">
-                                    <i class="fas fa-search me-2"></i>Search Properties
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
+                </form>
             </div>
         </div>
     </div>
 </section>
 
-{{-- Featured Properties Section --}}
-<section class="py-5 bg-light">
+{{-- Trust Indicators --}}
+<section class="fs-trust">
     <div class="container">
-        <div class="row mb-5">
-            <div class="col-lg-8 mx-auto text-center" data-aos="fade-up">
-                <h2 class="display-5 fw-bold mb-3">Featured Properties</h2>
-                <p class="lead text-muted">Handpicked properties that offer the best value and location</p>
+        <div class="d-flex flex-wrap justify-content-center align-items-center gap-3">
+            <div class="fs-trust-item">
+                <i class="fas fa-check-circle"></i>
+                <span>Verified Listings</span>
+            </div>
+            <div class="fs-trust-item">
+                <i class="fas fa-user-tie"></i>
+                <span>Trusted Agents</span>
+            </div>
+            <div class="fs-trust-item">
+                <i class="fas fa-headset"></i>
+                <span>Customer Support</span>
             </div>
         </div>
+    </div>
+</section>
 
-        @if($featuredProperties->count() > 0)
+{{-- Popular Locations --}}
+<section class="fs-locations">
+    <div class="container">
+        <h2 class="fs-section-title text-center">Popular Locations</h2>
+        <p class="fs-section-subtitle text-center">Browse properties in top cities</p>
+        <div class="d-flex flex-wrap justify-content-center gap-2">
+            @foreach(['New York', 'Los Angeles', 'Chicago', 'Miami', 'Houston', 'San Francisco', 'Boston', 'Seattle'] as $city)
+                <a href="{{ route('properties.index', ['search' => $city]) }}" class="fs-location-chip">{{ $city }}</a>
+            @endforeach
+        </div>
+    </div>
+</section>
+
+{{-- Property Type Quick Filters --}}
+<section class="fs-types">
+    <div class="container">
+        <h2 class="fs-section-title text-center">Property Types</h2>
+        <p class="fs-section-subtitle text-center">Filter by type in one click</p>
+        <div class="row g-3 justify-content-center">
+            <div class="col-6 col-md-3">
+                <a href="{{ route('properties.index', ['type' => 'house']) }}" class="fs-type-btn">
+                    <i class="fas fa-home"></i>
+                    <span>House</span>
+                </a>
+            </div>
+            <div class="col-6 col-md-3">
+                <a href="{{ route('properties.index', ['type' => 'apartment']) }}" class="fs-type-btn">
+                    <i class="fas fa-building"></i>
+                    <span>Apartment</span>
+                </a>
+            </div>
+            <div class="col-6 col-md-3">
+                <a href="{{ route('properties.index', ['type' => 'plot']) }}" class="fs-type-btn">
+                    <i class="fas fa-map-marked-alt"></i>
+                    <span>Plot</span>
+                </a>
+            </div>
+            <div class="col-6 col-md-3">
+                <a href="{{ route('properties.index', ['type' => 'commercial']) }}" class="fs-type-btn">
+                    <i class="fas fa-store"></i>
+                    <span>Commercial</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+{{-- Recently Added Properties --}}
+<section class="fs-recent">
+    <div class="container">
+        <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-4">
+            <div>
+                <h2 class="fs-section-title mb-0">Recently Added Properties</h2>
+                <p class="fs-section-subtitle mb-0">Latest listings on FindState</p>
+            </div>
+            <a href="{{ route('properties.index') }}" class="fs-view-all">View all properties <i class="fas fa-arrow-right"></i></a>
+        </div>
+        @if($recentProperties->count() > 0)
             <div class="row g-4">
-                @foreach($featuredProperties as $property)
+                @foreach($recentProperties as $property)
+                    @php
+                        $imgSrc = $property->featured_image ? asset('storage/' . $property->featured_image) : asset('assets/images/placeholder-600x400.svg');
+                    @endphp
                     <div class="col-lg-4 col-md-6">
-                        @include('frontend.components.property-card', ['property' => $property])
+                        <a href="{{ route('properties.show', $property->slug) }}" class="fs-property-card">
+                            <div class="card-img-wrap">
+                                <img src="{{ $imgSrc }}" alt="{{ $property->title }}" loading="lazy">
+                            </div>
+                            <div class="card-body-custom">
+                                <div class="card-price">
+                                    ${{ number_format($property->price) }}
+                                    @if($property->listing_type === 'for_rent')<small class="text-muted">/mo</small>@endif
+                                </div>
+                                <div class="card-location">
+                                    <i class="fas fa-map-marker-alt me-1 text-muted"></i>{{ $property->city }}{{ $property->address ? ', ' . Str::limit($property->address, 30) : '' }}
+                                </div>
+                                <span class="card-type">{{ ucfirst($property->type) }}</span>
+                            </div>
+                        </a>
                     </div>
                 @endforeach
             </div>
-
-            <div class="text-center mt-5" data-aos="fade-up">
-                <a href="{{ route('properties.index') }}" class="btn btn-primary btn-lg">
-                    View All Properties <i class="fas fa-arrow-right ms-2"></i>
-                </a>
-            </div>
         @else
-            <div class="text-center py-5" data-aos="fade-up">
-                <i class="fas fa-home display-1 text-muted mb-3"></i>
-                <h3>No Featured Properties Yet</h3>
-                <p class="text-muted">Check back soon for amazing property listings!</p>
+            <div class="text-center py-5">
+                <i class="fas fa-home fa-3x text-secondary mb-3"></i>
+                <p class="text-muted mb-0">No recent listings yet. Check back soon.</p>
             </div>
         @endif
     </div>
 </section>
 
-{{-- Why Choose Us Section --}}
-<section class="py-5">
+{{-- How It Works --}}
+<section class="fs-steps">
     <div class="container">
-        <div class="row mb-5">
-            <div class="col-lg-8 mx-auto text-center" data-aos="fade-up">
-                <h2 class="display-5 fw-bold mb-3">Why Choose FindState?</h2>
-                <p class="lead text-muted">We make property hunting simple, secure, and successful</p>
-            </div>
-        </div>
-
+        <h2 class="fs-section-title text-center">How It Works</h2>
+        <p class="fs-section-subtitle text-center">From search to move-in in four simple steps</p>
         <div class="row g-4">
-            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
-                <div class="feature-card text-center p-4 h-100">
-                    <div class="feature-icon bg-primary bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px;">
-                        <i class="fas fa-search-location text-primary fa-2x"></i>
-                    </div>
-                    <h4 class="fw-bold mb-3">Smart Search</h4>
-                    <p class="text-muted">Advanced filters and AI-powered recommendations to find your perfect match quickly and efficiently.</p>
+            <div class="col-6 col-lg-3">
+                <div class="fs-step">
+                    <div class="fs-step-icon"><i class="fas fa-search"></i></div>
+                    <h4>Search</h4>
+                    <p>Find properties by location, type, and budget.</p>
                 </div>
             </div>
-
-            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
-                <div class="feature-card text-center p-4 h-100">
-                    <div class="feature-icon bg-success bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px;">
-                        <i class="fas fa-shield-alt text-success fa-2x"></i>
-                    </div>
-                    <h4 class="fw-bold mb-3">Verified Listings</h4>
-                    <p class="text-muted">All properties are verified and updated regularly. No fake listings, no hidden costs, complete transparency.</p>
+            <div class="col-6 col-lg-3">
+                <div class="fs-step">
+                    <div class="fs-step-icon"><i class="fas fa-heart"></i></div>
+                    <h4>Shortlist</h4>
+                    <p>Save your favorites and compare options.</p>
                 </div>
             </div>
-
-            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
-                <div class="feature-card text-center p-4 h-100">
-                    <div class="feature-icon bg-warning bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px;">
-                        <i class="fas fa-users text-warning fa-2x"></i>
-                    </div>
-                    <h4 class="fw-bold mb-3">Expert Agents</h4>
-                    <p class="text-muted">Connect with certified real estate professionals who know the market inside and out.</p>
+            <div class="col-6 col-lg-3">
+                <div class="fs-step">
+                    <div class="fs-step-icon"><i class="fas fa-phone-alt"></i></div>
+                    <h4>Contact Agent</h4>
+                    <p>Reach out to verified agents for viewings.</p>
                 </div>
             </div>
-
-            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="400">
-                <div class="feature-card text-center p-4 h-100">
-                    <div class="feature-icon bg-info bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px;">
-                        <i class="fas fa-camera text-info fa-2x"></i>
-                    </div>
-                    <h4 class="fw-bold mb-3">Virtual Tours</h4>
-                    <p class="text-muted">Explore properties from anywhere with high-quality photos and 360° virtual tours.</p>
-                </div>
-            </div>
-
-            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="500">
-                <div class="feature-card text-center p-4 h-100">
-                    <div class="feature-icon bg-danger bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px;">
-                        <i class="fas fa-hand-holding-usd text-danger fa-2x"></i>
-                    </div>
-                    <h4 class="fw-bold mb-3">Best Prices</h4>
-                    <p class="text-muted">Competitive pricing with market analysis and negotiation support to get the best deals.</p>
-                </div>
-            </div>
-
-            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="600">
-                <div class="feature-card text-center p-4 h-100">
-                    <div class="feature-icon bg-primary bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px;">
-                        <i class="fas fa-headset text-primary fa-2x"></i>
-                    </div>
-                    <h4 class="fw-bold mb-3">24/7 Support</h4>
-                    <p class="text-muted">Round-the-clock customer support to assist you throughout your property journey.</p>
+            <div class="col-6 col-lg-3">
+                <div class="fs-step">
+                    <div class="fs-step-icon"><i class="fas fa-key"></i></div>
+                    <h4>Move In</h4>
+                    <p>Complete paperwork and move into your new home.</p>
                 </div>
             </div>
         </div>
     </div>
 </section>
 
-{{-- Top Agents Section --}}
-@if($topAgents->count() > 0)
-<section class="py-5 bg-light">
+{{-- Owner / Agent CTA --}}
+<section class="fs-owner-cta">
     <div class="container">
-        <div class="row mb-5">
-            <div class="col-lg-8 mx-auto text-center" data-aos="fade-up">
-                <h2 class="display-5 fw-bold mb-3">Meet Our Top Agents</h2>
-                <p class="lead text-muted">Experienced professionals ready to help you find your perfect home</p>
-            </div>
-        </div>
-
-        <div class="row g-4">
-            @foreach($topAgents as $agent)
-                <div class="col-lg-3 col-md-6">
-                    @include('frontend.components.agent-card', ['agent' => $agent])
-                </div>
-            @endforeach
-        </div>
-
-        <div class="text-center mt-5" data-aos="fade-up">
-            <a href="{{ route('agents.index') }}" class="btn btn-primary btn-lg">
-                View All Agents <i class="fas fa-arrow-right ms-2"></i>
-            </a>
-        </div>
+        <h2>List your property on FindState</h2>
+        <p>Reach thousands of serious buyers and renters. Join property owners and agents who trust FindState.</p>
+        <a href="{{ route('contact.index') }}?subject=list_property" class="btn btn-list">List Your Property</a>
     </div>
 </section>
-@endif
 
-{{-- Testimonials Section --}}
-@if($testimonials->count() > 0)
-<section class="py-5">
+{{-- FAQ Section --}}
+<section class="fs-faq">
     <div class="container">
-        <div class="row mb-5">
-            <div class="col-lg-8 mx-auto text-center" data-aos="fade-up">
-                <h2 class="display-5 fw-bold mb-3">What Our Clients Say</h2>
-                <p class="lead text-muted">Real experiences from happy homeowners and investors</p>
-            </div>
-        </div>
-
-        <div class="testimonials-slider owl-carousel owl-theme">
-            @foreach($testimonials as $testimonial)
-                @include('frontend.components.testimonial', ['testimonial' => $testimonial])
-            @endforeach
-        </div>
-    </div>
-</section>
-@endif
-
-{{-- Latest Blog Posts Section --}}
-@if($latestBlogs->count() > 0)
-<section class="py-5 bg-light">
-    <div class="container">
-        <div class="row mb-5">
-            <div class="col-lg-8 mx-auto text-center" data-aos="fade-up">
-                <h2 class="display-5 fw-bold mb-3">Latest News & Tips</h2>
-                <p class="lead text-muted">Stay updated with market trends and expert insights</p>
-            </div>
-        </div>
-
-        <div class="row g-4">
-            @foreach($latestBlogs as $blog)
-                <div class="col-lg-4">
-                    <article class="blog-card h-100" data-aos="fade-up">
-                        <div class="card h-100 border-0 shadow-sm">
-                            <img src="{{ $blog->featured_image ? asset('storage/' . $blog->featured_image) : asset('assets/images/placeholder-600x400.svg') }}"
-                                 class="card-img-top blog-img" alt="{{ $blog->title }}">
-
-                            <div class="card-body d-flex flex-column">
-                                <div class="blog-meta mb-2">
-                                    <small class="text-muted">
-                                        <i class="fas fa-calendar me-1"></i>{{ $blog->created_at->format('M d, Y') }}
-                                        <i class="fas fa-user ms-3 me-1"></i>{{ $blog->author ?? 'Admin' }}
-                                    </small>
-                                </div>
-
-                                <h5 class="card-title">
-                                    <a href="{{ route('blog.show', $blog->slug) }}" class="text-decoration-none text-dark">
-                                        {{ $blog->title }}
-                                    </a>
-                                </h5>
-
-                                <p class="card-text text-muted flex-grow-1">
-                                    {{ Str::limit(strip_tags($blog->excerpt ?: $blog->content), 120) }}
-                                </p>
-
-                                <a href="{{ route('blog.show', $blog->slug) }}" class="btn btn-outline-primary btn-sm mt-auto">
-                                    Read More <i class="fas fa-arrow-right ms-1"></i>
-                                </a>
-                            </div>
+        <h2 class="fs-section-title text-center">Frequently Asked Questions</h2>
+        <p class="fs-section-subtitle text-center">Quick answers to common questions</p>
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="accordion" id="faqAccordion">
+                    <div class="accordion-item">
+                        <h3 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq1" aria-expanded="false" aria-controls="faq1">How do I list my property?</button>
+                        </h3>
+                        <div id="faq1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">Use the “List Your Property” button to get in touch. Our team will guide you through verification and listing steps. You can also contact us via the contact page or WhatsApp.</div>
                         </div>
-                    </article>
-                </div>
-            @endforeach
-        </div>
-
-        <div class="text-center mt-5" data-aos="fade-up">
-            <a href="{{ route('blog.index') }}" class="btn btn-primary btn-lg">
-                View All Posts <i class="fas fa-arrow-right ms-2"></i>
-            </a>
-        </div>
-    </div>
-</section>
-@endif
-
-{{-- Call to Action Section --}}
-<section class="py-5 bg-primary text-white">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8 mx-auto text-center" data-aos="fade-up">
-                <h2 class="display-5 fw-bold mb-4">Ready to Find Your Dream Home?</h2>
-                <p class="lead mb-4">
-                    Join thousands of satisfied customers who found their perfect property with us.
-                    Start your journey today!
-                </p>
-                <div class="d-flex flex-wrap gap-3 justify-content-center">
-                    <a href="{{ route('properties.index') }}" class="btn btn-light btn-lg">
-                        <i class="fas fa-search me-2"></i>Browse Properties
-                    </a>
-                    <a href="{{ route('contact.index') }}" class="btn btn-outline-light btn-lg">
-                        <i class="fas fa-phone me-2"></i>Contact Us
-                    </a>
+                    </div>
+                    <div class="accordion-item">
+                        <h3 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2" aria-expanded="false" aria-controls="faq2">Are agents verified?</button>
+                        </h3>
+                        <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">Yes. We verify agent credentials and listing details before publishing. You’ll see a verified badge on trusted agents and listings.</div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h3 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3" aria-expanded="false" aria-controls="faq3">Is there any listing fee?</button>
+                        </h3>
+                        <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">Listing fees depend on the plan you choose. Basic listings may be free or low-cost; premium placement has optional fees. We’ll explain all options when you list.</div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h3 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq4" aria-expanded="false" aria-controls="faq4">How do I schedule a viewing?</button>
+                        </h3>
+                        <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">Open the property listing and use the “Contact Agent” or “Chat with us” option. You can also call or message via WhatsApp to fix a time that works.</div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h3 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq5" aria-expanded="false" aria-controls="faq5">Can I search for both sale and rent?</button>
+                        </h3>
+                        <div id="faq5" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">Yes. Use the search bar or filters to choose “For Sale” or “For Rent,” and combine with location and budget to see matching listings.</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </section>
+
+{{-- Quick Contact / WhatsApp CTA (floating) --}}
+<a href="https://wa.me/1234567890?text=Hi%2C%20I%20have%20a%20query%20about%20FindState%20properties" class="fs-whatsapp-cta" target="_blank" rel="noopener" aria-label="Chat with us on WhatsApp">
+    <i class="fab fa-whatsapp"></i>
+    <span class="fs-whatsapp-text">Chat with us</span>
+</a>
 
 @endsection
 
-{{-- Custom CSS for Home Page --}}
 @push('css')
 <style>
-.hero-section {
-    min-height: 100vh;
+.fs-whatsapp-cta {
+    position: fixed;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    width: 56px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #25D366;
+    color: #fff;
+    border-radius: 50%;
+    text-decoration: none;
+    font-weight: 600;
+    box-shadow: 0 4px 16px rgba(37, 211, 102, 0.45);
+    z-index: 1000;
+    transition: transform 0.2s, box-shadow 0.2s;
 }
-
-.stat-item h3 {
-    font-size: 2rem;
-    color: #ffc107;
+.fs-whatsapp-cta:hover {
+    color: #fff;
+    transform: scale(1.05);
+    box-shadow: 0 6px 24px rgba(37, 211, 102, 0.5);
 }
-
-.hero-search-form {
-    max-width: 100%;
-    margin: 0 auto;
+.fs-whatsapp-cta i { font-size: 1.6rem; }
+.fs-whatsapp-text { display: none; }
+@media (min-width: 480px) {
+    .fs-whatsapp-cta { width: auto; padding: 0.75rem 1.25rem; border-radius: 999px; }
+    .fs-whatsapp-text { display: inline; margin-left: 0.35rem; font-size: 0.9rem; }
 }
-
-.blog-img {
-    height: 200px;
-    object-fit: cover;
-}
-
-.feature-card {
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.feature-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-}
-
-.testimonials-slider .owl-item {
-    padding: 0 15px;
-}
-
-@media (max-width: 768px) {
-    .hero-search-form .row {
-        --bs-gutter-x: 0.5rem;
-    }
-
-    .hero-search-form .col-md-3,
-    .hero-search-form .col-md-2 {
-        margin-bottom: 1rem;
-    }
+@media (max-width: 575px) {
+    .fs-whatsapp-cta { bottom: 1.25rem; right: 1.25rem; }
 }
 </style>
-@endpush
-
-{{-- Custom JavaScript for Home Page --}}
-@push('js')
-<script>
-$(document).ready(function() {
-    // Initialize testimonials slider
-    $('.testimonials-slider').owlCarousel({
-        loop: true,
-        margin: 20,
-        nav: false,
-        dots: true,
-        autoplay: true,
-        autoplayTimeout: 5000,
-        responsive: {
-            0: { items: 1 },
-            768: { items: 2 },
-            1024: { items: 3 }
-        }
-    });
-
-    // Counter animation for stats
-    $('.stat-item h3').each(function() {
-        const $this = $(this);
-        const countTo = parseInt($this.text().replace(/[^\d]/g, ''));
-
-        $({ countNum: 0 }).animate({
-            countNum: countTo
-        }, {
-            duration: 2000,
-            easing: 'swing',
-            step: function() {
-                $this.text(Math.floor(this.countNum).toLocaleString() + '+');
-            },
-            complete: function() {
-                $this.text(countTo.toLocaleString() + '+');
-            }
-        });
-    });
-});
-</script>
 @endpush

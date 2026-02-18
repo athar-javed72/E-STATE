@@ -1,304 +1,115 @@
-{{-- Footer Component --}}
-<footer class="bg-dark text-white pt-5 pb-3 mt-auto">
+{{-- FindState Footer - Simple & Professional --}}
+<footer class="fs-footer mt-auto">
     <div class="container">
-        {{-- Main Footer Content --}}
-        <div class="row">
-            {{-- Company Info --}}
-            <div class="col-lg-4 col-md-6 mb-4">
-                <div class="footer-section">
-                    {{-- Logo --}}
-                    <div class="mb-3">
-                        <strong class="text-white" style="font-size: 1.5rem;">FindState</strong>
-                    </div>
-
-                    <p class="text-light opacity-75 mb-3">
-                        FindState is your trusted partner in finding the perfect property.
-                        With years of experience and a dedicated team of professionals,
-                        we make your property dreams come true.
-                    </p>
-
-                    {{-- Social Media --}}
-                    <div class="social-links">
-                        <a href="#" class="btn btn-outline-light btn-sm rounded-circle me-2" title="Facebook">
-                            <i class="fab fa-facebook-f"></i>
-                        </a>
-                        <a href="#" class="btn btn-outline-light btn-sm rounded-circle me-2" title="Twitter">
-                            <i class="fab fa-twitter"></i>
-                        </a>
-                        <a href="#" class="btn btn-outline-light btn-sm rounded-circle me-2" title="Instagram">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                        <a href="#" class="btn btn-outline-light btn-sm rounded-circle me-2" title="LinkedIn">
-                            <i class="fab fa-linkedin-in"></i>
-                        </a>
-                        <a href="#" class="btn btn-outline-light btn-sm rounded-circle" title="YouTube">
-                            <i class="fab fa-youtube"></i>
-                        </a>
-                    </div>
-                </div>
+        <div class="row align-items-center py-4">
+            <div class="col-lg-4 col-md-6 mb-3 mb-md-0">
+                <a href="{{ route('home') }}" class="fs-footer-brand">FindState</a>
             </div>
-
-            {{-- Quick Links --}}
-            <div class="col-lg-2 col-md-6 mb-4">
-                <div class="footer-section">
-                    <h5 class="text-white fw-bold mb-3">Quick Links</h5>
-                    <ul class="list-unstyled footer-links">
-                        <li><a href="{{ route('home') }}" class="text-decoration-none text-light opacity-75">Home</a></li>
-                        <li><a href="{{ route('about') }}" class="text-decoration-none text-light opacity-75">About Us</a></li>
-                        <li><a href="{{ route('services') }}" class="text-decoration-none text-light opacity-75">Services</a></li>
-                        <li><a href="{{ route('properties.index') }}" class="text-decoration-none text-light opacity-75">Properties</a></li>
-                        <li><a href="{{ route('agents.index') }}" class="text-decoration-none text-light opacity-75">Our Agents</a></li>
-                        <li><a href="{{ route('login') }}" class="text-decoration-none text-light opacity-75">Admin Login</a></li>
-                        <li><a href="{{ route('blog.index') }}" class="text-decoration-none text-light opacity-75">Blog</a></li>
-                        <li><a href="{{ route('contact.index') }}" class="text-decoration-none text-light opacity-75">Contact</a></li>
-                    </ul>
-                </div>
+            <div class="col-lg-4 col-md-6 mb-3 mb-md-0">
+                <nav class="fs-footer-nav">
+                    <a href="{{ route('properties.index', ['listing_type' => 'for_sale']) }}">Buy</a>
+                    <a href="{{ route('properties.index', ['listing_type' => 'for_rent']) }}">Rent</a>
+                    <a href="{{ route('properties.index') }}">Locations</a>
+                    <a href="{{ route('contact.index') }}?subject=list_property">List Property</a>
+                </nav>
             </div>
-
-            {{-- Property Types --}}
-            <div class="col-lg-2 col-md-6 mb-4">
-                <div class="footer-section">
-                    <h5 class="text-white fw-bold mb-3">Property Types</h5>
-                    <ul class="list-unstyled footer-links">
-                        <li><a href="{{ route('properties.index', ['type' => 'house']) }}" class="text-decoration-none text-light opacity-75">Houses</a></li>
-                        <li><a href="{{ route('properties.index', ['type' => 'apartment']) }}" class="text-decoration-none text-light opacity-75">Apartments</a></li>
-                        <li><a href="{{ route('properties.index', ['type' => 'villa']) }}" class="text-decoration-none text-light opacity-75">Villas</a></li>
-                        <li><a href="{{ route('properties.index', ['type' => 'commercial']) }}" class="text-decoration-none text-light opacity-75">Commercial</a></li>
-                        <li><a href="{{ route('properties.index', ['type' => 'land']) }}" class="text-decoration-none text-light opacity-75">Land</a></li>
-                        <li><a href="{{ route('properties.index', ['listing_type' => 'for_sale']) }}" class="text-decoration-none text-light opacity-75">For Sale</a></li>
-                        <li><a href="{{ route('properties.index', ['listing_type' => 'for_rent']) }}" class="text-decoration-none text-light opacity-75">For Rent</a></li>
-                    </ul>
-                </div>
-            </div>
-
-            {{-- Contact Info --}}
-            <div class="col-lg-4 col-md-6 mb-4">
-                <div class="footer-section">
-                    <h5 class="text-white fw-bold mb-3">Contact Info</h5>
-
-                    {{-- Address --}}
-                    <div class="d-flex mb-3">
-                        <div class="flex-shrink-0">
-                            <i class="fas fa-map-marker-alt text-primary me-3 mt-1"></i>
-                        </div>
-                        <div>
-                            <p class="text-light opacity-75 mb-0">
-                                123 Property Street, Real Estate City<br>
-                                New York, NY 10001
-                            </p>
-                        </div>
-                    </div>
-
-                    {{-- Phone --}}
-                    <div class="d-flex mb-3">
-                        <div class="flex-shrink-0">
-                            <i class="fas fa-phone text-primary me-3"></i>
-                        </div>
-                        <div>
-                            <a href="tel:+1234567890" class="text-light opacity-75 text-decoration-none">
-                                +1 (234) 567-8900
-                            </a>
-                        </div>
-                    </div>
-
-                    {{-- Email --}}
-                    <div class="d-flex mb-3">
-                        <div class="flex-shrink-0">
-                            <i class="fas fa-envelope text-primary me-3"></i>
-                        </div>
-                        <div>
-                            <a href="mailto:info@findstate.com" class="text-light opacity-75 text-decoration-none">
-                                info@findstate.com
-                            </a>
-                        </div>
-                    </div>
-
-                    {{-- Working Hours --}}
-                    <div class="d-flex mb-3">
-                        <div class="flex-shrink-0">
-                            <i class="fas fa-clock text-primary me-3"></i>
-                        </div>
-                        <div class="text-light opacity-75">
-                            <div>Mon - Fri: 9:00 AM - 6:00 PM</div>
-                            <div>Sat: 10:00 AM - 4:00 PM</div>
-                            <div>Sun: Closed</div>
-                        </div>
-                    </div>
+            <div class="col-lg-4 col-md-12 text-lg-end">
+                <div class="fs-footer-contact">
+                    <a href="mailto:info@findstate.com"><i class="fas fa-envelope me-1"></i> info@findstate.com</a>
+                    <a href="tel:+1234567890"><i class="fas fa-phone me-1"></i> +1 (234) 567-8900</a>
                 </div>
             </div>
         </div>
-
-        {{-- Newsletter Section --}}
-        <div class="row border-top border-secondary pt-4 mb-4">
-            <div class="col-lg-6">
-                <h5 class="text-white fw-bold mb-3">Newsletter</h5>
-                <p class="text-light opacity-75 mb-3">
-                    Subscribe to our newsletter to get the latest property updates and offers.
-                </p>
-            </div>
-            <div class="col-lg-6">
-                <form class="newsletter-form" id="newsletterForm">
-                    <div class="input-group">
-                        <input type="email"
-                               class="form-control"
-                               placeholder="Enter your email address"
-                               name="email"
-                               required>
-                        <button class="btn btn-primary" type="submit">
-                            <i class="fas fa-paper-plane me-1"></i> Subscribe
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
-
-        {{-- Bottom Footer --}}
-        <div class="row border-top border-secondary pt-3">
-            <div class="col-md-6">
-                <p class="text-light opacity-75 mb-0">
-                    © {{ date('Y') }} FindState. All rights reserved.
-                </p>
-            </div>
-            <div class="col-md-6 text-md-end">
-                <ul class="list-inline mb-0">
-                    <li class="list-inline-item">
-                        <a href="#" class="text-light opacity-75 text-decoration-none">Terms of Service</a>
-                    </li>
-                    <li class="list-inline-item">|</li>
-                    <li class="list-inline-item">
-                        <a href="{{ route('sitemap') }}" class="text-light opacity-75 text-decoration-none">Sitemap</a>
-                    </li>
-                </ul>
-            </div>
+        <div class="fs-footer-bottom py-3">
+            <p class="mb-0 small">© {{ date('Y') }} FindState. All rights reserved.</p>
         </div>
     </div>
 
-    {{-- Back to Top Button --}}
-    <div class="back-to-top" id="backToTop">
+    {{-- Back to Top --}}
+    <button type="button" class="fs-back-to-top" id="backToTop" aria-label="Back to top">
         <i class="fas fa-chevron-up"></i>
-    </div>
+    </button>
 </footer>
 
-{{-- Custom Styles --}}
 <style>
-.footer-links li {
-    margin-bottom: 8px;
-    transition: all 0.3s ease;
+.fs-footer {
+    background: #1F2937;
+    color: rgba(255,255,255,0.85);
+    font-size: 0.95rem;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
 }
-
-.footer-links li:hover {
-    padding-left: 5px;
+.fs-footer-brand {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: #fff;
+    text-decoration: none;
+    letter-spacing: -0.02em;
 }
-
-.footer-links a:hover {
-    opacity: 1 !important;
-    color: #ffc107 !important;
+.fs-footer-brand:hover { color: #fff; opacity: 0.9; }
+.fs-footer-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem 1.5rem;
 }
-
-.social-links a {
-    width: 35px;
-    height: 35px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.3s ease;
+.fs-footer-nav a {
+    color: rgba(255,255,255,0.85);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s;
 }
-
-.social-links a:hover {
-    background-color: #ffc107;
-    border-color: #ffc107;
-    transform: translateY(-2px);
+.fs-footer-nav a:hover { color: #34d399; }
+.fs-footer-contact {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem 1.5rem;
+    justify-content: flex-end;
 }
-
-.newsletter-form .form-control {
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-    border: 1px solid #444;
-    background-color: rgba(255,255,255,0.1);
-    color: white;
+.fs-footer-contact a {
+    color: rgba(255,255,255,0.85);
+    text-decoration: none;
+    transition: color 0.2s;
 }
-
-.newsletter-form .form-control::placeholder {
-    color: rgba(255,255,255,0.7);
+.fs-footer-contact a:hover { color: #34d399; }
+.fs-footer-bottom {
+    border-top: 1px solid rgba(255,255,255,0.1);
+    color: rgba(255,255,255,0.6);
 }
-
-.newsletter-form .form-control:focus {
-    background-color: rgba(255,255,255,0.15);
-    border-color: #ffc107;
-    box-shadow: none;
-    color: white;
-}
-
-.newsletter-form .btn {
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
-}
-
-.back-to-top {
+.fs-back-to-top {
     position: fixed;
-    bottom: 30px;
-    right: 30px;
-    width: 50px;
-    height: 50px;
-    background: #007bff;
-    color: white;
+    bottom: 4.5rem;
+    right: 1.5rem;
+    width: 44px;
+    height: 44px;
+    background: #1e5f4a;
+    color: #fff;
+    border: none;
     border-radius: 50%;
     display: none;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    z-index: 1000;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(0,123,255,0.3);
+    z-index: 999;
+    transition: background 0.2s, transform 0.2s;
 }
-
-.back-to-top:hover {
-    background: #0056b3;
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(0,123,255,0.4);
-}
-
-@media (max-width: 768px) {
-    .back-to-top {
-        bottom: 20px;
-        right: 20px;
-        width: 45px;
-        height: 45px;
-    }
+.fs-back-to-top:hover { background: #164a3a; color: #fff; transform: translateY(-2px); }
+.fs-back-to-top.visible { display: flex; }
+@media (max-width: 767px) {
+    .fs-footer-nav { justify-content: flex-start; }
+    .fs-footer-contact { justify-content: flex-start; }
+    .fs-back-to-top { bottom: 1.25rem; right: 1.25rem; }
 }
 </style>
 
-{{-- JavaScript --}}
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Newsletter Form
-    document.getElementById('newsletterForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-
-        const email = this.querySelector('input[name="email"]').value;
-
-        // Add your newsletter subscription logic here
-        // For now, just show a success message
-        alert('Thank you for subscribing to our newsletter!');
-        this.reset();
-    });
-
-    // Back to Top Button
-    const backToTop = document.getElementById('backToTop');
-
-    window.addEventListener('scroll', function() {
-        if (window.pageYOffset > 300) {
-            backToTop.style.display = 'flex';
-        } else {
-            backToTop.style.display = 'none';
-        }
-    });
-
-    backToTop.addEventListener('click', function() {
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
+    var backToTop = document.getElementById('backToTop');
+    if (backToTop) {
+        window.addEventListener('scroll', function() {
+            backToTop.classList.toggle('visible', window.pageYOffset > 400);
         });
-    });
+        backToTop.addEventListener('click', function() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    }
 });
 </script>

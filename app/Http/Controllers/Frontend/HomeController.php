@@ -16,9 +16,8 @@ class HomeController extends Controller
      */
     public function index()
     {
-        // Get featured properties (latest 6)
-        $featuredProperties = Property::where('status', 'active')
-            ->where('featured', true)
+        // Recently added properties (latest 6 for homepage)
+        $recentProperties = Property::where('status', 'active')
             ->latest()
             ->limit(6)
             ->get();
@@ -50,7 +49,7 @@ class HomeController extends Controller
         ];
 
         return view('frontend.pages.home', compact(
-            'featuredProperties',
+            'recentProperties',
             'topAgents',
             'latestBlogs',
             'testimonials',

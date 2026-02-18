@@ -185,7 +185,7 @@
     box-shadow: var(--fs-card-shadow);
 }
 
-/* ----- Property type filters: icon buttons ----- */
+/* ----- Property type filters: icon buttons (colored, clearly clickable) ----- */
 .fs-types {
     padding: var(--fs-section-padding);
     background: var(--fs-white);
@@ -197,26 +197,75 @@
     justify-content: center;
     gap: 0.6rem;
     padding: 1.5rem 1rem;
-    background: var(--fs-white);
-    border: 1px solid var(--fs-border);
     border-radius: var(--fs-radius);
-    color: var(--fs-text);
     text-decoration: none;
-    font-weight: 500;
+    font-weight: 600;
     font-size: 0.95rem;
-    transition: border-color 0.2s, background 0.2s, color 0.2s;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s, color 0.2s, transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
 }
 .fs-type-btn i {
     font-size: 1.75rem;
-    color: var(--fs-text-muted);
-    transition: color 0.2s;
+    transition: color 0.2s, transform 0.2s;
 }
 .fs-type-btn:hover {
-    background: var(--fs-accent-muted);
-    border-color: var(--fs-accent);
-    color: var(--fs-accent);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
-.fs-type-btn:hover i { color: var(--fs-accent); }
+/* House: soft green */
+.fs-type-btn--house {
+    background: rgba(16, 185, 129, 0.08);
+    border-color: rgba(16, 185, 129, 0.35);
+    color: #047857;
+}
+.fs-type-btn--house i { color: #059669; }
+.fs-type-btn--house:hover {
+    background: rgba(16, 185, 129, 0.18);
+    border-color: #10b981;
+    color: #047857;
+}
+.fs-type-btn--house:hover i { color: #059669; transform: scale(1.05); }
+/* Apartment: soft blue */
+.fs-type-btn--apartment {
+    background: rgba(59, 130, 246, 0.08);
+    border-color: rgba(59, 130, 246, 0.35);
+    color: #1d4ed8;
+}
+.fs-type-btn--apartment i { color: #2563eb; }
+.fs-type-btn--apartment:hover {
+    background: rgba(59, 130, 246, 0.18);
+    border-color: #3b82f6;
+    color: #1d4ed8;
+}
+.fs-type-btn--apartment:hover i { color: #2563eb; transform: scale(1.05); }
+/* Plot: soft amber */
+.fs-type-btn--plot {
+    background: rgba(245, 158, 11, 0.08);
+    border-color: rgba(245, 158, 11, 0.4);
+    color: #b45309;
+}
+.fs-type-btn--plot i { color: #d97706; }
+.fs-type-btn--plot:hover {
+    background: rgba(245, 158, 11, 0.18);
+    border-color: #f59e0b;
+    color: #b45309;
+}
+.fs-type-btn--plot:hover i { color: #d97706; transform: scale(1.05); }
+/* Commercial: soft violet */
+.fs-type-btn--commercial {
+    background: rgba(139, 92, 246, 0.08);
+    border-color: rgba(139, 92, 246, 0.35);
+    color: #5b21b6;
+}
+.fs-type-btn--commercial i { color: #7c3aed; }
+.fs-type-btn--commercial:hover {
+    background: rgba(139, 92, 246, 0.18);
+    border-color: #8b5cf6;
+    color: #5b21b6;
+}
+.fs-type-btn--commercial:hover i { color: #7c3aed; transform: scale(1.05); }
 
 /* ----- Recently added: 16:9 cards, light gray section ----- */
 .fs-recent {
@@ -506,25 +555,25 @@
         <p class="fs-section-subtitle text-center">Filter by type in one click</p>
         <div class="row g-3 justify-content-center">
             <div class="col-6 col-md-3">
-                <a href="{{ route('properties.index', ['type' => 'house']) }}" class="fs-type-btn">
+                <a href="{{ route('properties.index', ['type' => 'house']) }}" class="fs-type-btn fs-type-btn--house">
                     <i class="fas fa-home"></i>
                     <span>House</span>
                 </a>
             </div>
             <div class="col-6 col-md-3">
-                <a href="{{ route('properties.index', ['type' => 'apartment']) }}" class="fs-type-btn">
+                <a href="{{ route('properties.index', ['type' => 'apartment']) }}" class="fs-type-btn fs-type-btn--apartment">
                     <i class="fas fa-building"></i>
                     <span>Apartment</span>
                 </a>
             </div>
             <div class="col-6 col-md-3">
-                <a href="{{ route('properties.index', ['type' => 'plot']) }}" class="fs-type-btn">
+                <a href="{{ route('properties.index', ['type' => 'plot']) }}" class="fs-type-btn fs-type-btn--plot">
                     <i class="fas fa-map-marked-alt"></i>
                     <span>Plot</span>
                 </a>
             </div>
             <div class="col-6 col-md-3">
-                <a href="{{ route('properties.index', ['type' => 'commercial']) }}" class="fs-type-btn">
+                <a href="{{ route('properties.index', ['type' => 'commercial']) }}" class="fs-type-btn fs-type-btn--commercial">
                     <i class="fas fa-store"></i>
                     <span>Commercial</span>
                 </a>

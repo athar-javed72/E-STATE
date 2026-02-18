@@ -77,6 +77,24 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+    (function() {
+        // Close mobile offcanvas when a sidebar nav link is clicked
+        var oc = document.getElementById('adminSidebarOffcanvas');
+        if (oc) {
+            oc.addEventListener('click', function(e) {
+                var link = e.target.closest('.nav-link');
+                if (link && link.getAttribute('href') && link.getAttribute('href').indexOf('/admin') !== -1) {
+                    var bs = window.bootstrap;
+                    if (bs && bs.Offcanvas) {
+                        var instance = bs.Offcanvas.getInstance(oc);
+                        if (instance) instance.hide();
+                    }
+                }
+            });
+        }
+    })();
+    </script>
     @stack('js')
 </body>
 </html>

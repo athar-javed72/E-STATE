@@ -1,36 +1,21 @@
 /**
- * FindState Admin Panel – Color scheme aligned with main FindState website
- * Enterprise-grade, cohesive, professional. Same product feel as frontend.
- * Bootstrap 5.3 + Font Awesome 6.x
+ * FindState Admin Panel – Cohesive with frontend brand
+ * Light, enterprise-grade. Same palette as main site.
+ * Base: #F8F9FB | Cards: #FFFFFF | Borders: #E5E7EB | Text: #1F2937 | Muted: #6B7280
+ * Brand accent (frontend): #1e5f4a
  */
 
-/* ---------------------------------------------------------------------------
-   Design tokens (shared logic with frontend)
---------------------------------------------------------------------------- */
 :root {
-  /* Base neutrals */
   --admin-page-bg: #F8F9FB;
   --admin-card-bg: #FFFFFF;
   --admin-border: #E5E7EB;
   --admin-text: #1F2937;
   --admin-text-muted: #6B7280;
   --admin-table-header: #F3F4F6;
-
-  /* Brand accent (FindState frontend primary) */
-  --admin-accent: #1e5f4a;
-  --admin-accent-hover: #164a3a;
-  --admin-accent-tint: rgba(30, 95, 74, 0.08);
-  --admin-accent-tint-hover: rgba(30, 95, 74, 0.12);
-
-  /* Sidebar/header – light */
-  --admin-sidebar-bg: #FFFFFF;
+  --brand-primary: #1e5f4a;
+  --brand-primary-hover: #164a3a;
+  --brand-primary-tint: rgba(30, 95, 74, 0.08);
   --admin-sidebar-width: 240px;
-
-  /* Status badges – soft, not saturated */
-  --admin-badge-active: #059669;
-  --admin-badge-pending: #ca8a04;
-  --admin-badge-inactive: #6B7280;
-  --admin-badge-sold: #4B5563;
 }
 
 /* ---------------------------------------------------------------------------
@@ -55,7 +40,7 @@ body.admin-body {
 }
 
 /* ---------------------------------------------------------------------------
-   Header – white, clean, border only
+   Header – White, light, border bottom
 --------------------------------------------------------------------------- */
 .admin-navbar {
   background-color: var(--admin-card-bg) !important;
@@ -71,22 +56,19 @@ body.admin-body {
   color: var(--admin-text) !important;
 }
 
-.admin-navbar .navbar-toggler,
-.admin-navbar .navbar-toggler:hover {
+.admin-navbar .navbar-toggler {
   color: var(--admin-text);
-  border-color: var(--admin-border);
 }
 
-/* View Site: outline primary (brand) */
 .admin-navbar .btn-outline-primary {
-  color: var(--admin-accent);
-  border-color: var(--admin-accent);
+  color: var(--brand-primary);
+  border-color: var(--brand-primary);
 }
 
 .admin-navbar .btn-outline-primary:hover {
   color: #fff;
-  background-color: var(--admin-accent);
-  border-color: var(--admin-accent);
+  background-color: var(--brand-primary);
+  border-color: var(--brand-primary);
 }
 
 .admin-navbar .btn-outline-danger:hover {
@@ -96,12 +78,12 @@ body.admin-body {
 }
 
 /* ---------------------------------------------------------------------------
-   Sidebar – desktop: white, light, clean
+   Sidebar – Desktop: white, light, right border
 --------------------------------------------------------------------------- */
 .admin-sidebar {
   width: var(--admin-sidebar-width);
   min-height: calc(100vh - 56px);
-  background-color: var(--admin-sidebar-bg);
+  background-color: var(--admin-card-bg);
   flex-shrink: 0;
   border-right: 1px solid var(--admin-border);
   overflow-y: auto;
@@ -113,33 +95,31 @@ body.admin-body {
   padding: 0.75rem 1rem;
   border-left: 3px solid transparent;
   transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
-}
-
-.admin-sidebar .nav-link i {
-  color: inherit;
-  width: 1.25rem;
-  text-align: center;
-  margin-right: 0.5rem;
+  text-decoration: none;
+  display: block;
 }
 
 .admin-sidebar .nav-link:hover {
-  background-color: var(--admin-accent-tint);
-  color: var(--admin-accent);
+  color: var(--brand-primary);
+  background-color: var(--brand-primary-tint);
 }
 
 .admin-sidebar .nav-link.active {
-  background-color: var(--admin-accent-tint);
-  color: var(--admin-accent);
-  border-left-color: var(--admin-accent);
-  font-weight: 600;
+  color: var(--brand-primary);
+  background-color: var(--brand-primary-tint);
+  border-left-color: var(--brand-primary);
+  font-weight: 500;
 }
 
-.admin-sidebar .nav-link.active i {
-  color: var(--admin-accent);
+.admin-sidebar .nav-link i {
+  width: 1.25rem;
+  text-align: center;
+  margin-right: 0.5rem;
+  color: inherit;
 }
 
 /* ---------------------------------------------------------------------------
-   Sidebar – mobile (offcanvas): same light theme
+   Sidebar – Mobile offcanvas (same light look)
 --------------------------------------------------------------------------- */
 .admin-offcanvas .offcanvas-header {
   background-color: var(--admin-card-bg);
@@ -151,67 +131,55 @@ body.admin-body {
   font-weight: 600;
 }
 
-.admin-offcanvas .btn-close {
-  filter: none;
-  opacity: 0.6;
-}
-
 .admin-offcanvas .nav-link {
   color: var(--admin-text-muted);
   border-left-color: transparent;
   padding: 0.65rem 1rem;
+  text-decoration: none;
+  display: block;
 }
 
 .admin-offcanvas .nav-link:hover {
-  background-color: var(--admin-accent-tint);
-  color: var(--admin-accent);
+  background-color: var(--brand-primary-tint);
+  color: var(--brand-primary);
 }
 
 .admin-offcanvas .nav-link.active {
-  background-color: var(--admin-accent-tint);
-  color: var(--admin-accent);
-  border-left: 3px solid var(--admin-accent);
+  background-color: var(--brand-primary-tint);
+  color: var(--brand-primary);
+  border-left: 3px solid var(--brand-primary);
+  font-weight: 500;
 }
 
 .admin-offcanvas .nav-link i {
   width: 1.25rem;
   text-align: center;
   margin-right: 0.5rem;
+  color: inherit;
 }
 
 /* ---------------------------------------------------------------------------
-   Primary / secondary buttons – brand accent
+   Buttons – primary = brand accent
 --------------------------------------------------------------------------- */
-.admin-body .btn-primary {
-  background-color: var(--admin-accent);
-  border-color: var(--admin-accent);
+.admin-main .btn-primary {
+  background-color: var(--brand-primary);
+  border-color: var(--brand-primary);
+}
+
+.admin-main .btn-primary:hover {
+  background-color: var(--brand-primary-hover);
+  border-color: var(--brand-primary-hover);
+}
+
+.admin-main .btn-outline-primary {
+  color: var(--brand-primary);
+  border-color: var(--brand-primary);
+}
+
+.admin-main .btn-outline-primary:hover {
   color: #fff;
-}
-
-.admin-body .btn-primary:hover {
-  background-color: var(--admin-accent-hover);
-  border-color: var(--admin-accent-hover);
-  color: #fff;
-}
-
-.admin-body .btn-outline-primary {
-  color: var(--admin-accent);
-  border-color: var(--admin-accent);
-}
-
-.admin-body .btn-outline-primary:hover {
-  color: #fff;
-  background-color: var(--admin-accent);
-  border-color: var(--admin-accent);
-}
-
-/* Focus ring – accent */
-.admin-body .form-control:focus,
-.admin-body .form-select:focus,
-.admin-body .btn-primary:focus,
-.admin-body .btn-outline-primary:focus {
-  border-color: var(--admin-accent);
-  box-shadow: 0 0 0 0.2rem rgba(30, 95, 74, 0.25);
+  background-color: var(--brand-primary);
+  border-color: var(--brand-primary);
 }
 
 /* ---------------------------------------------------------------------------
@@ -247,26 +215,23 @@ body.admin-body {
 }
 
 /* ---------------------------------------------------------------------------
-   Cards – white, soft shadow, no colored backgrounds
+   Cards
 --------------------------------------------------------------------------- */
 .admin-card {
   background-color: var(--admin-card-bg);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
   border: 1px solid var(--admin-border);
-  border-radius: 0.5rem;
 }
 
 .admin-card .card-header {
   background-color: var(--admin-card-bg);
   border-bottom: 1px solid var(--admin-border);
   font-weight: 600;
-  color: var(--admin-text);
   padding: 0.75rem 1rem;
+  color: var(--admin-text);
 }
 
-/* ---------------------------------------------------------------------------
-   Stat cards – accent only for icon (and optional top border)
---------------------------------------------------------------------------- */
+/* Stat cards – dashboard: accent for icon only */
 .admin-stat-card {
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   cursor: pointer;
@@ -284,12 +249,12 @@ body.admin-body {
 .admin-stat-card .card {
   height: 100%;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
-  border-left: 3px solid transparent;
+  border: 1px solid var(--admin-border);
 }
 
 .admin-stat-card:hover .card {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
 .admin-stat-card .card-body {
@@ -305,8 +270,8 @@ body.admin-body {
   justify-content: center;
   font-size: 1.25rem;
   margin-bottom: 0.75rem;
-  background-color: var(--admin-accent-tint) !important;
-  color: var(--admin-accent) !important;
+  background-color: var(--brand-primary-tint);
+  color: var(--brand-primary);
 }
 
 .admin-stat-card .stat-label {
@@ -325,7 +290,7 @@ body.admin-body {
 }
 
 /* ---------------------------------------------------------------------------
-   Tables – header #F3F4F6, row hover light accent tint
+   Tables
 --------------------------------------------------------------------------- */
 .admin-table-wrap {
   overflow-x: auto;
@@ -347,11 +312,10 @@ body.admin-body {
 .admin-table tbody td {
   padding: 0.75rem 1rem;
   vertical-align: middle;
-  color: var(--admin-text);
 }
 
 .admin-table tbody tr:hover {
-  background-color: var(--admin-accent-tint);
+  background-color: var(--brand-primary-tint);
 }
 
 .admin-table .table-thumb {
@@ -368,43 +332,6 @@ body.admin-body {
   border-radius: 50%;
 }
 
-.admin-table a:not(.btn) {
-  color: var(--admin-accent);
-  text-decoration: none;
-}
-
-.admin-table a:not(.btn):hover {
-  text-decoration: underline;
-}
-
-/* ---------------------------------------------------------------------------
-   Status badges – soft, professional
---------------------------------------------------------------------------- */
-.admin-body .badge.bg-success {
-  background-color: var(--admin-badge-active) !important;
-  color: #fff;
-}
-
-.admin-body .badge.bg-warning {
-  background-color: var(--admin-badge-pending) !important;
-  color: #fff;
-}
-
-.admin-body .badge.bg-secondary {
-  background-color: var(--admin-badge-inactive) !important;
-  color: #fff;
-}
-
-/* Sold / archived – muted */
-.admin-table .badge.bg-secondary,
-.admin-body .badge.bg-info {
-  background-color: var(--admin-badge-sold) !important;
-  color: #fff;
-}
-
-/* ---------------------------------------------------------------------------
-   Action buttons in tables
---------------------------------------------------------------------------- */
 .admin-table .btn-outline-primary.btn-sm,
 .admin-table .btn-outline-danger.btn-sm {
   margin-left: 0.25rem;
@@ -432,12 +359,12 @@ body.admin-body {
 }
 
 .admin-card .card-footer .page-link {
-  color: var(--admin-accent);
+  color: var(--brand-primary);
 }
 
 .admin-card .card-footer .page-item.active .page-link {
-  background-color: var(--admin-accent);
-  border-color: var(--admin-accent);
+  background-color: var(--brand-primary);
+  border-color: var(--brand-primary);
 }
 
 /* ---------------------------------------------------------------------------
@@ -446,14 +373,10 @@ body.admin-body {
 .admin-filters {
   background-color: var(--admin-card-bg);
   border: 1px solid var(--admin-border);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
   padding: 1rem 1.25rem;
   margin-bottom: 1.25rem;
-  border-radius: 0.5rem;
-}
-
-.admin-filters .form-label {
-  color: var(--admin-text-muted);
+  border-radius: 0.375rem;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
 }
 
 .admin-filters .form-control,
@@ -462,14 +385,36 @@ body.admin-body {
   border-color: var(--admin-border);
 }
 
-@media (max-width: 767.98px) {
-  .admin-filters .row {
-    row-gap: 0.75rem;
-  }
+.admin-filters .form-control:focus,
+.admin-filters .form-select:focus {
+  border-color: var(--brand-primary);
+  box-shadow: 0 0 0 0.2rem rgba(30, 95, 74, 0.15);
 }
 
 /* ---------------------------------------------------------------------------
-   Forms – create/edit: white inputs, accent focus
+   Status badges – soft, not saturated
+--------------------------------------------------------------------------- */
+.admin-main .badge.bg-success {
+  background-color: #059669 !important;
+  color: #fff;
+}
+
+.admin-main .badge.bg-secondary {
+  background-color: var(--admin-text-muted) !important;
+}
+
+.admin-main .badge.bg-warning {
+  background-color: #d97706;
+  color: #fff;
+}
+
+.admin-main .badge.bg-info {
+  background-color: #0b7285;
+  color: #fff;
+}
+
+/* ---------------------------------------------------------------------------
+   Forms
 --------------------------------------------------------------------------- */
 .admin-form-card .card-header {
   background-color: var(--admin-card-bg);
@@ -480,7 +425,7 @@ body.admin-body {
 }
 
 .admin-form-card .card-body {
-  padding: 1.25rem 1.25rem;
+  padding: 1.25rem;
 }
 
 .admin-form-card .form-label {
@@ -493,13 +438,12 @@ body.admin-body {
 .admin-form-card .form-select {
   font-size: 0.9375rem;
   border-color: var(--admin-border);
-  background-color: var(--admin-card-bg);
 }
 
 .admin-form-card .form-control:focus,
 .admin-form-card .form-select:focus {
-  border-color: var(--admin-accent);
-  box-shadow: 0 0 0 0.2rem rgba(30, 95, 74, 0.25);
+  border-color: var(--brand-primary);
+  box-shadow: 0 0 0 0.2rem rgba(30, 95, 74, 0.15);
 }
 
 .admin-form-card .form-control.is-invalid,
@@ -535,17 +479,23 @@ body.admin-body {
 }
 
 .admin-form-actions .btn-primary {
-  margin-right: 0.25rem;
+  background-color: var(--brand-primary);
+  border-color: var(--brand-primary);
+}
+
+.admin-form-actions .btn-primary:hover {
+  background-color: var(--brand-primary-hover);
+  border-color: var(--brand-primary-hover);
 }
 
 /* ---------------------------------------------------------------------------
-   List group (e.g. recent contacts)
+   List group
 --------------------------------------------------------------------------- */
 .admin-list-group .list-group-item {
   border-left: 0;
   border-right: 0;
+  border-color: var(--admin-border);
   padding: 0.75rem 0;
-  color: var(--admin-text);
 }
 
 .admin-list-group .list-group-item:first-child {
@@ -558,30 +508,27 @@ body.admin-body {
 
 .admin-list-group .text-muted {
   font-size: 0.8125rem;
-  color: var(--admin-text-muted) !important;
+  color: var(--admin-text-muted);
 }
 
 /* ---------------------------------------------------------------------------
-   Dashboard / main content links (accent)
+   Links in content
 --------------------------------------------------------------------------- */
-.admin-main a[href*="/properties/"]:not(.btn),
-.admin-main a[href*="route"]:not(.btn) {
-  color: var(--admin-accent);
+.admin-main a[href*="/admin/"]:not(.btn):not(.nav-link) {
+  color: var(--brand-primary);
   text-decoration: none;
 }
 
-.admin-main a[href*="/properties/"]:not(.btn):hover,
-.admin-main a[href*="route"]:not(.btn):hover {
+.admin-main a[href*="/admin/"]:not(.btn):not(.nav-link):hover {
   text-decoration: underline;
 }
 
 /* ---------------------------------------------------------------------------
-   Footer (Nexora)
+   Footer
 --------------------------------------------------------------------------- */
 .admin-nexora-footer {
   background-color: var(--admin-card-bg) !important;
-  border-top: 1px solid var(--admin-border) !important;
-  color: var(--admin-text-muted);
+  border-top-color: var(--admin-border) !important;
 }
 
 /* ---------------------------------------------------------------------------

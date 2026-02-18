@@ -3,13 +3,14 @@
 @section('title', 'Edit Agent')
 
 @section('content')
-<div class="d-flex flex-column flex-md-row justify-content-between align-items-stretch align-items-md-center gap-2 mb-3 mb-md-4">
-    <h1 class="h4 h3 mb-0">Edit Agent</h1>
+<div class="d-flex flex-column flex-md-row justify-content-between align-items-stretch align-items-md-center gap-2 mb-4">
+    <h1 class="admin-page-title mb-0">Edit Agent</h1>
     <a href="{{ route('admin.agents.index') }}" class="btn btn-outline-secondary btn-sm flex-md-shrink-0">Back to list</a>
 </div>
 
-<div class="card shadow-sm border-0">
-    <div class="card-body p-3 p-md-4">
+<div class="card admin-card admin-form-card shadow-sm">
+    <div class="card-header">Edit Agent</div>
+    <div class="card-body">
         <form action="{{ route('admin.agents.update', $agent) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
@@ -45,9 +46,9 @@
                 <div class="col-md-6">
                     <label class="form-label">Avatar</label>
                     @if($agent->avatar)
-                        <div class="mb-2">
+                        <div class="file-preview mb-2">
                             <img src="{{ asset('storage/' . $agent->avatar) }}" alt="" class="rounded-circle" style="width: 60px; height: 60px; object-fit: cover;">
-                            <span class="text-muted small d-block">Current. Upload new to replace.</span>
+                            <span class="text-muted small d-block mt-1">Current. Upload new to replace.</span>
                         </div>
                     @endif
                     <input type="file" name="avatar" class="form-control @error('avatar') is-invalid @enderror" accept="image/jpeg,image/jpg,image/png,image/gif,image/webp">
@@ -104,8 +105,10 @@
             </div>
 
             <hr class="my-4">
-            <button type="submit" class="btn btn-primary">Update Agent</button>
-            <a href="{{ route('admin.agents.index') }}" class="btn btn-outline-secondary">Cancel</a>
+            <div class="admin-form-actions">
+                <button type="submit" class="btn btn-primary">Update Agent</button>
+                <a href="{{ route('admin.agents.index') }}" class="btn btn-outline-secondary">Back to list</a>
+            </div>
         </form>
     </div>
 </div>

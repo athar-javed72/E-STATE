@@ -3,36 +3,44 @@
 @section('title', 'Contacts')
 
 @section('content')
-<div class="d-flex flex-column flex-md-row justify-content-between align-items-stretch align-items-md-center gap-2 gap-md-0 mb-3 mb-md-4">
-    <h1 class="h4 h3 mb-0">Contacts</h1>
+<div class="d-flex flex-column flex-md-row justify-content-between align-items-stretch align-items-md-center gap-2 mb-4">
+    <h1 class="admin-page-title mb-0">Contacts</h1>
 </div>
 
-<form method="GET" class="row g-2 mb-3 mb-md-4">
-    <div class="col-6 col-md-2">
-        <select name="status" class="form-select form-select-sm">
-            <option value="">All statuses</option>
-            <option value="new" {{ request('status') === 'new' ? 'selected' : '' }}>New</option>
-            <option value="read" {{ request('status') === 'read' ? 'selected' : '' }}>Read</option>
-            <option value="replied" {{ request('status') === 'replied' ? 'selected' : '' }}>Replied</option>
-        </select>
+<div class="card admin-filters">
+    <div class="card-body p-0 border-0">
+        <form method="GET" class="row g-2 align-items-end p-0">
+            <div class="col-6 col-md-2">
+                <label class="form-label small mb-0">Status</label>
+                <select name="status" class="form-select form-select-sm">
+                    <option value="">All statuses</option>
+                    <option value="new" {{ request('status') === 'new' ? 'selected' : '' }}>New</option>
+                    <option value="read" {{ request('status') === 'read' ? 'selected' : '' }}>Read</option>
+                    <option value="replied" {{ request('status') === 'replied' ? 'selected' : '' }}>Replied</option>
+                </select>
+            </div>
+            <div class="col-6 col-md-2">
+                <label class="form-label small mb-0">Type</label>
+                <select name="type" class="form-select form-select-sm">
+                    <option value="">All types</option>
+                    <option value="general" {{ request('type') === 'general' ? 'selected' : '' }}>General</option>
+                    <option value="property_inquiry" {{ request('type') === 'property_inquiry' ? 'selected' : '' }}>Property Inquiry</option>
+                </select>
+            </div>
+            <div class="col-12 col-md-2">
+                <button type="submit" class="btn btn-outline-primary btn-sm w-100 w-md-auto">
+                    <i class="fas fa-filter me-1"></i> Filter
+                </button>
+            </div>
+        </form>
     </div>
-    <div class="col-6 col-md-2">
-        <select name="type" class="form-select form-select-sm">
-            <option value="">All types</option>
-            <option value="general" {{ request('type') === 'general' ? 'selected' : '' }}>General</option>
-            <option value="property_inquiry" {{ request('type') === 'property_inquiry' ? 'selected' : '' }}>Property Inquiry</option>
-        </select>
-    </div>
-    <div class="col-12 col-md-2">
-        <button type="submit" class="btn btn-outline-primary btn-sm w-100 w-md-auto">Filter</button>
-    </div>
-</form>
+</div>
 
-<div class="card shadow-sm border-0 overflow-hidden">
+<div class="card admin-card shadow-sm overflow-hidden">
     <div class="card-body p-0">
-        <div class="table-responsive overflow-x-auto">
-            <table class="table table-hover align-middle mb-0 table-sm">
-                <thead class="table-light">
+        <div class="admin-table-wrap">
+            <table class="table table-hover align-middle mb-0 admin-table">
+                <thead>
                     <tr>
                         <th>Name</th>
                         <th>Email</th>
@@ -65,7 +73,7 @@
         </div>
     </div>
     @if($contacts->hasPages())
-        <div class="card-footer bg-white border-0 overflow-auto">
+        <div class="card-footer">
             {{ $contacts->links() }}
         </div>
     @endif

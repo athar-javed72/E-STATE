@@ -16,37 +16,61 @@
   --brand-primary-hover: #164a3a;
   --brand-primary-tint: rgba(30, 95, 74, 0.08);
   --admin-sidebar-width: 240px;
+  --admin-header-height: 56px;
 }
 
 /* ---------------------------------------------------------------------------
-   Layout
+   Layout – Fixed topbar + sidebar; only main content scrolls
 --------------------------------------------------------------------------- */
 body.admin-body {
   background-color: var(--admin-page-bg);
   color: var(--admin-text);
+  overflow: hidden;
+  height: 100vh;
+}
+
+.admin-layout {
+  padding-top: var(--admin-header-height);
+}
+
+@media (min-width: 992px) {
+  .admin-layout {
+    padding-top: 0;
+  }
+}
+
+/* Scrollable area: main + footer. Only this scrolls. */
+.admin-scroll {
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: calc(100vh - var(--admin-header-height));
+  -webkit-overflow-scrolling: touch;
+}
+
+@media (min-width: 992px) {
+  .admin-scroll {
+    margin-left: var(--admin-sidebar-width);
+    margin-top: var(--admin-header-height); /* position below fixed header */
+  }
 }
 
 .admin-main {
-  min-height: calc(100vh - 56px);
+  min-height: 0;
   min-width: 0;
   overflow-x: hidden;
   background-color: var(--admin-page-bg);
 }
 
-@media (min-width: 992px) {
-  .admin-main {
-    margin-left: 0;
-  }
-}
-
 /* ---------------------------------------------------------------------------
-   Header – White, light, border bottom
+   Header – Fixed at top, full width
 --------------------------------------------------------------------------- */
 .admin-navbar {
   background-color: var(--admin-card-bg) !important;
   border-bottom: 1px solid var(--admin-border);
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
+  right: 0;
   z-index: 1030;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
 }
@@ -78,16 +102,30 @@ body.admin-body {
 }
 
 /* ---------------------------------------------------------------------------
-   Sidebar – Desktop: white, light, right border
+   Sidebar – Desktop: fixed left, full viewport height, does not scroll with page
 --------------------------------------------------------------------------- */
-.admin-sidebar {
-  width: var(--admin-sidebar-width);
-  min-height: calc(100vh - 56px);
-  background-color: var(--admin-card-bg);
-  flex-shrink: 0;
-  border-right: 1px solid var(--admin-border);
-  overflow-y: auto;
-  overflow-x: hidden;
+@media (min-width: 992px) {
+  .admin-sidebar {
+    position: fixed;
+    top: var(--admin-header-height);
+    left: 0;
+    bottom: 0;
+    width: var(--admin-sidebar-width);
+    height: calc(100vh - var(--admin-header-height));
+    min-height: 0;
+    background-color: var(--admin-card-bg);
+    border-right: 1px solid var(--admin-border);
+    overflow-y: auto;
+    overflow-x: hidden;
+    z-index: 1025;
+    flex-shrink: 0;
+  }
+}
+
+@media (max-width: 991.98px) {
+  .admin-sidebar {
+    display: none;
+  }
 }
 
 .admin-sidebar .nav-link {

@@ -9,42 +9,23 @@
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="{{ asset('css/admin.css') }}" rel="stylesheet">
 
     @stack('css')
-    <style>
-        .admin-sidebar { min-height: calc(100vh - 56px); background: #2c3e50; flex-shrink: 0; }
-        .admin-sidebar .nav-link { color: rgba(255,255,255,0.85); padding: 0.75rem 1rem; border-left: 3px solid transparent; }
-        .admin-sidebar .nav-link:hover { color: #fff; background: rgba(255,255,255,0.08); }
-        .admin-sidebar .nav-link.active { color: #fff; background: rgba(255,255,255,0.1); border-left-color: #3498db; }
-        .admin-sidebar .nav-link i { width: 1.25rem; text-align: center; margin-right: 0.5rem; }
-        .card-hover { transition: transform 0.15s ease, box-shadow 0.15s ease; cursor: pointer; }
-        a:hover .card-hover { transform: translateY(-2px); box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.1) !important; }
-        .admin-main { min-height: calc(100vh - 56px); min-width: 0; overflow-x: hidden; }
-        @media (max-width: 991.98px) {
-            .admin-offcanvas .nav-link { color: #212529; border-left-color: transparent; padding: 0.65rem 1rem; }
-            .admin-offcanvas .nav-link:hover { background: rgba(0,0,0,0.05); color: #0d6efd; }
-            .admin-offcanvas .nav-link.active { background: rgba(13,110,253,0.1); color: #0d6efd; border-left: 3px solid #0d6efd; }
-        }
-        @media (max-width: 767.98px) {
-            .admin-main .h3 { font-size: 1.25rem; }
-            .pagination { flex-wrap: wrap; gap: 0.25rem; }
-            .pagination .page-link { padding: 0.35rem 0.65rem; font-size: 0.875rem; }
-        }
-    </style>
 </head>
-<body class="bg-light">
+<body class="admin-body bg-light">
     @include('admin.layouts.header')
 
     <div class="d-flex flex-column flex-lg-row">
         {{-- Desktop sidebar (lg and up) --}}
-        <nav class="admin-sidebar border-end d-none d-lg-block" style="width: 220px;">
+        <nav class="admin-sidebar d-none d-lg-block">
             @include('admin.layouts.sidebar-nav')
         </nav>
 
         {{-- Mobile sidebar (offcanvas) --}}
-        <div class="offcanvas offcanvas-start d-lg-none" tabindex="-1" id="adminSidebarOffcanvas" aria-labelledby="adminSidebarLabel">
+        <div class="offcanvas offcanvas-start d-lg-none admin-offcanvas" tabindex="-1" id="adminSidebarOffcanvas" aria-labelledby="adminSidebarLabel">
             <div class="offcanvas-header border-bottom">
-                <h5 class="offcanvas-title" id="adminSidebarLabel">Menu</h5>
+                <h5 class="offcanvas-title" id="adminSidebarLabel">FindState Admin</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#adminSidebarOffcanvas" aria-label="Close"></button>
             </div>
             <div class="offcanvas-body p-0 admin-offcanvas">
@@ -81,9 +62,19 @@
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             @endif
+            @if(session('warning'))
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    {{ session('warning') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
             @yield('content')
         </main>
     </div>
+
+    <footer class="admin-nexora-footer py-2 text-center border-top bg-white">
+        <span class="text-muted small">Nexora Labs © {{ date('Y') }}</span>
+    </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     @stack('js')

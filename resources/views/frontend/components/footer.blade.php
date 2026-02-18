@@ -21,7 +21,7 @@
             </div>
         </div>
         <div class="fs-footer-bottom py-3">
-            <p class="mb-0 small">© {{ date('Y') }} FindState. All rights reserved.</p>
+            <p class="mb-0 small">© {{ date('Y') }} FindState. Built by <span class="nexora-brand">Nexora Labs</span>.</p>
         </div>
     </div>
 
@@ -74,6 +74,12 @@
     border-top: 1px solid rgba(255,255,255,0.1);
     color: rgba(255,255,255,0.6);
 }
+.nexora-brand {
+    color: rgba(255,255,255,0.75);
+    font-weight: 500;
+    text-decoration: none;
+}
+.nexora-brand:hover { color: rgba(255,255,255,0.9); }
 .fs-back-to-top {
     position: fixed;
     bottom: 4.5rem;

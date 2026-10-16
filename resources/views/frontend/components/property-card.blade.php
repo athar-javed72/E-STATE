@@ -48,9 +48,18 @@
             </div>
 
             {{-- Wishlist Button --}}
+            @php
+                $inWishlist = in_array($property->id, session('wishlist', []), true);
+            @endphp
             <div class="wishlist-btn position-absolute bottom-0 end-0 m-3">
-                <button class="btn btn-light btn-sm rounded-circle" onclick="toggleWishlist({{ $property->id }})">
-                    <i class="far fa-heart" id="wishlist-{{ $property->id }}"></i>
+                <button type="button"
+                        class="btn btn-light btn-sm rounded-circle js-wishlist-toggle"
+                        data-property-id="{{ $property->id }}"
+                        data-wishlist-url="{{ route('api.property.wishlist', $property) }}"
+                        aria-label="Toggle wishlist">
+                    <i class="{{ $inWishlist ? 'fas' : 'far' }} fa-heart"
+                       id="wishlist-{{ $property->id }}"
+                       @if($inWishlist) style="color:#dc3545" @endif></i>
                 </button>
             </div>
         </div>
@@ -197,43 +206,73 @@
 @endpush
 
 {{-- Property Card JavaScript --}}
-@push('js')
+@once
+@push('scripts')
 <script>
-// Toggle wishlist
-function toggleWishlist(propertyId) {
-    const icon = document.getElementById('wishlist-' + propertyId);
-
-    if (icon.classList.contains('far')) {
-        icon.classList.remove('far');
-        icon.classList.add('fas');
-        icon.style.color = '#dc3545';
-        // TODO: Add to wishlist via AJAX
-    } else {
-        icon.classList.remove('fas');
-        icon.classList.add('far');
-        icon.style.color = '';
-        // TODO: Remove from wishlist via AJAX
+(function () {
+    function csrfToken() {
+        var meta = document.querySelector('meta[name="csrf-token"]');
+        return meta ? meta.getAttribute('content') : '';
     }
-}
 
-// Contact agent
+    function setWishlistIcon(icon, inWishlist) {
+        if (!icon) return;
+        icon.classList.toggle('fas', inWishlist);
+        icon.classList.toggle('far', !inWishlist);
+        icon.style.color = inWishlist ? '#dc3545' : '';
+    }
+
+    document.addEventListener('click', function (event) {
+        var btn = event.target.closest('.js-wishlist-toggle');
+        if (!btn) return;
+
+        event.preventDefault();
+        var url = btn.getAttribute('data-wishlist-url');
+        var propertyId = btn.getAttribute('data-property-id');
+        if (!url) return;
+
+        btn.disabled = true;
+
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': csrfToken(),
+                'X-Requested-With': 'XMLHttpRequest',
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            credentials: 'same-origin',
+            body: JSON.stringify({})
+        })
+            .then(function (res) {
+                if (!res.ok) throw new Error('Wishlist request failed');
+                return res.json();
+            })
+            .then(function (data) {
+                setWishlistIcon(document.getElementById('wishlist-' + propertyId), !!data.in_wishlist);
+            })
+            .catch(function () {
+                alert('Could not update wishlist. Please try again.');
+            })
+            .finally(function () {
+                btn.disabled = false;
+            });
+    });
+})();
+
 function contactAgent(propertyId) {
-    // TODO: Open contact modal or redirect to contact form
     window.location.href = '/contact?property_id=' + propertyId;
 }
 
-// Share property
 function shareProperty(propertyId) {
+    var url = window.location.origin + '/properties/' + propertyId;
     if (navigator.share) {
-        navigator.share({
-            title: 'Check out this property',
-            url: window.location.origin + '/properties/' + propertyId
-        });
-    } else {
-        // Fallback - copy to clipboard
-        navigator.clipboard.writeText(window.location.origin + '/properties/' + propertyId);
+        navigator.share({ title: 'Check out this property', url: url });
+    } else if (navigator.clipboard) {
+        navigator.clipboard.writeText(url);
         alert('Property link copied to clipboard!');
     }
 }
 </script>
 @endpush
+@endonce

@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\PropertyController as AdminPropertyController;
 use App\Http\Controllers\Admin\AgentController as AdminAgentController;
 use App\Http\Controllers\Admin\BlogController as AdminBlogController;
 use App\Http\Controllers\Admin\ContactController as AdminContactController;
+use App\Http\Controllers\Admin\TestimonialController as AdminTestimonialController;
 
 /*
 |--------------------------------------------------------------------------
@@ -102,5 +103,6 @@ Route::prefix('admin')
         Route::resource('properties', AdminPropertyController::class)->except(['show']);
         Route::resource('agents', AdminAgentController::class)->except(['show']);
         Route::resource('blogs', AdminBlogController::class)->except(['show']);
+        Route::resource('testimonials', AdminTestimonialController::class)->except(['show']);
         Route::get('contacts', [AdminContactController::class, 'index'])->name('contacts.index');
     });

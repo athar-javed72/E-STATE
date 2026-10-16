@@ -41,11 +41,11 @@ Repo: `https://github.com/athar-javed72/E-STATE` · Local: `D:\Projects\Laravel 
 ## Tasks
 
 - [x] Task 1: Install process pack — copy/adapt School ERP agent plugins (`.agents/`, `.agent/`), add Cursor rules, root `PRD.md`, `progress.txt`, `.planning/STATE.md`, and `docs/` stubs for FindState.
-- [ ] Task 2: Add a focused feature test for admin gate — guest cannot hit `/admin`; non-admin authenticated user gets 403; admin can open dashboard. Done when: PHPUnit green for the new test.
-- [ ] Task 3: Wire wishlist AJAX on `property-card` (session wishlist route already exists) with CSRF-aware fetch/axios. Done when: toggle works without full page reload and no console CSRF errors.
-- [ ] Task 4: Admin testimonials CRUD (model + migration already exist for testimonials; public home shows them) — index/create/edit/delete under `/admin` with FormRequests + `is_admin`. Done when: admin can manage testimonials end-to-end.
-- [ ] Task 5: Seed at least one `plot` and one `commercial` property so home type filters are not empty. Done when: seeder + `migrate:fresh --seed` shows those types in listing filters.
-- [ ] Task 6: Phase 1 handoff — update `.planning/STATE.md`, archive this PRD to `docs/archive/PRD_phase1.md` (copy, do not move), leave known gaps listed. Then STOP.
+- [x] Task 2: Add a focused feature test for admin gate — guest cannot hit `/admin`; non-admin authenticated user gets 403; admin can open dashboard. Done when: PHPUnit green for the new test.
+- [x] Task 3: Wire wishlist AJAX on `property-card` (session wishlist route already exists) with CSRF-aware fetch/axios. Done when: toggle works without full page reload and no console CSRF errors.
+- [x] Task 4: Admin testimonials CRUD (model + migration already exist for testimonials; public home shows them) — index/create/edit/delete under `/admin` with FormRequests + `is_admin`. Done when: admin can manage testimonials end-to-end.
+- [x] Task 5: Seed at least one `plot` and one `commercial` property so home type filters are not empty. Done when: seeder + `migrate:fresh --seed` shows those types in listing filters.
+- [x] Task 6: Phase 1 handoff — update `.planning/STATE.md`, archive this PRD to `docs/archive/PRD_phase1.md` (copy, do not move), leave known gaps listed. Then STOP.
 
 ## Out of scope for this PRD
 

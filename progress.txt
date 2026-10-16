@@ -9,3 +9,9 @@ Completed Tasks:
 - Git ops: Initialized nested git in `E-STATE-main`, set `origin` to `https://github.com/athar-javed72/E-STATE.git`, tracking `main` @ latest remote. Removed empty parent `Laravel Projects/.git` that caused false 350-untracked SCM view.
 - Typing fixes: `LoginController` + FormRequests use `instanceof User` before `isAdmin()`; navbar uses `is_admin` attribute.
 - Task 1: Installed School-ERP-style process pack into E-STATE — `.agents/` + `.agent/` plugins (gsd, ralph-loop, context7, serena, coderabbit, server-validation), Cursor `.cursor/rules` + `.cursor/mcp.json`, root `PRD.md`, `progress.txt`, `.planning/STATE.md`, `docs/` stubs, `AGENTS.md`. Adapted laravel-stack rules for FindState. STOP after Task 1.
+
+- Task 2: Added tests/Feature/AdminGateTest.php (guest redirect to login, non-admin 403, admin OK). UserFactory admin() state + is_admin default false. Gate: php artisan test --filter=AdminGateTest (3 passed).
+- Task 3: Wired property-card wishlist via CSRF fetch to api.property.wishlist; fixed @push('scripts') (was unused 'js' stack); session-aware heart icon state.
+- Task 4: Admin TestimonialController + Store/UpdateTestimonialRequest + index/create/edit views; routes resource; sidebar links. Gate: route:list admin.testimonials (6 routes).
+- Task 5: PropertySeeder adds plot + commercial listings; migrate:fresh --seed confirmed both types present. Local DB_DATABASE set to database/database.sqlite (e-state-bd removed earlier).
+- Task 6: Updated .planning/STATE.md; copied PRD.md to docs/archive/PRD_phase1.md; marked Tasks 2-6 [x]. Fixed ExampleTest/PropertyTest RefreshDatabase + withoutVite so full suite passes (6 passed). Phase 1 complete. STOP.

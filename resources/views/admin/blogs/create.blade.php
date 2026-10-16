@@ -43,7 +43,7 @@
 
             <div class="w-full">
                 <label for="featured_image" class="mb-1 block text-xs font-semibold text-ink">Featured image</label>
-                <input id="featured_image" type="file" name="featured_image" accept="image/jpeg,image/jpg,image/png,image/gif,image/webp" class="block w-full text-sm text-ink-secondary file:mr-4 file:inline-flex file:h-11 file:items-center file:rounded-sm file:border-0 file:bg-brand-light file:px-4 file:text-sm file:font-semibold file:text-brand @error('featured_image') border-danger @enderror">
+                <input id="featured_image" type="file" name="featured_image" accept="image/jpeg,image/jpg,image/png,image/gif,image/webp" class="block w-full text-sm text-ink-secondary file:mr-4 file:inline-flex file:h-11 file:items-center file:rounded-sm file:border-0 file:bg-brand-light file:px-4 file:text-sm file:font-semibold file:text-brand">
                 <p class="mt-1 text-xs text-ink-muted">JPEG, PNG, GIF, WebP. Max 2MB.</p>
                 @error('featured_image')
                     <p class="mt-1 text-xs text-danger">{{ $message }}</p>

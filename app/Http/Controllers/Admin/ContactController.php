@@ -38,6 +38,16 @@ class ContactController extends Controller
     }
 
     /**
+     * Display a single contact message.
+     */
+    public function show(Contact $contact)
+    {
+        $contact->loadMissing('property');
+
+        return view('admin.contacts.show', compact('contact'));
+    }
+
+    /**
      * Update a contact's status.
      */
     public function updateStatus(Request $request, Contact $contact)

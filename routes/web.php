@@ -105,5 +105,6 @@ Route::prefix('admin')
         Route::resource('blogs', AdminBlogController::class)->except(['show']);
         Route::resource('testimonials', AdminTestimonialController::class)->except(['show']);
         Route::get('contacts', [AdminContactController::class, 'index'])->name('contacts.index');
+        Route::get('contacts/{contact}', [AdminContactController::class, 'show'])->name('contacts.show');
         Route::patch('contacts/{contact}/status', [AdminContactController::class, 'updateStatus'])->name('contacts.update-status');
     });

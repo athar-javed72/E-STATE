@@ -54,7 +54,7 @@ class AgentController extends Controller
             $data['avatar'] = $request->file('avatar')->store('agents', 'public');
         }
 
-        $data['slug'] = Str::slug($data['name']);
+        $data['slug'] = $this->uniqueSlug($data['name']);
         $data['is_online'] = $request->boolean('is_online');
 
         Agent::create($data);
@@ -86,8 +86,8 @@ class AgentController extends Controller
         }
 
         $data['is_online'] = $request->boolean('is_online');
-        if (!empty($data['name'])) {
-            $data['slug'] = Str::slug($data['name']);
+        if (! empty($data['name'])) {
+            $data['slug'] = $this->uniqueSlug($data['name'], $agent->id);
         }
 
         $agent->update($data);
@@ -109,5 +109,27 @@ class AgentController extends Controller
 
         return redirect()->route('admin.agents.index')
             ->with('success', 'Agent deleted successfully.');
+    }
+
+    /**
+     * Build a unique slug from an agent name.
+     */
+    private function uniqueSlug(string $name, ?int $ignoreId = null): string
+    {
+        $base = Str::slug($name) ?: 'agent';
+        $slug = $base;
+        $i = 1;
+
+        while (
+            Agent::query()
+                ->where('slug', $slug)
+                ->when($ignoreId, fn ($q) => $q->where('id', '!=', $ignoreId))
+                ->exists()
+        ) {
+            $slug = $base.'-'.$i;
+            $i++;
+        }
+
+        return $slug;
     }
 }

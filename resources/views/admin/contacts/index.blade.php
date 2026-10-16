@@ -60,24 +60,34 @@
                         </td>
                         <td class="px-4 py-3 whitespace-nowrap text-ink-secondary">{{ $contact->created_at->format('M j, Y H:i') }}</td>
                         <td class="px-4 py-3">
-                            <form action="{{ route('admin.contacts.update-status', $contact) }}" method="POST" class="flex flex-wrap items-center justify-end gap-2">
-                                @csrf
-                                @method('PATCH')
-                                <label class="sr-only" for="status-{{ $contact->id }}">Update status for {{ $contact->name }}</label>
-                                <select
-                                    id="status-{{ $contact->id }}"
-                                    name="status"
-                                    onchange="this.form.submit()"
-                                    class="h-11 rounded-sm border border-line bg-white px-3 text-sm text-ink focus:border-brand focus:ring-2 focus:ring-brand/20"
-                                >
-                                    <option value="new" @selected($contact->status === 'new')>New</option>
-                                    <option value="read" @selected($contact->status === 'read')>Read</option>
-                                    <option value="replied" @selected($contact->status === 'replied')>Replied</option>
-                                </select>
+                            <div class="flex flex-wrap items-center justify-end gap-2">
+                                <x-button variant="ghost" href="{{ route('admin.contacts.show', $contact) }}">View</x-button>
+
+                                <form action="{{ route('admin.contacts.update-status', $contact) }}" method="POST" class="flex flex-wrap items-center gap-2">
+                                    @csrf
+                                    @method('PATCH')
+                                    <label class="sr-only" for="status-{{ $contact->id }}">Update status for {{ $contact->name }}</label>
+                                    <select
+                                        id="status-{{ $contact->id }}"
+                                        name="status"
+                                        class="h-11 rounded-sm border border-line bg-white px-3 text-sm text-ink focus:border-brand focus:ring-2 focus:ring-brand/20"
+                                    >
+                                        <option value="new" @selected($contact->status === 'new')>New</option>
+                                        <option value="read" @selected($contact->status === 'read')>Read</option>
+                                        <option value="replied" @selected($contact->status === 'replied')>Replied</option>
+                                    </select>
+                                    <x-button type="submit" variant="ghost">Update</x-button>
+                                </form>
+
                                 @if($contact->status !== 'read')
-                                    <x-button type="submit" variant="ghost" name="status" value="read">Mark as read</x-button>
+                                    <form action="{{ route('admin.contacts.update-status', $contact) }}" method="POST">
+                                        @csrf
+                                        @method('PATCH')
+                                        <input type="hidden" name="status" value="read">
+                                        <x-button type="submit" variant="ghost">Mark as read</x-button>
+                                    </form>
                                 @endif
-                            </form>
+                            </div>
                         </td>
                     </tr>
                     @if($contact->message)

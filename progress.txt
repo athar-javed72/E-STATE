@@ -15,3 +15,5 @@ Completed Tasks:
 - Task 4: Admin TestimonialController + Store/UpdateTestimonialRequest + index/create/edit views; routes resource; sidebar links. Gate: route:list admin.testimonials (6 routes).
 - Task 5: PropertySeeder adds plot + commercial listings; migrate:fresh --seed confirmed both types present. Local DB_DATABASE set to database/database.sqlite (e-state-bd removed earlier).
 - Task 6: Updated .planning/STATE.md; copied PRD.md to docs/archive/PRD_phase1.md; marked Tasks 2-6 [x]. Fixed ExampleTest/PropertyTest RefreshDatabase + withoutVite so full suite passes (6 passed). Phase 1 complete. STOP.
+
+- Admin contacts polish (2026-10-17): Added admin.contacts.show + ContactController@show; split Update vs Mark-as-read forms (no onchange submit); drawer invisible/translate animation; revokeObjectURL on image preview; stripped file-input @error border-danger; verified agent uniqueSlug on create, blog status published|draft|archived, contact type general|property_inquiry. Feature tests: show page + mark-as-read. Gate: php artisan test (12 passed), npm run build OK.

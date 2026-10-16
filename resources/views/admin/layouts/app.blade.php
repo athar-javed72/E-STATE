@@ -81,9 +81,9 @@
         </main>
     </div>
 
-    {{-- Mobile sidebar drawer --}}
-    <div id="admin-backdrop" class="fixed inset-0 z-40 hidden bg-ink/40 lg:hidden"></div>
-    <aside id="admin-drawer" class="fixed inset-y-0 left-0 z-50 hidden w-72 -translate-x-full border-r border-line bg-white shadow-lg transition-ui lg:hidden" aria-label="Admin menu">
+    {{-- Mobile sidebar drawer (kept in DOM; slide with translate + invisible) --}}
+    <div id="admin-backdrop" class="fixed inset-0 z-40 bg-ink/40 opacity-0 pointer-events-none invisible transition-ui lg:invisible"></div>
+    <aside id="admin-drawer" class="fixed inset-y-0 left-0 z-50 w-72 -translate-x-full border-r border-line bg-white shadow-lg transition-ui invisible pointer-events-none lg:invisible" aria-label="Admin menu">
         <div class="flex h-16 items-center justify-between border-b border-line px-4">
             <span class="text-sm font-bold">Menu</span>
             <button type="button" id="admin-nav-close" class="inline-flex h-11 w-11 items-center justify-center rounded-sm border border-line" aria-label="Close sidebar">
@@ -102,10 +102,14 @@
 
         function setOpen(v) {
             if (!drawer || !backdrop) return;
-            drawer.classList.toggle('hidden', !v);
-            backdrop.classList.toggle('hidden', !v);
+            drawer.classList.toggle('invisible', !v);
+            drawer.classList.toggle('pointer-events-none', !v);
             drawer.classList.toggle('-translate-x-full', !v);
             drawer.classList.toggle('translate-x-0', v);
+            backdrop.classList.toggle('invisible', !v);
+            backdrop.classList.toggle('pointer-events-none', !v);
+            backdrop.classList.toggle('opacity-0', !v);
+            backdrop.classList.toggle('opacity-100', v);
             document.body.classList.toggle('overflow-hidden', v);
             if (!v && openBtn) {
                 openBtn.focus();
@@ -124,7 +128,7 @@
 
         document.addEventListener('keydown', function (e) {
             if (e.key !== 'Escape') return;
-            if (drawer && !drawer.classList.contains('hidden')) {
+            if (drawer && !drawer.classList.contains('invisible')) {
                 setOpen(false);
             }
         });
@@ -218,12 +222,17 @@
             var img = preview.querySelector('img');
             input.addEventListener('change', function () {
                 var file = input.files && input.files[0];
+                if (input._previewObjectUrl) {
+                    URL.revokeObjectURL(input._previewObjectUrl);
+                    input._previewObjectUrl = null;
+                }
                 if (!file) {
                     preview.classList.add('hidden');
                     img.removeAttribute('src');
                     return;
                 }
                 var url = URL.createObjectURL(file);
+                input._previewObjectUrl = url;
                 img.src = url;
                 img.alt = 'Preview of ' + file.name;
                 preview.classList.remove('hidden');

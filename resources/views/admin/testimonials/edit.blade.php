@@ -55,7 +55,7 @@
                         <img src="{{ $imageUrl }}" alt="{{ $testimonial->name }}" class="max-h-20 rounded-sm object-cover">
                     </div>
                 @endif
-                <input id="image" type="file" name="image" accept="image/jpeg,image/jpg,image/png,image/gif,image/webp" class="block w-full text-sm text-ink-secondary file:mr-4 file:inline-flex file:h-11 file:items-center file:rounded-sm file:border-0 file:bg-brand-light file:px-4 file:text-sm file:font-semibold file:text-brand @error('image') border-danger @enderror">
+                <input id="image" type="file" name="image" accept="image/jpeg,image/jpg,image/png,image/gif,image/webp" class="block w-full text-sm text-ink-secondary file:mr-4 file:inline-flex file:h-11 file:items-center file:rounded-sm file:border-0 file:bg-brand-light file:px-4 file:text-sm file:font-semibold file:text-brand">
                 <p class="mt-1 text-xs text-ink-muted">Leave empty to keep current image.</p>
                 @error('image')
                     <p class="mt-1 text-xs text-danger">{{ $message }}</p>

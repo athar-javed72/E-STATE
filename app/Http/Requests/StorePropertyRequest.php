@@ -2,13 +2,16 @@
 
 namespace App\Http\Requests;
 
+use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StorePropertyRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        \ = \->user();\r\n\r\n        return \ instanceof \\App\\Models\\User && \->isAdmin();
+        $user = $this->user();
+
+        return $user instanceof User && $user->isAdmin();
     }
 
     /**

@@ -28,3 +28,6 @@ estate_db
 *.sqlite
 database/database.sqlite
 
+
+e-state-bd
+

@@ -14,7 +14,9 @@ class LoginController extends Controller
     public function showLoginForm()
     {
         if (Auth::check()) {
-            return redirect()->route('admin.dashboard');
+            return Auth::user()->isAdmin()
+                ? redirect()->route('admin.dashboard')
+                : redirect()->route('home');
         }
 
         return view('auth.login');
@@ -34,7 +36,18 @@ class LoginController extends Controller
 
         if (Auth::attempt($credentials, $remember)) {
             $request->session()->regenerate();
-            $request->session()->save();
+
+            if (! Auth::user()->isAdmin()) {
+                Auth::logout();
+                $request->session()->invalidate();
+                $request->session()->regenerateToken();
+
+                return back()
+                    ->withErrors([
+                        'email' => 'This account is not authorized for admin access.',
+                    ])
+                    ->onlyInput('email');
+            }
 
             return redirect()->intended(route('admin.dashboard'));
         }
@@ -59,4 +72,3 @@ class LoginController extends Controller
         return redirect()->route('home');
     }
 }
-

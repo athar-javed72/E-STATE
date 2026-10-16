@@ -40,7 +40,7 @@
                     <img src="{{ asset('assets/images/placeholder-600x400.svg') }}" class="img-fluid rounded mb-4" alt="">
                 @endif
                 <div class="blog-content">
-                    {!! $blog->content !!}
+                    {!! $blog->safeContent() !!}
                 </div>
                 <hr class="my-5">
                 @if($relatedPosts->count() > 0)

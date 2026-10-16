@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('city')->nullable();
             $table->string('state')->nullable();
             $table->string('zip')->nullable();
-            $table->string('type'); // house, apartment, condo, villa
+            $table->string('type'); // house, apartment, condo, villa, plot, commercial, townhouse
             $table->string('listing_type'); // for_sale, for_rent
             $table->decimal('price', 12, 2);
             $table->unsignedSmallInteger('bedrooms')->nullable();

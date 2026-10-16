@@ -62,7 +62,7 @@
                 <div class="col-md-4">
                     <label class="form-label">Type <span class="text-danger">*</span></label>
                     <select name="type" class="form-select @error('type') is-invalid @enderror" required>
-                        @foreach(['house','apartment','condo','villa'] as $t)
+                        @foreach(\App\Models\Property::TYPES as $t)
                             <option value="{{ $t }}" {{ old('type', $property->type) === $t ? 'selected' : '' }}>{{ ucfirst($t) }}</option>
                         @endforeach
                     </select>

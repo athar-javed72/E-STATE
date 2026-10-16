@@ -25,7 +25,7 @@ use App\Http\Controllers\Admin\ContactController as AdminContactController;
 
 // Authentication (simple login for admin area)
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
-Route::post('/login', [LoginController::class, 'login']);
+Route::post('/login', [LoginController::class, 'login'])->middleware('throttle:5,1');
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 // Home & Static Pages
@@ -56,16 +56,28 @@ Route::prefix('blog')->name('blog.')->group(function () {
 // Contact Routes
 Route::prefix('contact')->name('contact.')->group(function () {
     Route::get('/', [ContactController::class, 'index'])->name('index');
-    Route::post('/', [ContactController::class, 'store'])->name('store');
+    Route::post('/', [ContactController::class, 'store'])
+        ->middleware('throttle:10,1')
+        ->name('store');
 });
 
 // Additional Frontend Routes (AJAX)
 Route::group(['prefix' => 'api/frontend', 'as' => 'api.'], function () {
-    Route::post('property/wishlist/{property}', [PropertyController::class, 'toggleWishlist'])->name('property.wishlist');
-    Route::post('property/contact/{property}', [PropertyController::class, 'contactAgent'])->name('property.contact');
-    Route::post('contact/property-inquiry', [ContactController::class, 'propertyInquiry'])->name('contact.property-inquiry');
-    Route::get('search/suggestions', [PropertyController::class, 'searchSuggestions'])->name('search.suggestions');
-    Route::post('newsletter/subscribe', [ContactController::class, 'newsletterSubscribe'])->name('newsletter.subscribe');
+    Route::post('property/wishlist/{property}', [PropertyController::class, 'toggleWishlist'])
+        ->middleware('throttle:30,1')
+        ->name('property.wishlist');
+    Route::post('property/contact/{property}', [PropertyController::class, 'contactAgent'])
+        ->middleware('throttle:10,1')
+        ->name('property.contact');
+    Route::post('contact/property-inquiry', [ContactController::class, 'propertyInquiry'])
+        ->middleware('throttle:10,1')
+        ->name('contact.property-inquiry');
+    Route::get('search/suggestions', [PropertyController::class, 'searchSuggestions'])
+        ->middleware('throttle:60,1')
+        ->name('search.suggestions');
+    Route::post('newsletter/subscribe', [ContactController::class, 'newsletterSubscribe'])
+        ->middleware('throttle:10,1')
+        ->name('newsletter.subscribe');
 });
 
 // SEO & Utility Routes
@@ -80,10 +92,10 @@ Route::get('/robots.txt', function () {
         ->header('Content-Type', 'text/plain');
 })->name('robots');
 
-// Admin area (protected by authentication)
+// Admin area (authenticated + admin flag)
 Route::prefix('admin')
     ->name('admin.')
-    ->middleware('auth')
+    ->middleware(['auth', 'admin'])
     ->group(function () {
         Route::get('/', [AdminDashboardController::class, 'index'])->name('dashboard');
 

@@ -61,10 +61,9 @@
                 <div class="col-md-4">
                     <label class="form-label">Type <span class="text-danger">*</span></label>
                     <select name="type" class="form-select @error('type') is-invalid @enderror" required>
-                        <option value="house" {{ old('type') === 'house' ? 'selected' : '' }}>House</option>
-                        <option value="apartment" {{ old('type') === 'apartment' ? 'selected' : '' }}>Apartment</option>
-                        <option value="condo" {{ old('type') === 'condo' ? 'selected' : '' }}>Condo</option>
-                        <option value="villa" {{ old('type') === 'villa' ? 'selected' : '' }}>Villa</option>
+                        @foreach(\App\Models\Property::TYPES as $t)
+                            <option value="{{ $t }}" {{ old('type') === $t ? 'selected' : '' }}>{{ ucfirst($t) }}</option>
+                        @endforeach
                     </select>
                     @error('type')<div class="invalid-feedback">{{ $message }}</div>@enderror
                 </div>

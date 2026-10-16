@@ -72,8 +72,10 @@
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end dropdown-menu-shadow">
                                 <li class="px-3 py-2 border-bottom"><span class="small text-muted">{{ Auth::user()->email }}</span></li>
-                                <li><a class="dropdown-item py-2" href="{{ route('admin.dashboard') }}"><i class="fas fa-tachometer-alt me-2"></i>Dashboard</a></li>
-                                <li><hr class="dropdown-divider my-0"></li>
+                                @if(Auth::user()->isAdmin())
+                                    <li><a class="dropdown-item py-2" href="{{ route('admin.dashboard') }}"><i class="fas fa-tachometer-alt me-2"></i>Dashboard</a></li>
+                                    <li><hr class="dropdown-divider my-0"></li>
+                                @endif
                                 <li>
                                     <form method="POST" action="{{ route('logout') }}" class="d-inline w-100">
                                         @csrf
@@ -113,12 +115,9 @@
                             <label class="form-label small fw-semibold text-muted">Property Type</label>
                             <select class="form-select" name="type">
                                 <option value="">All Types</option>
-                                <option value="house">House</option>
-                                <option value="apartment">Apartment</option>
-                                <option value="condo">Condo</option>
-                                <option value="townhouse">Townhouse</option>
-                                <option value="villa">Villa</option>
-                                <option value="commercial">Commercial</option>
+                                @foreach(\App\Models\Property::TYPES as $t)
+                                    <option value="{{ $t }}">{{ ucfirst($t) }}</option>
+                                @endforeach
                             </select>
                         </div>
                         <div class="col-md-6">

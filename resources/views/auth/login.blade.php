@@ -66,9 +66,11 @@
                             });
                         </script>
 
-                        <p class="text-muted small mt-3 mb-0 text-center">
-                            Demo user (seeded): <code>test@example.com</code> / <code>password</code>
-                        </p>
+                        @if(config('app.debug'))
+                            <p class="text-muted small mt-3 mb-0 text-center">
+                                Local demo only: <code>test@example.com</code> / <code>password</code>
+                            </p>
+                        @endif
                         <p class="text-muted small mt-2 mb-0 text-center">
                             Powered by Nexora Labs
                         </p>

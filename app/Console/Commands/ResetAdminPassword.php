@@ -9,7 +9,7 @@ class ResetAdminPassword extends Command
 {
     protected $signature = 'admin:reset-password {--email=test@example.com} {--password=password}';
 
-    protected $description = 'Reset admin user password (default: test@example.com / password)';
+    protected $description = 'Create/reset a local admin user (sets is_admin=true)';
 
     public function handle(): int
     {
@@ -23,15 +23,17 @@ class ResetAdminPassword extends Command
                 'name' => 'Test User',
                 'email' => $email,
                 'password' => $password,
+                'is_admin' => true,
             ]);
             $this->info("Admin user created: {$email}");
         } else {
             $user->password = $password;
+            $user->is_admin = true;
             $user->save();
             $this->info("Password reset for: {$email}");
         }
 
-        $this->info('You can now login with the above email and password.');
+        $this->warn('Demo credentials are for local practice only. Change them before any public deploy.');
 
         return self::SUCCESS;
     }

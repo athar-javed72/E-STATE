@@ -31,10 +31,9 @@
                 <label class="form-label small mb-0">Type</label>
                 <select name="type" class="form-select form-select-sm">
                     <option value="">All types</option>
-                    <option value="house" {{ request('type') === 'house' ? 'selected' : '' }}>House</option>
-                    <option value="apartment" {{ request('type') === 'apartment' ? 'selected' : '' }}>Apartment</option>
-                    <option value="condo" {{ request('type') === 'condo' ? 'selected' : '' }}>Condo</option>
-                    <option value="villa" {{ request('type') === 'villa' ? 'selected' : '' }}>Villa</option>
+                    @foreach(\App\Models\Property::TYPES as $t)
+                        <option value="{{ $t }}" {{ request('type') === $t ? 'selected' : '' }}>{{ ucfirst($t) }}</option>
+                    @endforeach
                 </select>
             </div>
             <div class="col-12 col-md-2">

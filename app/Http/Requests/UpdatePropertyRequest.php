@@ -8,7 +8,7 @@ class UpdatePropertyRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return true;
+        return $this->user()?->isAdmin() ?? false;
     }
 
     /**
@@ -23,7 +23,7 @@ class UpdatePropertyRequest extends FormRequest
             'city' => 'nullable|string|max:100',
             'state' => 'nullable|string|max:100',
             'zip' => 'nullable|string|max:20',
-            'type' => 'required|in:house,apartment,condo,villa',
+            'type' => 'required|in:house,apartment,condo,villa,plot,commercial,townhouse',
             'listing_type' => 'required|in:for_sale,for_rent',
             'price' => 'required|numeric|min:0',
             'bedrooms' => 'nullable|integer|min:0',

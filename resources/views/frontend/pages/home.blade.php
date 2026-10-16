@@ -486,10 +486,9 @@
                             <label class="form-label small fw-semibold text-body-secondary">Property type</label>
                             <select class="form-select" name="type">
                                 <option value="">Any type</option>
-                                <option value="house">House</option>
-                                <option value="apartment">Apartment</option>
-                                <option value="plot">Plot</option>
-                                <option value="commercial">Commercial</option>
+                                @foreach(\App\Models\Property::TYPES as $t)
+                                    <option value="{{ $t }}">{{ ucfirst($t) }}</option>
+                                @endforeach
                             </select>
                         </div>
                         <div class="col-md-3">

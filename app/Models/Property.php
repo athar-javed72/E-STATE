@@ -10,6 +10,16 @@ class Property extends Model
 {
     use HasFactory;
 
+    public const TYPES = [
+        'house',
+        'apartment',
+        'condo',
+        'villa',
+        'plot',
+        'commercial',
+        'townhouse',
+    ];
+
     protected $fillable = [
         'agent_id',
         'title',

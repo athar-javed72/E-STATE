@@ -72,7 +72,7 @@
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end dropdown-menu-shadow">
                                 <li class="px-3 py-2 border-bottom"><span class="small text-muted">{{ Auth::user()->email }}</span></li>
-                                @if(Auth::user()->isAdmin())
+                                @if(Auth::user()?->is_admin)
                                     <li><a class="dropdown-item py-2" href="{{ route('admin.dashboard') }}"><i class="fas fa-tachometer-alt me-2"></i>Dashboard</a></li>
                                     <li><hr class="dropdown-divider my-0"></li>
                                 @endif

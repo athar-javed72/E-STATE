@@ -8,7 +8,7 @@ class UpdatePropertyRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return $this->user()?->isAdmin() ?? false;
+        \ = \->user();\r\n\r\n        return \ instanceof \\App\\Models\\User && \->isAdmin();
     }
 
     /**

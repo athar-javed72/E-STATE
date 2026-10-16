@@ -31,7 +31,7 @@
         <div class="border-b border-line px-5 py-4">
             <h2 class="text-base font-semibold text-ink">Recent properties</h2>
         </div>
-        <div class="overflow-x-auto">
+        <div class="overflow-x-auto xl:overflow-visible">
             <table class="min-w-full text-left text-sm">
                 <thead class="bg-canvas text-xs uppercase text-ink-muted">
                     <tr>
@@ -64,7 +64,7 @@
         <div class="border-b border-line px-5 py-4">
             <h2 class="text-base font-semibold text-ink">Recent contacts</h2>
         </div>
-        <div class="overflow-x-auto">
+        <div class="overflow-x-auto xl:overflow-visible">
             <table class="min-w-full text-left text-sm">
                 <thead class="bg-canvas text-xs uppercase text-ink-muted">
                     <tr>

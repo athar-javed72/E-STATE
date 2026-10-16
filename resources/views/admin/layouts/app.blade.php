@@ -9,37 +9,37 @@
     @stack('css')
 </head>
 <body class="min-h-screen bg-canvas text-ink">
-    <div class="flex min-h-screen">
-        {{-- Desktop sidebar --}}
-        <aside class="hidden w-64 shrink-0 border-r border-line bg-white lg:block">
-            <div class="flex h-16 items-center gap-2 border-b border-line px-5">
-                <span class="inline-flex h-9 w-9 items-center justify-center rounded-sm bg-brand text-white"><i class="fas fa-building" aria-hidden="true"></i></span>
-                <span class="text-sm font-bold">FindState Admin</span>
+    {{-- Desktop sidebar: fixed 256px (w-64) from lg --}}
+    <aside class="fixed inset-y-0 left-0 z-30 hidden w-64 border-r border-line bg-white lg:block">
+        <div class="flex h-16 items-center gap-2 border-b border-line px-5">
+            <span class="inline-flex h-9 w-9 items-center justify-center rounded-sm bg-brand text-white"><i class="fas fa-building" aria-hidden="true"></i></span>
+            <span class="text-sm font-bold">FindState Admin</span>
+        </div>
+        @include('admin.layouts.sidebar-nav')
+    </aside>
+
+    <div class="flex min-h-screen min-w-0 flex-col lg:pl-64">
+        <header class="sticky top-0 z-20 flex h-16 items-center justify-between gap-3 border-b border-line bg-white px-4 sm:px-6">
+            <div class="flex min-w-0 flex-1 items-center gap-3">
+                <button type="button" id="admin-nav-open" class="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-sm border border-line lg:hidden" aria-label="Open sidebar">
+                    <i class="fas fa-bars" aria-hidden="true"></i>
+                </button>
+                <p class="truncate text-sm font-semibold text-ink">@yield('title', 'Dashboard')</p>
             </div>
-            @include('admin.layouts.sidebar-nav')
-        </aside>
+            <div class="flex shrink-0 items-center gap-3">
+                <span class="hidden max-w-[10rem] truncate text-sm font-medium text-ink-secondary sm:inline" title="{{ Auth::user()?->name }}">
+                    {{ Auth::user()?->name }}
+                </span>
+                <a href="{{ route('home') }}" class="hidden text-sm font-medium text-ink-secondary transition-ui hover:text-ink sm:inline">View site</a>
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <x-button type="submit" variant="ghost">Logout</x-button>
+                </form>
+            </div>
+        </header>
 
-        <div class="flex min-w-0 flex-1 flex-col">
-            <header class="flex h-16 items-center justify-between gap-3 border-b border-line bg-white px-4 sm:px-6">
-                <div class="flex min-w-0 flex-1 items-center gap-3">
-                    <button type="button" id="admin-nav-open" class="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-sm border border-line lg:hidden" aria-label="Open sidebar">
-                        <i class="fas fa-bars" aria-hidden="true"></i>
-                    </button>
-                    <p class="truncate text-sm font-semibold text-ink">@yield('title', 'Dashboard')</p>
-                </div>
-                <div class="flex shrink-0 items-center gap-3">
-                    <span class="hidden max-w-[10rem] truncate text-sm font-medium text-ink-secondary sm:inline" title="{{ Auth::user()?->name }}">
-                        {{ Auth::user()?->name }}
-                    </span>
-                    <a href="{{ route('home') }}" class="hidden text-sm font-medium text-ink-secondary transition-ui hover:text-ink sm:inline">View site</a>
-                    <form method="POST" action="{{ route('logout') }}">
-                        @csrf
-                        <x-button type="submit" variant="ghost">Logout</x-button>
-                    </form>
-                </div>
-            </header>
-
-            <main class="flex-1 p-4 sm:p-6 lg:p-8">
+        <main class="flex-1 p-4 sm:p-6 lg:p-8">
+            <div class="mx-auto w-full max-w-[1600px]">
                 @if(session('success'))
                     <div class="mb-6 flex items-start justify-between gap-3 rounded-sm border border-brand/20 bg-brand-light px-4 py-3 text-sm text-brand" role="status" data-flash>
                         <p>{{ session('success') }}</p>
@@ -77,8 +77,8 @@
                 @endif
 
                 @yield('content')
-            </main>
-        </div>
+            </div>
+        </main>
     </div>
 
     {{-- Mobile sidebar drawer --}}

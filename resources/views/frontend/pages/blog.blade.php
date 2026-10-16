@@ -5,20 +5,20 @@
 
 @section('content')
 <section class="border-b border-line bg-white py-8">
-    <div class="container-page">
+    <x-container>
         <h1 class="text-xl font-bold text-ink sm:text-2xl">Blog</h1>
         <p class="mt-2 text-sm text-ink-secondary">Guides, tips, and local market notes.</p>
-    </div>
+    </x-container>
 </section>
 
 <section class="py-10">
-    <div class="container-page grid grid-cols-1 gap-8 lg:grid-cols-12">
+    <x-container class="grid grid-cols-1 gap-8 lg:grid-cols-12">
         <div class="lg:col-span-8">
             <form method="GET" class="mb-6 flex flex-col gap-3 sm:flex-row">
                 <x-input name="search" placeholder="Search posts..." :value="request('search')" class="flex-1" />
                 <x-button variant="primary" type="submit">Search</x-button>
             </form>
-            <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+            <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
                 @forelse($blogs as $blog)
                     <x-blog-card :blog="$blog" />
                 @empty
@@ -50,6 +50,6 @@
                 </ul>
             </div>
         </aside>
-    </div>
+    </x-container>
 </section>
 @endsection

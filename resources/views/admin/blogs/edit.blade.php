@@ -15,7 +15,7 @@
     <x-button variant="ghost" href="{{ route('admin.blogs.index') }}">Back to list</x-button>
 </div>
 
-<div class="rounded-md border border-line bg-white p-6 shadow-sm">
+<div class="w-full max-w-5xl rounded-md border border-line bg-white p-6 shadow-sm">
     <p class="mb-6 text-sm font-semibold text-ink-secondary">Edit Blog Post</p>
 
     <form action="{{ route('admin.blogs.update', $blog) }}" method="POST" enctype="multipart/form-data">

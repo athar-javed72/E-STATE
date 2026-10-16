@@ -1,5 +1,5 @@
 <footer class="border-t border-line bg-ink text-white">
-    <div class="container-page py-16">
+    <x-container class="py-16">
         <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
             <div>
                 <p class="text-base font-bold">FindState</p>
@@ -37,5 +37,5 @@
         <div class="mt-12 border-t border-white/10 pt-6 text-xs text-white/50">
             © {{ date('Y') }} FindState. All rights reserved.
         </div>
-    </div>
+    </x-container>
 </footer>

@@ -1,5 +1,5 @@
 <header class="sticky top-0 z-40 border-b border-line bg-white">
-    <div class="container-page flex h-[72px] items-center justify-between gap-4">
+    <x-container class="flex h-[72px] items-center justify-between gap-4">
         <a href="{{ route('home') }}" class="flex items-center gap-2 text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand">
             <span class="inline-flex h-10 w-10 items-center justify-center rounded-sm bg-brand text-white">
                 <i class="fas fa-building" aria-hidden="true"></i>
@@ -53,7 +53,7 @@
         <button id="nav-open" type="button" class="inline-flex h-11 w-11 items-center justify-center rounded-sm border border-line text-ink lg:hidden" aria-label="Open menu">
             <i class="fas fa-bars" aria-hidden="true"></i>
         </button>
-    </div>
+    </x-container>
 </header>
 
 <div id="nav-backdrop" class="fixed inset-0 z-40 bg-ink/40 opacity-0 pointer-events-none transition-ui lg:hidden"></div>

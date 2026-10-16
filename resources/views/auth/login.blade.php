@@ -5,8 +5,8 @@
 
 @section('content')
 <section class="flex min-h-[70vh] items-center py-12">
-    <div class="container-page max-w-md">
-        <div class="rounded-md border border-line bg-white p-6 shadow-sm sm:p-8">
+    <x-container>
+        <div class="mx-auto w-full max-w-md rounded-md border border-line bg-white p-6 shadow-sm sm:p-8">
             <h1 class="text-center text-xl font-bold text-ink">Admin Login</h1>
 
             @if($errors->any())
@@ -29,7 +29,7 @@
             @endif
             <p class="mt-3 text-center text-xs text-ink-muted">Powered by Nexora Labs</p>
         </div>
-    </div>
+    </x-container>
 </section>
 @endsection
 

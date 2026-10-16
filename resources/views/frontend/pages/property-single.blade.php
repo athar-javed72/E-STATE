@@ -11,17 +11,17 @@
 
 @section('content')
 <section class="border-b border-line bg-white py-4">
-    <div class="container-page text-sm text-ink-muted">
+    <x-container class="text-sm text-ink-muted">
         <a href="{{ route('home') }}" class="hover:text-ink">Home</a>
         <span class="mx-2">/</span>
         <a href="{{ route('properties.index') }}" class="hover:text-ink">Properties</a>
         <span class="mx-2">/</span>
         <span class="text-ink">{{ Str::limit($property->title, 40) }}</span>
-    </div>
+    </x-container>
 </section>
 
 <section class="py-8">
-    <div class="container-page">
+    <x-container>
         <div class="grid grid-cols-1 gap-8 lg:grid-cols-12">
             <div class="lg:col-span-8">
                 <div class="overflow-hidden rounded-md bg-canvas shadow-sm">
@@ -50,7 +50,7 @@
                         @if($property->parking)<div><p class="text-xs text-ink-muted">Parking</p><p class="text-sm font-semibold text-ink">{{ $property->parking }}</p></div>@endif
                     </div>
 
-                    <div class="prose-none mt-8">
+                    <div class="prose-none mt-8 max-w-prose">
                         <h2 class="text-lg font-semibold text-ink">About this property</h2>
                         <p class="mt-3 whitespace-pre-line text-sm leading-relaxed text-ink-secondary">{{ $property->description }}</p>
                     </div>
@@ -101,14 +101,14 @@
         @if($relatedProperties->count())
             <div class="mt-16">
                 <h2 class="text-xl font-bold text-ink">Related properties</h2>
-                <div class="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                <div class="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                     @foreach($relatedProperties as $related)
                         <x-property-card :property="$related" />
                     @endforeach
                 </div>
             </div>
         @endif
-    </div>
+    </x-container>
 </section>
 @endsection
 

@@ -31,7 +31,7 @@
 </form>
 
 <div class="overflow-hidden rounded-md border border-line bg-white shadow-sm">
-    <div class="overflow-x-auto">
+    <div class="overflow-x-auto xl:overflow-visible">
         <table class="min-w-full text-left text-sm">
             <thead class="bg-canvas text-xs uppercase text-ink-muted">
                 <tr>

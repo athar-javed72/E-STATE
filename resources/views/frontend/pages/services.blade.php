@@ -5,14 +5,16 @@
 
 @section('content')
 <section class="border-b border-line bg-white py-12">
-    <div class="container-page max-w-3xl">
-        <h1 class="text-xl font-bold text-ink sm:text-2xl">Services</h1>
-        <p class="mt-4 text-sm text-ink-secondary">End-to-end support whether you are buying, selling, or renting.</p>
-    </div>
+    <x-container>
+        <div class="max-w-prose">
+            <h1 class="text-xl font-bold text-ink sm:text-2xl">Services</h1>
+            <p class="mt-4 text-sm text-ink-secondary">End-to-end support whether you are buying, selling, or renting.</p>
+        </div>
+    </x-container>
 </section>
 
 <section class="py-12">
-    <div class="container-page grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+    <x-container class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
         @foreach([
             ['Buying', 'Search, tour, negotiate, and close with a dedicated agent.'],
             ['Selling', 'Pricing strategy, listing prep, and qualified buyer outreach.'],
@@ -26,9 +28,9 @@
                 <p class="mt-3 text-sm text-ink-secondary">{{ $copy }}</p>
             </div>
         @endforeach
-    </div>
-    <div class="container-page mt-12 text-center">
+    </x-container>
+    <x-container class="mt-12 text-center">
         <x-button variant="primary" href="{{ route('contact.index') }}">Talk to us</x-button>
-    </div>
+    </x-container>
 </section>
 @endsection

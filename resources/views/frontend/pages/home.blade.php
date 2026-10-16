@@ -4,8 +4,8 @@
 @section('meta_description', 'Browse homes for sale and rent with FindState. Search by location, type, and budget.')
 
 @section('content')
-{{-- Hero --}}
-<section class="relative isolate overflow-hidden">
+{{-- Hero: fits one 1920×950 viewport below the 72px nav --}}
+<section class="relative isolate flex min-h-[calc(100vh-72px)] max-h-[900px] overflow-hidden">
     <img
         src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=1920&q=80"
         alt="Modern home exterior"
@@ -14,41 +14,43 @@
         height="1080"
     >
     <div class="absolute inset-0 bg-ink/70"></div>
-    <div class="container-page relative py-16 sm:py-24">
-        <div class="max-w-2xl text-white">
-            <h1 class="text-[30px] font-bold leading-tight sm:text-2xl">Find a home that fits your life</h1>
-            <p class="mt-4 text-sm text-white/80 sm:text-base">Search verified listings for sale and rent across top cities — clean filters, trusted agents, zero clutter.</p>
-        </div>
-
-        <form action="{{ route('properties.index') }}" method="GET" class="mt-8 rounded-md bg-white p-4 shadow-lg sm:p-6">
-            <div class="grid grid-cols-1 items-end gap-4 sm:grid-cols-2 lg:grid-cols-4">
-                <x-input label="Location" name="location" placeholder="City or area" :value="request('location')" />
-                <x-select label="Property Type" name="type">
-                    <option value="">Any type</option>
-                    @foreach(\App\Models\Property::TYPES as $t)
-                        <option value="{{ $t }}" @selected(request('type') === $t)>{{ ucfirst($t) }}</option>
-                    @endforeach
-                </x-select>
-                <x-select label="Budget" name="max_price">
-                    <option value="">Any budget</option>
-                    <option value="100000">Up to $100K</option>
-                    <option value="250000">Up to $250K</option>
-                    <option value="500000">Up to $500K</option>
-                    <option value="1000000">Up to $1M</option>
-                    <option value="10000000">$1M+</option>
-                </x-select>
-                <div class="w-full">
-                    <span class="mb-1 block h-4 text-xs font-semibold text-transparent select-none" aria-hidden="true">Search</span>
-                    <x-button variant="primary" type="submit" block :height="48">Search</x-button>
-                </div>
+    <div class="relative flex w-full flex-1 flex-col justify-center py-8 sm:py-12">
+        <x-container>
+            <div class="mx-auto max-w-prose text-center text-white sm:mx-0 sm:max-w-2xl sm:text-left">
+                <h1 class="text-[30px] font-bold leading-tight sm:text-2xl">Find a home that fits your life</h1>
+                <p class="mt-4 text-sm text-white/80 sm:text-base">Search verified listings for sale and rent across top cities — clean filters, trusted agents, zero clutter.</p>
             </div>
-        </form>
+
+            <form action="{{ route('properties.index') }}" method="GET" class="mx-auto mt-8 w-full max-w-5xl rounded-md bg-white p-4 shadow-lg sm:p-6">
+                <div class="grid grid-cols-1 items-end gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                    <x-input label="Location" name="location" placeholder="City or area" :value="request('location')" />
+                    <x-select label="Property Type" name="type">
+                        <option value="">Any type</option>
+                        @foreach(\App\Models\Property::TYPES as $t)
+                            <option value="{{ $t }}" @selected(request('type') === $t)>{{ ucfirst($t) }}</option>
+                        @endforeach
+                    </x-select>
+                    <x-select label="Budget" name="max_price">
+                        <option value="">Any budget</option>
+                        <option value="100000">Up to $100K</option>
+                        <option value="250000">Up to $250K</option>
+                        <option value="500000">Up to $500K</option>
+                        <option value="1000000">Up to $1M</option>
+                        <option value="10000000">$1M+</option>
+                    </x-select>
+                    <div class="w-full">
+                        <span class="mb-1 block h-4 text-xs font-semibold text-transparent select-none" aria-hidden="true">Search</span>
+                        <x-button variant="primary" type="submit" block :height="48">Search</x-button>
+                    </div>
+                </div>
+            </form>
+        </x-container>
     </div>
 </section>
 
 {{-- Property types --}}
 <section class="py-16">
-    <div class="container-page">
+    <x-container>
         <x-section-heading title="Browse by property type" subtitle="Jump straight into the category you need." />
         <div class="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-7">
             @foreach(\App\Models\Property::TYPES as $type)
@@ -61,12 +63,12 @@
                 </a>
             @endforeach
         </div>
-    </div>
+    </x-container>
 </section>
 
 {{-- Recent properties --}}
 <section class="bg-white py-16">
-    <div class="container-page">
+    <x-container>
         <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
             <x-section-heading title="Latest properties" subtitle="Fresh listings added to the marketplace." />
             <x-button variant="ghost" href="{{ route('properties.index') }}">View all</x-button>
@@ -78,56 +80,55 @@
                 <p class="col-span-full text-sm text-ink-muted">No properties yet.</p>
             @endforelse
         </div>
-    </div>
+    </x-container>
 </section>
 
 {{-- Agents --}}
 <section class="py-16">
-    <div class="container-page">
+    <x-container>
         <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
             <x-section-heading title="Meet our agents" subtitle="Experienced professionals ready to help." />
             <x-button variant="ghost" href="{{ route('agents.index') }}">All agents</x-button>
         </div>
-        <div class="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <div class="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             @foreach($topAgents as $agent)
                 <x-agent-card :agent="$agent" />
             @endforeach
         </div>
-    </div>
+    </x-container>
 </section>
 
 {{-- Testimonials --}}
 <section class="bg-white py-16">
-    <div class="container-page">
+    <x-container>
         <x-section-heading align="center" title="What clients say" subtitle="Real feedback from buyers and renters." class="mb-8" />
-        <div class="flex gap-4 overflow-x-auto pb-2 lg:grid lg:grid-cols-3 lg:overflow-visible">
+        <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
             @foreach($testimonials->take(3) as $testimonial)
-                <div class="min-w-[280px] flex-1 lg:min-w-0">
-                    <x-testimonial-card :testimonial="$testimonial" />
-                </div>
+                <x-testimonial-card :testimonial="$testimonial" />
             @endforeach
         </div>
-    </div>
+    </x-container>
 </section>
 
 {{-- Blog --}}
 <section class="py-16">
-    <div class="container-page">
+    <x-container>
         <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
             <x-section-heading title="Market insights" subtitle="Guides and tips from the FindState blog." />
             <x-button variant="ghost" href="{{ route('blog.index') }}">All posts</x-button>
         </div>
-        <div class="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div class="mt-8 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
             @foreach($latestBlogs as $blog)
                 <x-blog-card :blog="$blog" />
             @endforeach
         </div>
-    </div>
+    </x-container>
 </section>
 
 {{-- FAQ --}}
 <section class="bg-white py-16">
-    <div class="container-page max-w-3xl">
+    <x-container>
+        <div class="mx-auto w-full max-w-prose">
         <x-section-heading align="center" title="Frequently asked questions" />
         <div class="mt-6 space-y-3">
             <x-faq-item question="How do I schedule a property viewing?">
@@ -143,20 +144,21 @@
                 Click “List Property” in the header and send us the details. An agent will follow up to verify and publish.
             </x-faq-item>
         </div>
-    </div>
+        </div>
+    </x-container>
 </section>
 
 {{-- CTA --}}
 <section class="py-16">
-    <div class="container-page">
+    <x-container>
         <div class="rounded-md bg-brand px-6 py-12 text-center text-white sm:px-12">
             <h2 class="text-xl font-bold sm:text-2xl">Ready to make your next move?</h2>
-            <p class="mx-auto mt-3 max-w-xl text-sm text-white/80">Tell us what you need — buy, rent, or sell — and we’ll match you with the right agent.</p>
+            <p class="mx-auto mt-3 max-w-prose text-sm text-white/80">Tell us what you need — buy, rent, or sell — and we’ll match you with the right agent.</p>
             <div class="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
                 <x-button variant="secondary" href="{{ route('contact.index') }}">Contact us</x-button>
                 <x-button variant="ghost" href="{{ route('properties.index') }}" class="!border-white/30 !text-white hover:!bg-white/10">Browse listings</x-button>
             </div>
         </div>
-    </div>
+    </x-container>
 </section>
 @endsection

@@ -5,14 +5,17 @@
 
 @section('content')
 <section class="border-b border-line bg-white py-12">
-    <div class="container-page max-w-3xl">
-        <h1 class="text-xl font-bold text-ink sm:text-2xl">Contact</h1>
-        <p class="mt-4 text-sm text-ink-secondary">Send a message and our team will get back to you shortly.</p>
-    </div>
+    <x-container>
+        <div class="max-w-prose">
+            <h1 class="text-xl font-bold text-ink sm:text-2xl">Contact</h1>
+            <p class="mt-4 text-sm text-ink-secondary">Send a message and our team will get back to you shortly.</p>
+        </div>
+    </x-container>
 </section>
 
 <section class="py-10">
-    <div class="container-page max-w-2xl">
+    <x-container>
+        <div class="w-full max-w-2xl">
         @if(session('success'))
             <div class="mb-6 rounded-sm border border-brand/20 bg-brand-light px-4 py-3 text-sm text-brand">{{ session('success') }}</div>
         @endif
@@ -37,6 +40,7 @@
             </div>
             <x-button variant="primary" type="submit">Send message</x-button>
         </form>
-    </div>
+        </div>
+    </x-container>
 </section>
 @endsection

@@ -5,14 +5,14 @@
 
 @section('content')
 <section class="border-b border-line bg-white py-8">
-    <div class="container-page">
+    <x-container>
         <h1 class="text-xl font-bold text-ink sm:text-2xl">Our agents</h1>
         <p class="mt-2 text-sm text-ink-secondary">Professionals ready to guide your next move.</p>
-    </div>
+    </x-container>
 </section>
 <section class="py-10">
-    <div class="container-page">
-        <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+    <x-container>
+        <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-4">
             @forelse($agents as $agent)
                 <x-agent-card :agent="$agent" />
             @empty
@@ -20,6 +20,6 @@
             @endforelse
         </div>
         <div class="mt-8">{{ $agents->links('vendor.pagination.tailwind') }}</div>
-    </div>
+    </x-container>
 </section>
 @endsection

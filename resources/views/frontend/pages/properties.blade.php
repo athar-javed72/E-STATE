@@ -5,14 +5,14 @@
 
 @section('content')
 <section class="border-b border-line bg-white py-8">
-    <div class="container-page">
+    <x-container>
         <h1 class="text-xl font-bold text-ink sm:text-2xl">Properties</h1>
         <p class="mt-2 text-sm text-ink-secondary">{{ $properties->total() }} listings match your search.</p>
-    </div>
+    </x-container>
 </section>
 
 <section class="py-8">
-    <div class="container-page">
+    <x-container>
         <div class="mb-6 flex flex-wrap items-center justify-between gap-3 lg:hidden">
             <button type="button" id="filter-open" class="inline-flex h-11 items-center gap-2 rounded-sm border border-line bg-white px-4 text-sm font-semibold text-ink">
                 <i class="fas fa-sliders-h" aria-hidden="true"></i> Filters
@@ -61,7 +61,7 @@
                     </form>
                 </div>
 
-                <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3">
+                <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                     @forelse($properties as $property)
                         <x-property-card :property="$property" />
                     @empty
@@ -74,7 +74,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </x-container>
 </section>
 
 {{-- Mobile filter drawer --}}

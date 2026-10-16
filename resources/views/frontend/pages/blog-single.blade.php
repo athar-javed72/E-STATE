@@ -10,7 +10,8 @@
 
 @section('content')
 <article class="py-10">
-    <div class="container-page max-w-3xl">
+    <x-container>
+        <div class="mx-auto w-full max-w-prose">
         @if($blog->category)
             <x-badge tone="muted">{{ $blog->category }}</x-badge>
         @endif
@@ -33,12 +34,13 @@
 
         @if(isset($relatedPosts) && $relatedPosts->count())
             <h2 class="mt-16 text-lg font-semibold text-ink">Related posts</h2>
-            <div class="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2">
+            <div class="mt-6 grid grid-cols-1 gap-6 md:grid-cols-2">
                 @foreach($relatedPosts as $rel)
                     <x-blog-card :blog="$rel" />
                 @endforeach
             </div>
         @endif
-    </div>
+        </div>
+    </x-container>
 </article>
 @endsection

@@ -18,7 +18,7 @@
                             </div>
                         @endif
 
-                        <form method="POST" action="{{ route('login') }}">
+                        <form method="POST" action="{{ url('/login') }}" id="login-form">
                             @csrf
                             <div class="mb-3">
                                 <label for="email" class="form-label">Email address</label>
@@ -55,10 +55,16 @@
                                 <label class="form-check-label" for="remember">Remember me</label>
                             </div>
 
-                            <button type="submit" class="btn btn-primary w-100">
+                            <button type="submit" class="btn btn-primary w-100" id="login-btn">
                                 <i class="fas fa-sign-in-alt me-1"></i> Sign In
                             </button>
                         </form>
+                        <script>
+                            document.getElementById('login-form').addEventListener('submit', function() {
+                                var btn = document.getElementById('login-btn');
+                                if (btn) { btn.disabled = true; btn.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span> Signing in...'; }
+                            });
+                        </script>
 
                         <p class="text-muted small mt-3 mb-0 text-center">
                             Demo user (seeded): <code>test@example.com</code> / <code>password</code>

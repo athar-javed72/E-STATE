@@ -22,3 +22,9 @@
 Homestead.json
 Homestead.yaml
 Thumbs.db
+
+# Local / committed DB dumps (should not be in git)
+estate_db
+*.sqlite
+database/database.sqlite
+

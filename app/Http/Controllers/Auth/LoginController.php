@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -13,8 +14,10 @@ class LoginController extends Controller
      */
     public function showLoginForm()
     {
-        if (Auth::check()) {
-            return Auth::user()->isAdmin()
+        $user = Auth::user();
+
+        if ($user instanceof User) {
+            return $user->isAdmin()
                 ? redirect()->route('admin.dashboard')
                 : redirect()->route('home');
         }
@@ -37,7 +40,9 @@ class LoginController extends Controller
         if (Auth::attempt($credentials, $remember)) {
             $request->session()->regenerate();
 
-            if (! Auth::user()->isAdmin()) {
+            $user = Auth::user();
+
+            if (! $user instanceof User || ! $user->isAdmin()) {
                 Auth::logout();
                 $request->session()->invalidate();
                 $request->session()->regenerateToken();

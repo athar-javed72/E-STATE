@@ -4,101 +4,75 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-
-    <title>@yield('title', 'Admin') - FindState</title>
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link href="{{ asset('css/admin.css') }}" rel="stylesheet">
-
+    <title>@yield('title', 'Admin') — FindState</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
     @stack('css')
 </head>
-<body class="admin-body bg-light">
-    @include('admin.layouts.header')
-
-    {{-- Desktop: fixed sidebar. Scrollable area = admin-scroll (main + footer). --}}
-    <div class="admin-layout d-flex flex-column flex-lg-row">
-        {{-- Desktop sidebar (lg and up): fixed, full height --}}
-        <nav class="admin-sidebar d-none d-lg-block">
+<body class="min-h-screen bg-canvas text-ink">
+    <div class="flex min-h-screen">
+        {{-- Desktop sidebar --}}
+        <aside class="hidden w-64 shrink-0 border-r border-line bg-white lg:block">
+            <div class="flex h-16 items-center gap-2 border-b border-line px-5">
+                <span class="inline-flex h-9 w-9 items-center justify-center rounded-sm bg-brand text-white"><i class="fas fa-building"></i></span>
+                <span class="text-sm font-bold">FindState Admin</span>
+            </div>
             @include('admin.layouts.sidebar-nav')
-        </nav>
+        </aside>
 
-        {{-- Mobile sidebar (offcanvas) --}}
-        <div class="offcanvas offcanvas-start d-lg-none admin-offcanvas" tabindex="-1" id="adminSidebarOffcanvas" aria-labelledby="adminSidebarLabel">
-            <div class="offcanvas-header border-bottom">
-                <h5 class="offcanvas-title" id="adminSidebarLabel">FindState Admin</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#adminSidebarOffcanvas" aria-label="Close"></button>
-            </div>
-            <div class="offcanvas-body p-0 admin-offcanvas">
-                @include('admin.layouts.sidebar-nav')
-                <hr class="my-2">
-                <ul class="nav flex-column py-2">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('home') }}" target="_blank">
-                            <i class="fas fa-external-link-alt"></i> View Site
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <form method="POST" action="{{ route('logout') }}" class="p-2">
-                            @csrf
-                            <button type="submit" class="btn btn-outline-danger btn-sm w-100">
-                                <i class="fas fa-sign-out-alt me-1"></i> Logout
-                            </button>
-                        </form>
-                    </li>
-                </ul>
-            </div>
-        </div>
+        <div class="flex min-w-0 flex-1 flex-col">
+            <header class="flex h-16 items-center justify-between border-b border-line bg-white px-4 sm:px-6">
+                <button type="button" id="admin-nav-open" class="inline-flex h-11 w-11 items-center justify-center rounded-sm border border-line lg:hidden" aria-label="Open sidebar">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <p class="hidden text-sm font-semibold text-ink sm:block lg:block">@yield('title', 'Dashboard')</p>
+                <div class="flex items-center gap-3">
+                    <a href="{{ route('home') }}" class="text-sm font-medium text-ink-secondary hover:text-ink">View site</a>
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <button type="submit" class="inline-flex h-11 items-center rounded-sm border border-line px-4 text-sm font-semibold text-ink">Logout</button>
+                    </form>
+                </div>
+            </header>
 
-        {{-- Scrollable content only (topbar + sidebar stay fixed) --}}
-        <div class="admin-scroll flex-grow-1 d-flex flex-column">
-            <main class="admin-main flex-grow-1 p-3 p-md-4">
+            <main class="flex-1 p-4 sm:p-6 lg:p-8">
                 @if(session('success'))
-                    <div class="alert alert-success alert-dismissible fade show" role="alert">
-                        {{ session('success') }}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                @endif
-                @if(session('error'))
-                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                        {{ session('error') }}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                @endif
-                @if(session('warning'))
-                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                        {{ session('warning') }}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
+                    <div class="mb-6 rounded-sm border border-brand/20 bg-brand-light px-4 py-3 text-sm text-brand">{{ session('success') }}</div>
                 @endif
                 @yield('content')
             </main>
-
-            <footer class="admin-nexora-footer py-2 text-center border-top bg-white flex-shrink-0">
-                <span class="text-muted small">Nexora Labs © {{ date('Y') }}</span>
-            </footer>
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    {{-- Mobile sidebar drawer --}}
+    <div id="admin-backdrop" class="fixed inset-0 z-40 hidden bg-ink/40 lg:hidden"></div>
+    <aside id="admin-drawer" class="fixed inset-y-0 left-0 z-50 hidden w-72 -translate-x-full border-r border-line bg-white shadow-lg transition-ui lg:hidden">
+        <div class="flex h-16 items-center justify-between border-b border-line px-4">
+            <span class="text-sm font-bold">Menu</span>
+            <button type="button" id="admin-nav-close" class="inline-flex h-11 w-11 items-center justify-center rounded-sm border border-line" aria-label="Close sidebar"><i class="fas fa-times"></i></button>
+        </div>
+        @include('admin.layouts.sidebar-nav')
+    </aside>
+
     <script>
-    (function() {
-        // Close mobile offcanvas when a sidebar nav link is clicked
-        var oc = document.getElementById('adminSidebarOffcanvas');
-        if (oc) {
-            oc.addEventListener('click', function(e) {
-                var link = e.target.closest('.nav-link');
-                if (link && link.getAttribute('href') && link.getAttribute('href').indexOf('/admin') !== -1) {
-                    var bs = window.bootstrap;
-                    if (bs && bs.Offcanvas) {
-                        var instance = bs.Offcanvas.getInstance(oc);
-                        if (instance) instance.hide();
-                    }
-                }
-            });
+    (function () {
+        var open = document.getElementById('admin-nav-open');
+        var close = document.getElementById('admin-nav-close');
+        var drawer = document.getElementById('admin-drawer');
+        var backdrop = document.getElementById('admin-backdrop');
+        function setOpen(v) {
+            if (!drawer || !backdrop) return;
+            drawer.classList.toggle('hidden', !v);
+            backdrop.classList.toggle('hidden', !v);
+            drawer.classList.toggle('-translate-x-full', !v);
+            drawer.classList.toggle('translate-x-0', v);
+            document.body.classList.toggle('overflow-hidden', v);
         }
+        if (open) open.addEventListener('click', function () { setOpen(true); });
+        if (close) close.addEventListener('click', function () { setOpen(false); });
+        if (backdrop) backdrop.addEventListener('click', function () { setOpen(false); });
     })();
     </script>
-    @stack('js')
+    @stack('scripts')
 </body>
 </html>

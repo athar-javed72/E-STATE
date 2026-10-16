@@ -3,79 +3,67 @@
 @section('title', 'Contacts')
 
 @section('content')
-<div class="d-flex flex-column flex-md-row justify-content-between align-items-stretch align-items-md-center gap-2 mb-4">
-    <h1 class="admin-page-title mb-0">Contacts</h1>
+<div class="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+    <h1 class="text-xl font-bold text-ink">Contacts</h1>
 </div>
 
-<div class="card admin-filters">
-    <div class="card-body p-0 border-0">
-        <form method="GET" class="row g-2 align-items-end p-0">
-            <div class="col-6 col-md-2">
-                <label class="form-label small mb-0">Status</label>
-                <select name="status" class="form-select form-select-sm">
-                    <option value="">All statuses</option>
-                    <option value="new" {{ request('status') === 'new' ? 'selected' : '' }}>New</option>
-                    <option value="read" {{ request('status') === 'read' ? 'selected' : '' }}>Read</option>
-                    <option value="replied" {{ request('status') === 'replied' ? 'selected' : '' }}>Replied</option>
-                </select>
-            </div>
-            <div class="col-6 col-md-2">
-                <label class="form-label small mb-0">Type</label>
-                <select name="type" class="form-select form-select-sm">
-                    <option value="">All types</option>
-                    <option value="general" {{ request('type') === 'general' ? 'selected' : '' }}>General</option>
-                    <option value="property_inquiry" {{ request('type') === 'property_inquiry' ? 'selected' : '' }}>Property Inquiry</option>
-                </select>
-            </div>
-            <div class="col-12 col-md-2">
-                <button type="submit" class="btn btn-outline-primary btn-sm w-100 w-md-auto">
-                    <i class="fas fa-filter me-1"></i> Filter
-                </button>
-            </div>
-        </form>
-    </div>
-</div>
+<form method="GET" class="mb-6 grid grid-cols-1 gap-3 rounded-md border border-line bg-white p-4 shadow-sm sm:grid-cols-3">
+    <x-select name="status" label="Status">
+        <option value="">All statuses</option>
+        <option value="new" @selected(request('status') === 'new')>New</option>
+        <option value="read" @selected(request('status') === 'read')>Read</option>
+        <option value="replied" @selected(request('status') === 'replied')>Replied</option>
+    </x-select>
+    <x-select name="type" label="Type">
+        <option value="">All types</option>
+        <option value="general" @selected(request('type') === 'general')>General</option>
+        <option value="property_inquiry" @selected(request('type') === 'property_inquiry')>Property Inquiry</option>
+    </x-select>
+    <x-button variant="ghost" type="submit" block>Filter</x-button>
+</form>
 
-<div class="card admin-card shadow-sm overflow-hidden">
-    <div class="card-body p-0">
-        <div class="admin-table-wrap">
-            <table class="table table-hover align-middle mb-0 admin-table">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Subject</th>
-                        <th>Type</th>
-                        <th>Status</th>
-                        <th>Date</th>
+<div class="overflow-hidden rounded-md border border-line bg-white shadow-sm">
+    <div class="overflow-x-auto">
+        <table class="min-w-full text-left text-sm">
+            <thead class="bg-canvas text-xs uppercase text-ink-muted">
+                <tr>
+                    <th class="px-4 py-3 font-semibold">Name</th>
+                    <th class="px-4 py-3 font-semibold">Email</th>
+                    <th class="px-4 py-3 font-semibold">Subject</th>
+                    <th class="px-4 py-3 font-semibold">Type</th>
+                    <th class="px-4 py-3 font-semibold">Status</th>
+                    <th class="px-4 py-3 font-semibold">Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                @forelse($contacts as $contact)
+                    <tr class="border-t border-line">
+                        <td class="px-4 py-3 font-medium text-ink">{{ $contact->name }}</td>
+                        <td class="px-4 py-3 text-ink-secondary">{{ $contact->email }}</td>
+                        <td class="px-4 py-3 text-ink-secondary">{{ Str::limit($contact->subject, 40) }}</td>
+                        <td class="px-4 py-3">
+                            <x-badge :tone="$contact->type === 'property_inquiry' ? 'brand' : 'muted'">
+                                {{ $contact->type === 'property_inquiry' ? 'Property' : 'General' }}
+                            </x-badge>
+                        </td>
+                        <td class="px-4 py-3">
+                            <x-badge :tone="$contact->status === 'new' ? 'accent' : 'brand'">{{ ucfirst($contact->status) }}</x-badge>
+                        </td>
+                        <td class="px-4 py-3 whitespace-nowrap text-ink-secondary">{{ $contact->created_at->format('M j, Y H:i') }}</td>
                     </tr>
-                </thead>
-                <tbody>
-                    @forelse($contacts as $contact)
-                        <tr>
-                            <td>{{ $contact->name }}</td>
-                            <td>{{ $contact->email }}</td>
-                            <td>{{ Str::limit($contact->subject, 40) }}</td>
-                            <td><span class="badge bg-{{ $contact->type === 'property_inquiry' ? 'info' : 'secondary' }}">{{ $contact->type === 'property_inquiry' ? 'Property' : 'General' }}</span></td>
-                            <td><span class="badge bg-{{ $contact->status === 'new' ? 'warning' : 'success' }}">{{ ucfirst($contact->status) }}</span></td>
-                            <td>{{ $contact->created_at->format('M j, Y H:i') }}</td>
+                    @if($contact->message)
+                        <tr class="border-t border-line bg-canvas/50">
+                            <td colspan="6" class="px-4 py-2 text-xs text-ink-muted">{{ Str::limit($contact->message, 120) }}</td>
                         </tr>
-                        @if($contact->message)
-                            <tr class="table-light">
-                                <td colspan="6" class="small text-muted py-2">{{ Str::limit($contact->message, 120) }}</td>
-                            </tr>
-                        @endif
-                    @empty
-                        <tr><td colspan="6" class="text-center text-muted py-4">No contacts found.</td></tr>
-                    @endforelse
-                </tbody>
-            </table>
-        </div>
+                    @endif
+                @empty
+                    <tr><td colspan="6" class="px-4 py-8 text-center text-ink-muted">No contacts found.</td></tr>
+                @endforelse
+            </tbody>
+        </table>
     </div>
     @if($contacts->hasPages())
-        <div class="card-footer">
-            {{ $contacts->links() }}
-        </div>
+        <div class="border-t border-line p-4">{{ $contacts->withQueryString()->links() }}</div>
     @endif
 </div>
 @endsection

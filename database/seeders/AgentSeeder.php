@@ -18,7 +18,7 @@ class AgentSeeder extends Seeder
                 'bio' => 'Over 12 years of experience in residential and commercial real estate. Specializing in luxury homes and first-time buyers.',
                 'experience' => 12,
                 'rating' => 4.9,
-                'avatar' => 'agent-sarah.svg',
+                'avatar' => 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400&q=80',
                 'status' => 'active',
             ],
             [
@@ -29,7 +29,7 @@ class AgentSeeder extends Seeder
                 'bio' => 'Focused on high-end properties and investment opportunities. Trusted by over 200 satisfied clients.',
                 'experience' => 8,
                 'rating' => 4.8,
-                'avatar' => 'agent-james.svg',
+                'avatar' => 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=400&q=80',
                 'status' => 'active',
             ],
             [
@@ -40,7 +40,7 @@ class AgentSeeder extends Seeder
                 'bio' => 'Expert in family homes and suburban properties. Dedicated to finding the perfect fit for every client.',
                 'experience' => 6,
                 'rating' => 4.7,
-                'avatar' => 'agent-emily.svg',
+                'avatar' => 'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=400&q=80',
                 'status' => 'active',
             ],
             [
@@ -51,7 +51,7 @@ class AgentSeeder extends Seeder
                 'bio' => 'Dual expertise in commercial and residential real estate. Helping investors and families alike.',
                 'experience' => 10,
                 'rating' => 4.85,
-                'avatar' => 'agent-michael.svg',
+                'avatar' => 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=400&q=80',
                 'status' => 'active',
             ],
         ];

@@ -3,122 +3,135 @@
 @section('title', $property->title . ' - FindState')
 @section('meta_description', Str::limit(strip_tags($property->description), 160))
 
+@php
+    use App\Support\Media;
+    $imageUrl = Media::url($property->featured_image);
+    $isRent = $property->listing_type === 'for_rent';
+@endphp
+
 @section('content')
-{{-- Breadcrumb --}}
-<section class="breadcrumb-section py-3 bg-light">
-    <div class="container">
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb mb-0">
-                <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
-                <li class="breadcrumb-item"><a href="{{ route('properties.index') }}">Properties</a></li>
-                <li class="breadcrumb-item active" aria-current="page">{{ Str::limit($property->title, 40) }}</li>
-            </ol>
-        </nav>
+<section class="border-b border-line bg-white py-4">
+    <div class="container-page text-sm text-ink-muted">
+        <a href="{{ route('home') }}" class="hover:text-ink">Home</a>
+        <span class="mx-2">/</span>
+        <a href="{{ route('properties.index') }}" class="hover:text-ink">Properties</a>
+        <span class="mx-2">/</span>
+        <span class="text-ink">{{ Str::limit($property->title, 40) }}</span>
     </div>
 </section>
 
-<section class="py-4">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8">
-                @php
-                    $propertyPlaceholder = asset('assets/images/placeholder-600x400.svg');
-                    switch ($property->type) {
-                        case 'house':
-                            $propertyPlaceholder = asset('assets/images/property-house.svg');
-                            break;
-                        case 'apartment':
-                            $propertyPlaceholder = asset('assets/images/property-apartment.svg');
-                            break;
-                        case 'condo':
-                            $propertyPlaceholder = asset('assets/images/property-condo.svg');
-                            break;
-                        case 'villa':
-                            $propertyPlaceholder = asset('assets/images/property-villa.svg');
-                            break;
-                    }
-                @endphp
-                <div class="card border-0 shadow-sm mb-4 overflow-hidden">
-                    <img src="{{ $property->featured_image ? asset('storage/' . $property->featured_image) : $propertyPlaceholder }}"
-                         class="card-img-top" alt "{{ $property->title }}" style="max-height: 450px; object-fit: cover;">
-                    <div class="card-body">
-                        <div class="d-flex flex-wrap gap-2 mb-3">
-                            <span class="badge bg-primary">{{ ucfirst(str_replace('_', ' ', $property->listing_type)) }}</span>
-                            <span class="badge bg-secondary">{{ ucfirst($property->type) }}</span>
-                            @if($property->featured)
-                                <span class="badge bg-warning text-dark">Featured</span>
-                            @endif
+<section class="py-8">
+    <div class="container-page">
+        <div class="grid grid-cols-1 gap-8 lg:grid-cols-12">
+            <div class="lg:col-span-8">
+                <div class="overflow-hidden rounded-md bg-canvas shadow-sm">
+                    @if($imageUrl)
+                        <img src="{{ $imageUrl }}" alt="{{ $property->title }}" class="aspect-4-3 w-full object-cover" width="1200" height="900">
+                    @else
+                        <div class="flex aspect-4-3 items-center justify-center bg-slate-200 text-ink-muted">
+                            <i class="fas fa-home text-4xl" aria-hidden="true"></i>
                         </div>
-                        <h1 class="h2 fw-bold mb-3">{{ $property->title }}</h1>
-                        <p class="text-muted mb-2">
-                            <i class="fas fa-map-marker-alt text-primary me-2"></i>
-                            {{ $property->address }}, {{ $property->city }}{{ $property->state ? ', ' . $property->state : '' }}
-                        </p>
-                        <h3 class="text-primary fw-bold mb-4">
-                            ${{ number_format($property->price) }}
-                            @if($property->listing_type === 'for_rent')
-                                <small class="fs-6 fw-normal text-muted">/ month</small>
-                            @endif
-                        </h3>
-                        <div class="row g-3 mb-4">
-                            @if($property->bedrooms)
-                                <div class="col-auto"><i class="fas fa-bed text-primary me-2"></i>{{ $property->bedrooms }} Beds</div>
-                            @endif
-                            @if($property->bathrooms)
-                                <div class="col-auto"><i class="fas fa-bath text-primary me-2"></i>{{ $property->bathrooms }} Baths</div>
-                            @endif
-                            @if($property->area)
-                                <div class="col-auto"><i class="fas fa-arrows-alt text-primary me-2"></i>{{ number_format($property->area) }} sqft</div>
-                            @endif
-                            @if($property->parking)
-                                <div class="col-auto"><i class="fas fa-car text-primary me-2"></i>{{ $property->parking }} Parking</div>
-                            @endif
-                        </div>
-                        <hr>
-                        <div class="property-description">
-                            <h5 class="fw-bold mb-3">Description</h5>
-                            {!! nl2br(e($property->description)) !!}
-                        </div>
+                    @endif
+                </div>
+
+                <div class="mt-6">
+                    <div class="flex flex-wrap items-center gap-2">
+                        <x-badge :tone="$isRent ? 'accent' : 'brand'">{{ $isRent ? 'For Rent' : 'For Sale' }}</x-badge>
+                        <x-badge tone="muted">{{ ucfirst($property->type) }}</x-badge>
+                    </div>
+                    <h1 class="mt-3 text-xl font-bold text-ink sm:text-2xl">{{ $property->title }}</h1>
+                    <p class="mt-2 text-sm text-ink-muted"><i class="fas fa-map-marker-alt text-brand" aria-hidden="true"></i> {{ $property->address }}, {{ $property->city }}, {{ $property->state }}</p>
+                    <p class="mt-4 text-lg font-bold text-ink">${{ number_format($property->price) }}@if($isRent)<span class="text-sm font-medium text-ink-muted">/month</span>@endif</p>
+
+                    <div class="mt-6 grid grid-cols-2 gap-4 rounded-md border border-line bg-white p-4 sm:grid-cols-4">
+                        @if($property->bedrooms)<div><p class="text-xs text-ink-muted">Beds</p><p class="text-sm font-semibold text-ink">{{ $property->bedrooms }}</p></div>@endif
+                        @if($property->bathrooms)<div><p class="text-xs text-ink-muted">Baths</p><p class="text-sm font-semibold text-ink">{{ $property->bathrooms }}</p></div>@endif
+                        @if($property->area)<div><p class="text-xs text-ink-muted">Area</p><p class="text-sm font-semibold text-ink">{{ number_format($property->area) }} sqft</p></div>@endif
+                        @if($property->parking)<div><p class="text-xs text-ink-muted">Parking</p><p class="text-sm font-semibold text-ink">{{ $property->parking }}</p></div>@endif
+                    </div>
+
+                    <div class="prose-none mt-8">
+                        <h2 class="text-lg font-semibold text-ink">About this property</h2>
+                        <p class="mt-3 whitespace-pre-line text-sm leading-relaxed text-ink-secondary">{{ $property->description }}</p>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-4">
-                @if($property->agent)
-                    <div class="card border-0 shadow-sm mb-4">
-                        <div class="card-body text-center">
-                            <img src="{{ $property->agent->avatar ? asset('storage/' . $property->agent->avatar) : asset('assets/images/default-avatar.svg') }}"
-                                 alt="{{ $property->agent->name }}" class="rounded-circle mb-3" width="80" height="80" style="object-fit: cover;">
-                            <h5 class="fw-bold">{{ $property->agent->name }}</h5>
-                            <p class="text-muted small">{{ $property->agent->designation ?? 'Real Estate Agent' }}</p>
-                            @if($property->agent->phone)
-                                <p class="small mb-1"><i class="fas fa-phone me-2"></i><a href="tel:{{ $property->agent->phone }}">{{ $property->agent->phone }}</a></p>
-                            @endif
-                            @if($property->agent->email)
-                                <p class="small mb-3"><i class="fas fa-envelope me-2"></i><a href="mailto:{{ $property->agent->email }}">{{ $property->agent->email }}</a></p>
-                            @endif
-                            <a href="{{ route('agents.show', $property->agent->slug) }}" class="btn btn-outline-primary btn-sm me-2">View Profile</a>
-                            <a href="{{ route('contact.index') }}?property_id={{ $property->id }}" class="btn btn-primary btn-sm">Contact Agent</a>
+
+            <aside class="lg:col-span-4">
+                <div class="space-y-4 lg:sticky lg:top-24">
+                    @if($property->agent)
+                        <div class="rounded-md border border-line bg-white p-5 shadow-sm">
+                            <h2 class="text-base font-semibold text-ink">Listing agent</h2>
+                            <div class="mt-4 flex items-center gap-3">
+                                @php $avatar = Media::url($property->agent->avatar); @endphp
+                                <div class="h-14 w-14 overflow-hidden rounded-full bg-canvas">
+                                    @if($avatar)
+                                        <img src="{{ $avatar }}" alt="{{ $property->agent->name }}" class="h-full w-full object-cover" loading="lazy" width="56" height="56">
+                                    @endif
+                                </div>
+                                <div>
+                                    <p class="text-sm font-semibold text-ink">{{ $property->agent->name }}</p>
+                                    <p class="text-xs text-ink-muted">{{ $property->agent->designation }}</p>
+                                </div>
+                            </div>
+                            <div class="mt-4">
+                                <x-button variant="ghost" href="{{ route('agents.show', $property->agent->slug) }}" block>View profile</x-button>
+                            </div>
                         </div>
-                    </div>
-                @endif
-                <div class="card border-0 shadow-sm">
-                    <div class="card-body">
-                        <p class="small text-muted mb-0"><i class="fas fa-eye me-2"></i>{{ $property->views }} views</p>
+                    @endif
+
+                    <div class="rounded-md border border-line bg-white p-5 shadow-sm">
+                        <h2 class="text-base font-semibold text-ink">Send an inquiry</h2>
+                        <form action="{{ route('api.property.contact', $property) }}" method="POST" class="mt-4 space-y-3" id="inquiry-form">
+                            @csrf
+                            <x-input label="Name" name="name" required />
+                            <x-input label="Email" name="email" type="email" required />
+                            <x-input label="Phone" name="phone" type="tel" />
+                            <div>
+                                <label for="message" class="mb-1 block text-xs font-semibold text-ink">Message <span class="text-danger">*</span></label>
+                                <textarea id="message" name="message" required rows="4" class="w-full rounded-sm border border-line px-4 py-3 text-sm text-ink focus:border-brand focus:ring-2 focus:ring-brand/20" placeholder="I'm interested in this property..."></textarea>
+                            </div>
+                            <x-button variant="primary" type="submit" block>Send inquiry</x-button>
+                        </form>
                     </div>
                 </div>
-            </div>
+            </aside>
         </div>
 
-        @if($relatedProperties->count() > 0)
-            <h4 class="fw-bold mt-5 mb-4">Related Properties</h4>
-            <div class="row g-4">
-                @foreach($relatedProperties as $rel)
-                    <div class="col-md-4">
-                        @include('frontend.components.property-card', ['property' => $rel])
-                    </div>
-                @endforeach
+        @if($relatedProperties->count())
+            <div class="mt-16">
+                <h2 class="text-xl font-bold text-ink">Related properties</h2>
+                <div class="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                    @foreach($relatedProperties as $related)
+                        <x-property-card :property="$related" />
+                    @endforeach
+                </div>
             </div>
         @endif
     </div>
 </section>
 @endsection
+
+@push('scripts')
+<script>
+document.getElementById('inquiry-form')?.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var form = e.target;
+    var data = new FormData(form);
+    fetch(form.action, {
+        method: 'POST',
+        headers: {
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+            'X-Requested-With': 'XMLHttpRequest',
+            'Accept': 'application/json'
+        },
+        body: data,
+        credentials: 'same-origin'
+    }).then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j }; }); })
+      .then(function (res) {
+          alert(res.j.message || (res.ok ? 'Sent!' : 'Please check your details.'));
+          if (res.ok) form.reset();
+      }).catch(function () { alert('Something went wrong.'); });
+});
+</script>
+@endpush

@@ -3,68 +3,58 @@
 @section('title', 'Add Blog Post')
 
 @section('content')
-<div class="d-flex flex-column flex-md-row justify-content-between align-items-stretch align-items-md-center gap-2 mb-4">
-    <h1 class="admin-page-title mb-0">Add Blog Post</h1>
-    <a href="{{ route('admin.blogs.index') }}" class="btn btn-outline-secondary btn-sm flex-md-shrink-0">Back to list</a>
+<div class="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+    <h1 class="text-xl font-bold text-ink">Add Blog Post</h1>
+    <x-button variant="ghost" href="{{ route('admin.blogs.index') }}">Back to list</x-button>
 </div>
 
-<div class="card admin-card admin-form-card shadow-sm">
-    <div class="card-header">New Blog Post</div>
-    <div class="card-body">
-        <form action="{{ route('admin.blogs.store') }}" method="POST" enctype="multipart/form-data">
-            @csrf
+<div class="rounded-md border border-line bg-white p-6 shadow-sm">
+    <p class="mb-6 text-sm font-semibold text-ink-secondary">New Blog Post</p>
 
-            <div class="row g-3">
-                <div class="col-12">
-                    <label class="form-label">Title <span class="text-danger">*</span></label>
-                    <input type="text" name="title" class="form-control @error('title') is-invalid @enderror" value="{{ old('title') }}" required>
-                    @error('title')<div class="invalid-feedback">{{ $message }}</div>@enderror
-                </div>
-                <div class="col-md-6">
-                    <label class="form-label">Category</label>
-                    <input type="text" name="category" class="form-control @error('category') is-invalid @enderror" value="{{ old('category') }}">
-                    @error('category')<div class="invalid-feedback">{{ $message }}</div>@enderror
-                </div>
-                <div class="col-md-6">
-                    <label class="form-label">Author</label>
-                    <input type="text" name="author" class="form-control @error('author') is-invalid @enderror" value="{{ old('author') }}">
-                    @error('author')<div class="invalid-feedback">{{ $message }}</div>@enderror
-                </div>
+    <form action="{{ route('admin.blogs.store') }}" method="POST" enctype="multipart/form-data">
+        @csrf
 
-                <div class="col-12">
-                    <label class="form-label">Excerpt</label>
-                    <textarea name="excerpt" class="form-control @error('excerpt') is-invalid @enderror" rows="2">{{ old('excerpt') }}</textarea>
-                    @error('excerpt')<div class="invalid-feedback">{{ $message }}</div>@enderror
-                </div>
-                <div class="col-12">
-                    <label class="form-label">Content</label>
-                    <textarea name="content" class="form-control @error('content') is-invalid @enderror" rows="10">{{ old('content') }}</textarea>
-                    @error('content')<div class="invalid-feedback">{{ $message }}</div>@enderror
-                </div>
+        <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+            <x-input label="Title" name="title" :value="old('title')" required class="md:col-span-2" />
+            <x-input label="Category" name="category" :value="old('category')" />
+            <x-input label="Author" name="author" :value="old('author')" />
 
-                <div class="col-md-6">
-                    <label class="form-label">Featured image</label>
-                    <input type="file" name="featured_image" class="form-control @error('featured_image') is-invalid @enderror" accept="image/jpeg,image/jpg,image/png,image/gif,image/webp">
-                    <small class="text-muted">JPEG, PNG, GIF, WebP. Max 2MB.</small>
-                    @error('featured_image')<div class="invalid-feedback">{{ $message }}</div>@enderror
-                </div>
-                <div class="col-md-6">
-                    <label class="form-label">Status</label>
-                    <select name="status" class="form-select @error('status') is-invalid @enderror">
-                        <option value="published" {{ old('status', 'published') === 'published' ? 'selected' : '' }}>Published</option>
-                        <option value="draft" {{ old('status') === 'draft' ? 'selected' : '' }}>Draft</option>
-                        <option value="archived" {{ old('status') === 'archived' ? 'selected' : '' }}>Archived</option>
-                    </select>
-                    @error('status')<div class="invalid-feedback">{{ $message }}</div>@enderror
-                </div>
+            <div class="w-full md:col-span-2">
+                <label for="excerpt" class="mb-1 block text-xs font-semibold text-ink">Excerpt</label>
+                <textarea id="excerpt" name="excerpt" rows="2" class="w-full rounded-sm border border-line bg-white px-4 py-3 text-sm text-ink placeholder:text-ink-muted transition-ui focus:border-brand focus:ring-2 focus:ring-brand/20 @error('excerpt') border-danger @enderror">{{ old('excerpt') }}</textarea>
+                @error('excerpt')
+                    <p class="mt-1 text-xs text-danger">{{ $message }}</p>
+                @enderror
             </div>
 
-            <hr class="my-4">
-            <div class="admin-form-actions">
-                <button type="submit" class="btn btn-primary">Create Post</button>
-                <a href="{{ route('admin.blogs.index') }}" class="btn btn-outline-secondary">Back to list</a>
+            <div class="w-full md:col-span-2">
+                <label for="content" class="mb-1 block text-xs font-semibold text-ink">Content</label>
+                <textarea id="content" name="content" rows="10" class="w-full rounded-sm border border-line bg-white px-4 py-3 text-sm text-ink placeholder:text-ink-muted transition-ui focus:border-brand focus:ring-2 focus:ring-brand/20 @error('content') border-danger @enderror">{{ old('content') }}</textarea>
+                @error('content')
+                    <p class="mt-1 text-xs text-danger">{{ $message }}</p>
+                @enderror
             </div>
-        </form>
-    </div>
+
+            <div class="w-full">
+                <label for="featured_image" class="mb-1 block text-xs font-semibold text-ink">Featured image</label>
+                <input id="featured_image" type="file" name="featured_image" accept="image/jpeg,image/jpg,image/png,image/gif,image/webp" class="block w-full text-sm text-ink-secondary file:mr-4 file:inline-flex file:h-11 file:items-center file:rounded-sm file:border-0 file:bg-brand-light file:px-4 file:text-sm file:font-semibold file:text-brand @error('featured_image') border-danger @enderror">
+                <p class="mt-1 text-xs text-ink-muted">JPEG, PNG, GIF, WebP. Max 2MB.</p>
+                @error('featured_image')
+                    <p class="mt-1 text-xs text-danger">{{ $message }}</p>
+                @enderror
+            </div>
+
+            <x-select label="Status" name="status">
+                <option value="published" @selected(old('status', 'published') === 'published')>Published</option>
+                <option value="draft" @selected(old('status') === 'draft')>Draft</option>
+                <option value="archived" @selected(old('status') === 'archived')>Archived</option>
+            </x-select>
+        </div>
+
+        <div class="mt-8 flex flex-wrap gap-3 border-t border-line pt-6">
+            <x-button type="submit">Create Post</x-button>
+            <x-button variant="ghost" href="{{ route('admin.blogs.index') }}">Back to list</x-button>
+        </div>
+    </form>
 </div>
 @endsection

@@ -4,81 +4,40 @@
 @section('meta_description', 'Sign in to the FindState admin dashboard.')
 
 @section('content')
-<section class="py-5 bg-light min-vh-100 d-flex align-items-center">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-6 col-lg-5">
-                <div class="card shadow-sm border-0">
-                    <div class="card-body p-4">
-                        <h1 class="h4 fw-bold mb-4 text-center">Admin Login</h1>
+<section class="flex min-h-[70vh] items-center py-12">
+    <div class="container-page max-w-md">
+        <div class="rounded-md border border-line bg-white p-6 shadow-sm sm:p-8">
+            <h1 class="text-center text-xl font-bold text-ink">Admin Login</h1>
 
-                        @if($errors->any())
-                            <div class="alert alert-danger">
-                                {{ $errors->first() }}
-                            </div>
-                        @endif
+            @if($errors->any())
+                <div class="mt-4 rounded-sm border border-danger/20 bg-danger/10 px-4 py-3 text-sm text-danger">{{ $errors->first() }}</div>
+            @endif
 
-                        <form method="POST" action="{{ url('/login') }}" id="login-form">
-                            @csrf
-                            <div class="mb-3">
-                                <label for="email" class="form-label">Email address</label>
-                                <input
-                                    type="email"
-                                    name="email"
-                                    id="email"
-                                    value="{{ old('email') }}"
-                                    class="form-control @error('email') is-invalid @enderror"
-                                    required
-                                    autofocus
-                                >
-                                @error('email')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
+            <form method="POST" action="{{ url('/login') }}" id="login-form" class="mt-6 space-y-4">
+                @csrf
+                <x-input label="Email address" name="email" type="email" required autofocus />
+                <x-input label="Password" name="password" type="password" required />
+                <label class="inline-flex items-center gap-2 text-sm text-ink-secondary">
+                    <input type="checkbox" name="remember" id="remember" class="h-4 w-4 rounded border-line text-brand focus:ring-brand">
+                    Remember me
+                </label>
+                <x-button variant="primary" type="submit" id="login-btn" block>Sign In</x-button>
+            </form>
 
-                            <div class="mb-3">
-                                <label for="password" class="form-label">Password</label>
-                                <input
-                                    type="password"
-                                    name="password"
-                                    id="password"
-                                    class="form-control @error('password') is-invalid @enderror"
-                                    required
-                                >
-                                @error('password')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-
-                            <div class="mb-3 form-check">
-                                <input type="checkbox" class="form-check-input" id="remember" name="remember">
-                                <label class="form-check-label" for="remember">Remember me</label>
-                            </div>
-
-                            <button type="submit" class="btn btn-primary w-100" id="login-btn">
-                                <i class="fas fa-sign-in-alt me-1"></i> Sign In
-                            </button>
-                        </form>
-                        <script>
-                            document.getElementById('login-form').addEventListener('submit', function() {
-                                var btn = document.getElementById('login-btn');
-                                if (btn) { btn.disabled = true; btn.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span> Signing in...'; }
-                            });
-                        </script>
-
-                        @if(config('app.debug'))
-                            <p class="text-muted small mt-3 mb-0 text-center">
-                                Local demo only: <code>test@example.com</code> / <code>password</code>
-                            </p>
-                        @endif
-                        <p class="text-muted small mt-2 mb-0 text-center">
-                            Powered by Nexora Labs
-                        </p>
-                    </div>
-                </div>
-            </div>
+            @if(config('app.debug'))
+                <p class="mt-4 text-center text-xs text-ink-muted">Local demo only: <code class="text-ink">test@example.com</code> / <code class="text-ink">password</code></p>
+            @endif
+            <p class="mt-3 text-center text-xs text-ink-muted">Powered by Nexora Labs</p>
         </div>
     </div>
 </section>
 @endsection
 
+@push('scripts')
+<script>
+document.getElementById('login-form')?.addEventListener('submit', function () {
+    var btn = document.getElementById('login-btn');
+    if (btn) { btn.disabled = true; btn.textContent = 'Signing in...'; }
+});
+</script>
+@endpush

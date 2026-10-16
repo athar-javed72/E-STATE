@@ -1,164 +1,90 @@
-{{-- Modern Professional Navbar - FindState --}}
-<header class="site-header" id="siteHeader">
-    <nav class="navbar navbar-expand-lg" id="mainNavbar">
-        <div class="container">
-            {{-- Logo --}}
-            <a class="navbar-brand d-flex align-items-center gap-2" href="{{ route('home') }}">
-                <span class="brand-icon">
-                    <i class="fas fa-building"></i>
-                </span>
-                <span class="brand-text">FindState</span>
-            </a>
+<header class="sticky top-0 z-40 border-b border-line bg-white">
+    <div class="container-page flex h-[72px] items-center justify-between gap-4">
+        <a href="{{ route('home') }}" class="flex items-center gap-2 text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand">
+            <span class="inline-flex h-10 w-10 items-center justify-center rounded-sm bg-brand text-white">
+                <i class="fas fa-building" aria-hidden="true"></i>
+            </span>
+            <span class="text-base font-bold">FindState</span>
+        </a>
 
-            {{-- Toggle for mobile --}}
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain" aria-controls="navbarMain" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="collapse navbar-collapse" id="navbarMain">
-                {{-- Main nav links --}}
-                <ul class="navbar-nav nav-links mx-auto">
-                    <li class="nav-item">
-                        <a class="nav-link {{ Request::routeIs('home') ? 'active' : '' }}" href="{{ route('home') }}">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {{ Request::routeIs('about') ? 'active' : '' }}" href="{{ route('about') }}">About</a>
-                    </li>
-                    <li class="nav-item dropdown nav-dropdown">
-                        <a class="nav-link dropdown-toggle {{ Request::routeIs('properties.*') ? 'active' : '' }}" href="{{ route('properties.index') }}" role="button" data-bs-toggle="dropdown" aria-expanded="false">Properties</a>
-                        <ul class="dropdown-menu dropdown-menu-shadow">
-                            <li><a class="dropdown-item" href="{{ route('properties.index') }}"><i class="fas fa-th-large me-2 opacity-75"></i>All Properties</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><h6 class="dropdown-header small text-uppercase text-muted">By Purpose</h6></li>
-                            <li><a class="dropdown-item" href="{{ route('properties.index', ['listing_type' => 'for_sale']) }}">For Sale</a></li>
-                            <li><a class="dropdown-item" href="{{ route('properties.index', ['listing_type' => 'for_rent']) }}">For Rent</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><h6 class="dropdown-header small text-uppercase text-muted">By Type</h6></li>
-                            <li><a class="dropdown-item" href="{{ route('properties.index', ['type' => 'house']) }}">Houses</a></li>
-                            <li><a class="dropdown-item" href="{{ route('properties.index', ['type' => 'apartment']) }}">Apartments</a></li>
-                            <li><a class="dropdown-item" href="{{ route('properties.index', ['type' => 'condo']) }}">Condos</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {{ Request::routeIs('agents.*') ? 'active' : '' }}" href="{{ route('agents.index') }}">Agents</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {{ Request::routeIs('blog.*') ? 'active' : '' }}" href="{{ route('blog.index') }}">Blog</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {{ Request::routeIs('services') ? 'active' : '' }}" href="{{ route('services') }}">Services</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {{ Request::routeIs('contact') ? 'active' : '' }}" href="{{ route('contact.index') }}">Contact</a>
-                    </li>
-                </ul>
-
-                {{-- Actions --}}
-                <div class="navbar-actions d-flex align-items-center gap-2 flex-shrink-0">
-                    <button class="btn btn-nav btn-search" type="button" data-bs-toggle="modal" data-bs-target="#searchModal">
-                        <i class="fas fa-search"></i>
-                        <span class="btn-text">Search</span>
-                    </button>
-                    <a href="{{ route('contact.index') }}?subject=list_property" class="btn btn-nav btn-cta">
-                        <i class="fas fa-plus"></i>
-                        <span class="btn-text">List Property</span>
-                    </a>
-                    @auth
-                        <div class="dropdown user-dropdown">
-                            <a class="btn btn-nav btn-user dropdown-toggle d-flex align-items-center gap-2" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <span class="user-avatar"><i class="fas fa-user"></i></span>
-                                <span class="user-name d-none d-md-inline">{{ Str::limit(Auth::user()->name, 14) }}</span>
-                                <i class="fas fa-chevron-down dropdown-arrow"></i>
-                            </a>
-                            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-shadow">
-                                <li class="px-3 py-2 border-bottom"><span class="small text-muted">{{ Auth::user()->email }}</span></li>
-                                @if(Auth::user()?->is_admin)
-                                    <li><a class="dropdown-item py-2" href="{{ route('admin.dashboard') }}"><i class="fas fa-tachometer-alt me-2"></i>Dashboard</a></li>
-                                    <li><hr class="dropdown-divider my-0"></li>
-                                @endif
-                                <li>
-                                    <form method="POST" action="{{ route('logout') }}" class="d-inline w-100">
-                                        @csrf
-                                        <button type="submit" class="dropdown-item py-2 text-danger"><i class="fas fa-sign-out-alt me-2"></i>Logout</button>
-                                    </form>
-                                </li>
-                            </ul>
-                        </div>
-                    @else
-                        <a href="{{ route('login') }}" class="btn btn-nav btn-outline d-flex align-items-center gap-2">
-                            <i class="fas fa-sign-in-alt"></i>
-                            <span class="btn-text">Login</span>
-                        </a>
-                    @endauth
+        <nav class="hidden items-center gap-6 lg:flex" aria-label="Primary">
+            <a href="{{ route('home') }}" class="text-sm font-medium {{ request()->routeIs('home') ? 'text-brand' : 'text-ink-secondary hover:text-ink' }} transition-ui">Home</a>
+            <a href="{{ route('properties.index') }}" class="text-sm font-medium {{ request()->routeIs('properties.*') ? 'text-brand' : 'text-ink-secondary hover:text-ink' }} transition-ui">Properties</a>
+            <a href="{{ route('agents.index') }}" class="text-sm font-medium {{ request()->routeIs('agents.*') ? 'text-brand' : 'text-ink-secondary hover:text-ink' }} transition-ui">Agents</a>
+            <a href="{{ route('blog.index') }}" class="text-sm font-medium {{ request()->routeIs('blog.*') ? 'text-brand' : 'text-ink-secondary hover:text-ink' }} transition-ui">Blog</a>
+            <div class="relative">
+                <button id="nav-more-btn" type="button" class="inline-flex h-11 items-center gap-1 text-sm font-medium text-ink-secondary transition-ui hover:text-ink">
+                    More <i class="fas fa-chevron-down text-xs" aria-hidden="true"></i>
+                </button>
+                <div id="nav-more-menu" class="absolute left-0 top-full z-50 mt-2 hidden w-44 rounded-md border border-line bg-white py-2 shadow-lg">
+                    <a href="{{ route('about') }}" class="block px-4 py-2 text-sm text-ink-secondary hover:bg-canvas hover:text-ink">About</a>
+                    <a href="{{ route('services') }}" class="block px-4 py-2 text-sm text-ink-secondary hover:bg-canvas hover:text-ink">Services</a>
+                    <a href="{{ route('contact.index') }}" class="block px-4 py-2 text-sm text-ink-secondary hover:bg-canvas hover:text-ink">Contact</a>
                 </div>
             </div>
+        </nav>
+
+        <div class="hidden items-center gap-3 lg:flex">
+            <a href="{{ route('contact.index') }}?subject=list_property" class="inline-flex h-11 items-center justify-center rounded-sm bg-accent px-5 text-sm font-semibold text-white transition-ui hover:bg-accent/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent">
+                List Property
+            </a>
+            @auth
+                <div class="relative">
+                    <button id="nav-user-btn" type="button" class="inline-flex h-11 items-center gap-2 rounded-sm border border-line px-4 text-sm font-semibold text-ink">
+                        {{ Str::limit(Auth::user()->name, 12) }}
+                        <i class="fas fa-chevron-down text-xs" aria-hidden="true"></i>
+                    </button>
+                    <div id="nav-user-menu" class="absolute right-0 top-full z-50 mt-2 hidden w-48 rounded-md border border-line bg-white py-2 shadow-lg">
+                        <p class="border-b border-line px-4 py-2 text-xs text-ink-muted">{{ Auth::user()->email }}</p>
+                        @if(Auth::user()?->is_admin)
+                            <a href="{{ route('admin.dashboard') }}" class="block px-4 py-2 text-sm text-ink-secondary hover:bg-canvas">Dashboard</a>
+                        @endif
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+                            <button type="submit" class="block w-full px-4 py-2 text-left text-sm text-danger hover:bg-canvas">Logout</button>
+                        </form>
+                    </div>
+                </div>
+            @else
+                <x-button variant="ghost" href="{{ route('login') }}">Login</x-button>
+            @endauth
         </div>
-    </nav>
+
+        <button id="nav-open" type="button" class="inline-flex h-11 w-11 items-center justify-center rounded-sm border border-line text-ink lg:hidden" aria-label="Open menu">
+            <i class="fas fa-bars" aria-hidden="true"></i>
+        </button>
+    </div>
 </header>
 
-{{-- Quick Search Modal --}}
-<div class="modal fade" id="searchModal" tabindex="-1">
-    <div class="modal-dialog modal-lg modal-dialog-centered">
-        <div class="modal-content border-0 shadow-lg rounded-3 overflow-hidden">
-            <div class="modal-header border-0 pb-0 bg-light">
-                <h5 class="modal-title fw-semibold"><i class="fas fa-search me-2 text-primary"></i>Quick Property Search</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body pt-2">
-                <form action="{{ route('properties.index') }}" method="GET">
-                    <div class="row g-3">
-                        <div class="col-md-6">
-                            <label class="form-label small fw-semibold text-muted">Keywords</label>
-                            <input type="text" class="form-control" name="search" placeholder="Location, property name...">
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label small fw-semibold text-muted">Property Type</label>
-                            <select class="form-select" name="type">
-                                <option value="">All Types</option>
-                                @foreach(\App\Models\Property::TYPES as $t)
-                                    <option value="{{ $t }}">{{ ucfirst($t) }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label small fw-semibold text-muted">Listing Type</label>
-                            <select class="form-select" name="listing_type">
-                                <option value="">For Sale & Rent</option>
-                                <option value="for_sale">For Sale</option>
-                                <option value="for_rent">For Rent</option>
-                            </select>
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label small fw-semibold text-muted">Bedrooms</label>
-                            <select class="form-select" name="bedrooms">
-                                <option value="">Any</option>
-                                <option value="1">1+ Bedroom</option>
-                                <option value="2">2+ Bedrooms</option>
-                                <option value="3">3+ Bedrooms</option>
-                                <option value="4">4+ Bedrooms</option>
-                                <option value="5">5+ Bedrooms</option>
-                            </select>
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label small fw-semibold text-muted">Min Price</label>
-                            <input type="number" class="form-control" name="min_price" placeholder="Min">
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label small fw-semibold text-muted">Max Price</label>
-                            <input type="number" class="form-control" name="max_price" placeholder="Max">
-                        </div>
-                    </div>
-                    <div class="mt-4 d-flex gap-2 flex-wrap">
-                        <button type="submit" class="btn btn-primary px-4">
-                            <i class="fas fa-search me-1"></i>Search
-                        </button>
-                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
-                    </div>
-                </form>
-            </div>
-        </div>
+<div id="nav-backdrop" class="fixed inset-0 z-40 bg-ink/40 opacity-0 pointer-events-none transition-ui lg:hidden"></div>
+<aside id="nav-drawer" class="fixed inset-y-0 right-0 z-50 flex w-full max-w-sm translate-x-full flex-col bg-white shadow-lg transition-ui lg:hidden" aria-label="Mobile menu">
+    <div class="flex h-[72px] items-center justify-between border-b border-line px-4">
+        <span class="text-base font-bold text-ink">Menu</span>
+        <button id="nav-close" type="button" class="inline-flex h-11 w-11 items-center justify-center rounded-sm border border-line" aria-label="Close menu">
+            <i class="fas fa-times" aria-hidden="true"></i>
+        </button>
     </div>
-</div>
-
-{{-- Spacer for fixed header --}}
-<div class="navbar-spacer"></div>
+    <nav class="flex-1 space-y-1 overflow-y-auto p-4">
+        <a href="{{ route('home') }}" class="block rounded-sm px-4 py-3 text-sm font-medium text-ink hover:bg-canvas">Home</a>
+        <a href="{{ route('properties.index') }}" class="block rounded-sm px-4 py-3 text-sm font-medium text-ink hover:bg-canvas">Properties</a>
+        <a href="{{ route('agents.index') }}" class="block rounded-sm px-4 py-3 text-sm font-medium text-ink hover:bg-canvas">Agents</a>
+        <a href="{{ route('blog.index') }}" class="block rounded-sm px-4 py-3 text-sm font-medium text-ink hover:bg-canvas">Blog</a>
+        <a href="{{ route('about') }}" class="block rounded-sm px-4 py-3 text-sm font-medium text-ink hover:bg-canvas">About</a>
+        <a href="{{ route('services') }}" class="block rounded-sm px-4 py-3 text-sm font-medium text-ink hover:bg-canvas">Services</a>
+        <a href="{{ route('contact.index') }}" class="block rounded-sm px-4 py-3 text-sm font-medium text-ink hover:bg-canvas">Contact</a>
+    </nav>
+    <div class="space-y-3 border-t border-line p-4">
+        <a href="{{ route('contact.index') }}?subject=list_property" class="inline-flex h-11 w-full items-center justify-center rounded-sm bg-accent text-sm font-semibold text-white">List Property</a>
+        @auth
+            @if(Auth::user()?->is_admin)
+                <x-button variant="secondary" href="{{ route('admin.dashboard') }}" block>Dashboard</x-button>
+            @endif
+            <form method="POST" action="{{ route('logout') }}">
+                @csrf
+                <x-button variant="ghost" type="submit" block>Logout</x-button>
+            </form>
+        @else
+            <x-button variant="ghost" href="{{ route('login') }}" block>Login</x-button>
+        @endauth
+    </div>
+</aside>

@@ -3,113 +3,73 @@
 @section('title', 'Edit Agent')
 
 @section('content')
-<div class="d-flex flex-column flex-md-row justify-content-between align-items-stretch align-items-md-center gap-2 mb-4">
-    <h1 class="admin-page-title mb-0">Edit Agent</h1>
-    <a href="{{ route('admin.agents.index') }}" class="btn btn-outline-secondary btn-sm flex-md-shrink-0">Back to list</a>
+<div class="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+    <h1 class="text-xl font-bold text-ink">Edit Agent</h1>
+    <x-button variant="ghost" href="{{ route('admin.agents.index') }}">Back to list</x-button>
 </div>
 
-<div class="card admin-card admin-form-card shadow-sm">
-    <div class="card-header">Edit Agent</div>
-    <div class="card-body">
-        <form action="{{ route('admin.agents.update', $agent) }}" method="POST" enctype="multipart/form-data">
-            @csrf
-            @method('PUT')
+<div class="rounded-md border border-line bg-white p-6 shadow-sm">
+    <p class="mb-6 text-sm font-semibold text-ink-secondary">Edit Agent</p>
 
-            <div class="row g-3">
-                <div class="col-md-6">
-                    <label class="form-label">Name <span class="text-danger">*</span></label>
-                    <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" value="{{ old('name', $agent->name) }}" required>
-                    @error('name')<div class="invalid-feedback">{{ $message }}</div>@enderror
-                </div>
-                <div class="col-md-6">
-                    <label class="form-label">Email</label>
-                    <input type="email" name="email" class="form-control @error('email') is-invalid @enderror" value="{{ old('email', $agent->email) }}">
-                    @error('email')<div class="invalid-feedback">{{ $message }}</div>@enderror
-                </div>
-                <div class="col-md-6">
-                    <label class="form-label">Phone</label>
-                    <input type="text" name="phone" class="form-control @error('phone') is-invalid @enderror" value="{{ old('phone', $agent->phone) }}">
-                    @error('phone')<div class="invalid-feedback">{{ $message }}</div>@enderror
-                </div>
-                <div class="col-md-6">
-                    <label class="form-label">Designation</label>
-                    <input type="text" name="designation" class="form-control @error('designation') is-invalid @enderror" value="{{ old('designation', $agent->designation) }}">
-                    @error('designation')<div class="invalid-feedback">{{ $message }}</div>@enderror
-                </div>
+    <form action="{{ route('admin.agents.update', $agent) }}" method="POST" enctype="multipart/form-data">
+        @csrf
+        @method('PUT')
 
-                <div class="col-12">
-                    <label class="form-label">Bio</label>
-                    <textarea name="bio" class="form-control @error('bio') is-invalid @enderror" rows="3">{{ old('bio', $agent->bio) }}</textarea>
-                    @error('bio')<div class="invalid-feedback">{{ $message }}</div>@enderror
-                </div>
+        <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+            <x-input label="Name" name="name" :value="old('name', $agent->name)" required />
+            <x-input label="Email" name="email" type="email" :value="old('email', $agent->email)" />
+            <x-input label="Phone" name="phone" :value="old('phone', $agent->phone)" />
+            <x-input label="Designation" name="designation" :value="old('designation', $agent->designation)" />
 
-                <div class="col-md-6">
-                    <label class="form-label">Avatar</label>
-                    @if($agent->avatar)
-                        <div class="file-preview mb-2">
-                            <img src="{{ asset('storage/' . $agent->avatar) }}" alt="" class="rounded-circle" style="width: 60px; height: 60px; object-fit: cover;">
-                            <span class="text-muted small d-block mt-1">Current. Upload new to replace.</span>
-                        </div>
-                    @endif
-                    <input type="file" name="avatar" class="form-control @error('avatar') is-invalid @enderror" accept="image/jpeg,image/jpg,image/png,image/gif,image/webp">
-                    <small class="text-muted">JPEG, PNG, GIF, WebP. Max 2MB.</small>
-                    @error('avatar')<div class="invalid-feedback">{{ $message }}</div>@enderror
-                </div>
-                <div class="col-md-3">
-                    <label class="form-label">Experience (years)</label>
-                    <input type="number" name="experience" class="form-control @error('experience') is-invalid @enderror" value="{{ old('experience', $agent->experience) }}" min="0" max="50">
-                    @error('experience')<div class="invalid-feedback">{{ $message }}</div>@enderror
-                </div>
-                <div class="col-md-3">
-                    <label class="form-label">Rating (0–5)</label>
-                    <input type="number" name="rating" class="form-control @error('rating') is-invalid @enderror" value="{{ old('rating', $agent->rating) }}" min="0" max="5" step="0.01">
-                    @error('rating')<div class="invalid-feedback">{{ $message }}</div>@enderror
-                </div>
+            <div class="w-full md:col-span-2">
+                <label for="bio" class="mb-1 block text-xs font-semibold text-ink">Bio</label>
+                <textarea id="bio" name="bio" rows="3" class="w-full rounded-sm border border-line bg-white px-4 py-3 text-sm text-ink placeholder:text-ink-muted transition-ui focus:border-brand focus:ring-2 focus:ring-brand/20 @error('bio') border-danger @enderror">{{ old('bio', $agent->bio) }}</textarea>
+                @error('bio')
+                    <p class="mt-1 text-xs text-danger">{{ $message }}</p>
+                @enderror
+            </div>
 
-                <div class="col-md-4">
-                    <label class="form-label">Facebook URL</label>
-                    <input type="text" name="facebook" class="form-control @error('facebook') is-invalid @enderror" value="{{ old('facebook', $agent->facebook) }}">
-                    @error('facebook')<div class="invalid-feedback">{{ $message }}</div>@enderror
-                </div>
-                <div class="col-md-4">
-                    <label class="form-label">Twitter URL</label>
-                    <input type="text" name="twitter" class="form-control @error('twitter') is-invalid @enderror" value="{{ old('twitter', $agent->twitter) }}">
-                    @error('twitter')<div class="invalid-feedback">{{ $message }}</div>@enderror
-                </div>
-                <div class="col-md-4">
-                    <label class="form-label">LinkedIn</label>
-                    <input type="text" name="linkedin" class="form-control @error('linkedin') is-invalid @enderror" value="{{ old('linkedin', $agent->linkedin) }}">
-                    @error('linkedin')<div class="invalid-feedback">{{ $message }}</div>@enderror
-                </div>
-                <div class="col-md-4">
-                    <label class="form-label">Instagram</label>
-                    <input type="text" name="instagram" class="form-control @error('instagram') is-invalid @enderror" value="{{ old('instagram', $agent->instagram) }}">
-                    @error('instagram')<div class="invalid-feedback">{{ $message }}</div>@enderror
-                </div>
-
-                <div class="col-md-4">
-                    <label class="form-label">Status</label>
-                    <select name="status" class="form-select @error('status') is-invalid @enderror">
-                        <option value="active" {{ old('status', $agent->status) === 'active' ? 'selected' : '' }}>Active</option>
-                        <option value="inactive" {{ old('status', $agent->status) === 'inactive' ? 'selected' : '' }}>Inactive</option>
-                    </select>
-                    @error('status')<div class="invalid-feedback">{{ $message }}</div>@enderror
-                </div>
-                <div class="col-md-4 d-flex align-items-end">
-                    <div class="form-check">
-                        <input type="hidden" name="is_online" value="0">
-                        <input type="checkbox" name="is_online" value="1" class="form-check-input" {{ old('is_online', $agent->is_online) ? 'checked' : '' }}>
-                        <label class="form-check-label">Online</label>
+            <div class="w-full">
+                <label for="avatar" class="mb-1 block text-xs font-semibold text-ink">Avatar</label>
+                @if($agent->avatar)
+                    <div class="mb-3">
+                        <img src="{{ asset('storage/' . $agent->avatar) }}" alt="" class="h-16 w-16 rounded-full object-cover">
+                        <p class="mt-1 text-xs text-ink-muted">Current. Upload new to replace.</p>
                     </div>
-                </div>
+                @endif
+                <input id="avatar" type="file" name="avatar" accept="image/jpeg,image/jpg,image/png,image/gif,image/webp" class="block w-full text-sm text-ink-secondary file:mr-4 file:inline-flex file:h-11 file:items-center file:rounded-sm file:border-0 file:bg-brand-light file:px-4 file:text-sm file:font-semibold file:text-brand @error('avatar') border-danger @enderror">
+                <p class="mt-1 text-xs text-ink-muted">JPEG, PNG, GIF, WebP. Max 2MB.</p>
+                @error('avatar')
+                    <p class="mt-1 text-xs text-danger">{{ $message }}</p>
+                @enderror
             </div>
 
-            <hr class="my-4">
-            <div class="admin-form-actions">
-                <button type="submit" class="btn btn-primary">Update Agent</button>
-                <a href="{{ route('admin.agents.index') }}" class="btn btn-outline-secondary">Back to list</a>
+            <x-input label="Experience (years)" name="experience" type="number" :value="old('experience', $agent->experience)" min="0" max="50" />
+            <x-input label="Rating (0–5)" name="rating" type="number" :value="old('rating', $agent->rating)" min="0" max="5" step="0.01" />
+
+            <x-input label="Facebook URL" name="facebook" :value="old('facebook', $agent->facebook)" />
+            <x-input label="Twitter URL" name="twitter" :value="old('twitter', $agent->twitter)" />
+            <x-input label="LinkedIn" name="linkedin" :value="old('linkedin', $agent->linkedin)" />
+            <x-input label="Instagram" name="instagram" :value="old('instagram', $agent->instagram)" />
+
+            <x-select label="Status" name="status">
+                <option value="active" @selected(old('status', $agent->status) === 'active')>Active</option>
+                <option value="inactive" @selected(old('status', $agent->status) === 'inactive')>Inactive</option>
+            </x-select>
+
+            <div class="flex items-end">
+                <label class="inline-flex h-11 items-center gap-2">
+                    <input type="hidden" name="is_online" value="0">
+                    <input type="checkbox" name="is_online" value="1" class="h-4 w-4 rounded-sm border-line text-brand focus:ring-brand/20" @checked(old('is_online', $agent->is_online))>
+                    <span class="text-sm font-medium text-ink">Online</span>
+                </label>
             </div>
-        </form>
-    </div>
+        </div>
+
+        <div class="mt-8 flex flex-wrap gap-3 border-t border-line pt-6">
+            <x-button type="submit">Update Agent</x-button>
+            <x-button variant="ghost" href="{{ route('admin.agents.index') }}">Back to list</x-button>
+        </div>
+    </form>
 </div>
 @endsection

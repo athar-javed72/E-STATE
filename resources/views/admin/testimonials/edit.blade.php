@@ -3,73 +3,61 @@
 @section('title', 'Edit Testimonial')
 
 @section('content')
-<div class="d-flex flex-column flex-md-row justify-content-between align-items-stretch align-items-md-center gap-2 mb-4">
-    <h1 class="admin-page-title mb-0">Edit Testimonial</h1>
-    <a href="{{ route('admin.testimonials.index') }}" class="btn btn-outline-secondary btn-sm flex-md-shrink-0">Back to list</a>
+<div class="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+    <h1 class="text-xl font-bold text-ink">Edit Testimonial</h1>
+    <x-button variant="ghost" href="{{ route('admin.testimonials.index') }}">Back to list</x-button>
 </div>
 
-<div class="card admin-card admin-form-card shadow-sm">
-    <div class="card-header">Edit: {{ $testimonial->name }}</div>
-    <div class="card-body">
-        <form action="{{ route('admin.testimonials.update', $testimonial) }}" method="POST" enctype="multipart/form-data">
-            @csrf
-            @method('PUT')
+<div class="rounded-md border border-line bg-white p-6 shadow-sm">
+    <p class="mb-6 text-sm font-semibold text-ink-secondary">Edit: {{ $testimonial->name }}</p>
 
-            <div class="row g-3">
-                <div class="col-md-6">
-                    <label class="form-label">Name <span class="text-danger">*</span></label>
-                    <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" value="{{ old('name', $testimonial->name) }}" required>
-                    @error('name')<div class="invalid-feedback">{{ $message }}</div>@enderror
-                </div>
-                <div class="col-md-6">
-                    <label class="form-label">Designation</label>
-                    <input type="text" name="designation" class="form-control @error('designation') is-invalid @enderror" value="{{ old('designation', $testimonial->designation) }}">
-                    @error('designation')<div class="invalid-feedback">{{ $message }}</div>@enderror
-                </div>
-                <div class="col-md-6">
-                    <label class="form-label">Location</label>
-                    <input type="text" name="location" class="form-control @error('location') is-invalid @enderror" value="{{ old('location', $testimonial->location) }}">
-                    @error('location')<div class="invalid-feedback">{{ $message }}</div>@enderror
-                </div>
-                <div class="col-md-3">
-                    <label class="form-label">Rating</label>
-                    <select name="rating" class="form-select @error('rating') is-invalid @enderror">
-                        @for($i = 5; $i >= 1; $i--)
-                            <option value="{{ $i }}" {{ (int) old('rating', $testimonial->rating) === $i ? 'selected' : '' }}>{{ $i }}</option>
-                        @endfor
-                    </select>
-                    @error('rating')<div class="invalid-feedback">{{ $message }}</div>@enderror
-                </div>
-                <div class="col-md-3">
-                    <label class="form-label">Status</label>
-                    <select name="status" class="form-select @error('status') is-invalid @enderror">
-                        <option value="active" {{ old('status', $testimonial->status) === 'active' ? 'selected' : '' }}>Active</option>
-                        <option value="inactive" {{ old('status', $testimonial->status) === 'inactive' ? 'selected' : '' }}>Inactive</option>
-                    </select>
-                    @error('status')<div class="invalid-feedback">{{ $message }}</div>@enderror
-                </div>
-                <div class="col-12">
-                    <label class="form-label">Content <span class="text-danger">*</span></label>
-                    <textarea name="content" class="form-control @error('content') is-invalid @enderror" rows="4" required>{{ old('content', $testimonial->content) }}</textarea>
-                    @error('content')<div class="invalid-feedback">{{ $message }}</div>@enderror
-                </div>
-                <div class="col-md-6">
-                    <label class="form-label">Image</label>
-                    @if($testimonial->image)
-                        <div class="mb-2">
-                            <img src="{{ asset('storage/' . $testimonial->image) }}" alt="" style="max-height: 80px;" class="rounded">
-                        </div>
-                    @endif
-                    <input type="file" name="image" class="form-control @error('image') is-invalid @enderror" accept="image/jpeg,image/jpg,image/png,image/gif,image/webp">
-                    <small class="text-muted">Leave empty to keep current image.</small>
-                    @error('image')<div class="invalid-feedback">{{ $message }}</div>@enderror
-                </div>
+    <form action="{{ route('admin.testimonials.update', $testimonial) }}" method="POST" enctype="multipart/form-data">
+        @csrf
+        @method('PUT')
+
+        <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+            <x-input label="Name" name="name" :value="old('name', $testimonial->name)" required />
+            <x-input label="Designation" name="designation" :value="old('designation', $testimonial->designation)" />
+            <x-input label="Location" name="location" :value="old('location', $testimonial->location)" />
+
+            <x-select label="Rating" name="rating">
+                @for($i = 5; $i >= 1; $i--)
+                    <option value="{{ $i }}" @selected((int) old('rating', $testimonial->rating) === $i)>{{ $i }}</option>
+                @endfor
+            </x-select>
+
+            <x-select label="Status" name="status">
+                <option value="active" @selected(old('status', $testimonial->status) === 'active')>Active</option>
+                <option value="inactive" @selected(old('status', $testimonial->status) === 'inactive')>Inactive</option>
+            </x-select>
+
+            <div class="w-full md:col-span-2">
+                <label for="content" class="mb-1 block text-xs font-semibold text-ink">Content <span class="text-danger">*</span></label>
+                <textarea id="content" name="content" rows="4" required class="w-full rounded-sm border border-line bg-white px-4 py-3 text-sm text-ink placeholder:text-ink-muted transition-ui focus:border-brand focus:ring-2 focus:ring-brand/20 @error('content') border-danger @enderror">{{ old('content', $testimonial->content) }}</textarea>
+                @error('content')
+                    <p class="mt-1 text-xs text-danger">{{ $message }}</p>
+                @enderror
             </div>
 
-            <div class="mt-4">
-                <button type="submit" class="btn btn-primary">Update Testimonial</button>
+            <div class="w-full">
+                <label for="image" class="mb-1 block text-xs font-semibold text-ink">Image</label>
+                @if($testimonial->image)
+                    <div class="mb-3">
+                        <img src="{{ asset('storage/' . $testimonial->image) }}" alt="" class="max-h-20 rounded-sm object-cover">
+                    </div>
+                @endif
+                <input id="image" type="file" name="image" accept="image/jpeg,image/jpg,image/png,image/gif,image/webp" class="block w-full text-sm text-ink-secondary file:mr-4 file:inline-flex file:h-11 file:items-center file:rounded-sm file:border-0 file:bg-brand-light file:px-4 file:text-sm file:font-semibold file:text-brand @error('image') border-danger @enderror">
+                <p class="mt-1 text-xs text-ink-muted">Leave empty to keep current image.</p>
+                @error('image')
+                    <p class="mt-1 text-xs text-danger">{{ $message }}</p>
+                @enderror
             </div>
-        </form>
-    </div>
+        </div>
+
+        <div class="mt-8 flex flex-wrap gap-3 border-t border-line pt-6">
+            <x-button type="submit">Update Testimonial</x-button>
+            <x-button variant="ghost" href="{{ route('admin.testimonials.index') }}">Back to list</x-button>
+        </div>
+    </form>
 </div>
 @endsection

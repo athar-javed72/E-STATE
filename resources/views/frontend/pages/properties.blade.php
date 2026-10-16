@@ -1,97 +1,111 @@
 @extends('layouts.app')
 
 @section('title', 'Properties - FindState')
-@section('meta_description', 'Browse our listings of properties for sale and rent. Filter by type, price, location, and more.')
+@section('meta_description', 'Browse properties for sale and rent. Filter by type, price, and location.')
 
 @section('content')
-{{-- Breadcrumb --}}
-<section class="breadcrumb-section py-4 bg-light">
-    <div class="container">
-        <div class="row align-items-center">
-            <div class="col-md-6">
-                <h1 class="h2 mb-0 fw-bold">Properties</h1>
-            </div>
-            <div class="col-md-6">
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb mb-0 justify-content-md-end">
-                        <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Properties</li>
-                    </ol>
-                </nav>
-            </div>
-        </div>
+<section class="border-b border-line bg-white py-8">
+    <div class="container-page">
+        <h1 class="text-xl font-bold text-ink sm:text-2xl">Properties</h1>
+        <p class="mt-2 text-sm text-ink-secondary">{{ $properties->total() }} listings match your search.</p>
     </div>
 </section>
 
-{{-- Filters --}}
-<section class="py-3 border-bottom">
-    <div class="container">
-        <form action="{{ route('properties.index') }}" method="GET" class="row g-3 align-items-end">
-            <div class="col-md-2">
-                <label class="form-label small fw-bold">Search</label>
-                <input type="text" class="form-control" name="search" value="{{ request('search') }}" placeholder="Location, title...">
-            </div>
-            <div class="col-md-2">
-                <label class="form-label small fw-bold">Type</label>
-                <select class="form-select" name="type">
-                    <option value="">All Types</option>
-                    @foreach($propertyTypes as $t)
-                        <option value="{{ $t }}" {{ request('type') == $t ? 'selected' : '' }}>{{ ucfirst($t) }}</option>
-                    @endforeach
-                </select>
-            </div>
-            <div class="col-md-2">
-                <label class="form-label small fw-bold">Listing</label>
-                <select class="form-select" name="listing_type">
-                    <option value="">All</option>
-                    <option value="for_sale" {{ request('listing_type') == 'for_sale' ? 'selected' : '' }}>For Sale</option>
-                    <option value="for_rent" {{ request('listing_type') == 'for_rent' ? 'selected' : '' }}>For Rent</option>
-                </select>
-            </div>
-            <div class="col-md-2">
-                <label class="form-label small fw-bold">Min Price</label>
-                <input type="number" class="form-control" name="min_price" value="{{ request('min_price') }}" placeholder="0" min="0">
-            </div>
-            <div class="col-md-2">
-                <label class="form-label small fw-bold">Max Price</label>
-                <input type="number" class="form-control" name="max_price" value="{{ request('max_price') }}" placeholder="{{ $maxPrice ?? '' }}" min="0">
-            </div>
-            <div class="col-md-2">
-                <input type="hidden" name="sort" value="{{ request('sort', 'latest') }}">
-                <button type="submit" class="btn btn-primary w-100"><i class="fas fa-search me-2"></i>Search</button>
-            </div>
-        </form>
-        <div class="mt-2 d-flex flex-wrap gap-2">
-            <span class="small text-muted">Sort:</span>
-            <a href="{{ request()->fullUrlWithQuery(['sort' => 'latest']) }}" class="badge bg-{{ request('sort', 'latest') == 'latest' ? 'primary' : 'light text-dark' }} text-decoration-none">Latest</a>
-            <a href="{{ request()->fullUrlWithQuery(['sort' => 'price_low']) }}" class="badge bg-{{ request('sort') == 'price_low' ? 'primary' : 'light text-dark' }} text-decoration-none">Price: Low to High</a>
-            <a href="{{ request()->fullUrlWithQuery(['sort' => 'price_high']) }}" class="badge bg-{{ request('sort') == 'price_high' ? 'primary' : 'light text-dark' }} text-decoration-none">Price: High to Low</a>
-        </div>
-    </div>
-</section>
-
-{{-- Property List --}}
-<section class="py-5">
-    <div class="container">
-        @if($properties->count() > 0)
-            <div class="row g-4">
-                @foreach($properties as $property)
-                    <div class="col-lg-4 col-md-6">
-                        @include('frontend.components.property-card', ['property' => $property])
-                    </div>
+<section class="py-8">
+    <div class="container-page">
+        <div class="mb-6 flex flex-wrap items-center justify-between gap-3 lg:hidden">
+            <button type="button" id="filter-open" class="inline-flex h-11 items-center gap-2 rounded-sm border border-line bg-white px-4 text-sm font-semibold text-ink">
+                <i class="fas fa-sliders-h" aria-hidden="true"></i> Filters
+            </button>
+            <form method="GET" class="flex items-center gap-2">
+                @foreach(request()->except('sort', 'page') as $key => $value)
+                    @if(is_array($value))
+                        @foreach($value as $v)
+                            <input type="hidden" name="{{ $key }}[]" value="{{ $v }}">
+                        @endforeach
+                    @else
+                        <input type="hidden" name="{{ $key }}" value="{{ $value }}">
+                    @endif
                 @endforeach
+                <label class="sr-only" for="sort-mobile">Sort</label>
+                <select id="sort-mobile" name="sort" onchange="this.form.submit()" class="h-11 rounded-sm border border-line bg-white px-3 text-sm">
+                    <option value="latest" @selected(request('sort', 'latest') === 'latest')>Latest</option>
+                    <option value="price_low" @selected(request('sort') === 'price_low')>Price: Low to High</option>
+                    <option value="price_high" @selected(request('sort') === 'price_high')>Price: High to Low</option>
+                    <option value="oldest" @selected(request('sort') === 'oldest')>Oldest</option>
+                </select>
+            </form>
+        </div>
+
+        <div class="grid grid-cols-1 gap-8 lg:grid-cols-12">
+            <aside class="hidden lg:col-span-3 lg:block">
+                @include('frontend.partials.property-filters', ['idPrefix' => 'desk'])
+            </aside>
+
+            <div class="lg:col-span-9">
+                <div class="mb-6 hidden items-center justify-between lg:flex">
+                    <p class="text-sm text-ink-secondary">Showing {{ $properties->firstItem() ?? 0 }}–{{ $properties->lastItem() ?? 0 }} of {{ $properties->total() }}</p>
+                    <form method="GET" class="flex items-center gap-2">
+                        @foreach(request()->except('sort', 'page') as $key => $value)
+                            @if(!is_array($value))
+                                <input type="hidden" name="{{ $key }}" value="{{ $value }}">
+                            @endif
+                        @endforeach
+                        <label for="sort-desk" class="text-xs font-semibold text-ink">Sort</label>
+                        <select id="sort-desk" name="sort" onchange="this.form.submit()" class="h-11 rounded-sm border border-line bg-white px-3 text-sm">
+                            <option value="latest" @selected(request('sort', 'latest') === 'latest')>Latest</option>
+                            <option value="price_low" @selected(request('sort') === 'price_low')>Price: Low to High</option>
+                            <option value="price_high" @selected(request('sort') === 'price_high')>Price: High to Low</option>
+                            <option value="oldest" @selected(request('sort') === 'oldest')>Oldest</option>
+                        </select>
+                    </form>
+                </div>
+
+                <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3">
+                    @forelse($properties as $property)
+                        <x-property-card :property="$property" />
+                    @empty
+                        <p class="col-span-full rounded-md border border-line bg-white p-8 text-center text-sm text-ink-muted">No properties found. Try adjusting filters.</p>
+                    @endforelse
+                </div>
+
+                <div class="mt-8">
+                    {{ $properties->withQueryString()->links('vendor.pagination.tailwind') }}
+                </div>
             </div>
-            <div class="d-flex justify-content-center mt-5">
-                {{ $properties->withQueryString()->links() }}
-            </div>
-        @else
-            <div class="text-center py-5">
-                <i class="fas fa-search fa-4x text-muted mb-3"></i>
-                <h3>No properties found</h3>
-                <p class="text-muted">Try adjusting your filters or search terms.</p>
-                <a href="{{ route('properties.index') }}" class="btn btn-primary">Clear filters</a>
-            </div>
-        @endif
+        </div>
     </div>
 </section>
+
+{{-- Mobile filter drawer --}}
+<div id="filter-backdrop" class="fixed inset-0 z-40 hidden bg-ink/40 lg:hidden"></div>
+<div id="filter-drawer" class="fixed inset-x-0 bottom-0 z-50 hidden max-h-[85vh] overflow-y-auto rounded-t-md bg-white p-4 shadow-lg lg:hidden">
+    <div class="mb-4 flex items-center justify-between">
+        <h2 class="text-base font-semibold text-ink">Filters</h2>
+        <button type="button" id="filter-close" class="inline-flex h-11 w-11 items-center justify-center rounded-sm border border-line" aria-label="Close filters">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+    @include('frontend.partials.property-filters', ['idPrefix' => 'mob'])
+</div>
 @endsection
+
+@push('scripts')
+<script>
+(function () {
+    var open = document.getElementById('filter-open');
+    var close = document.getElementById('filter-close');
+    var drawer = document.getElementById('filter-drawer');
+    var backdrop = document.getElementById('filter-backdrop');
+    function setOpen(v) {
+        if (!drawer || !backdrop) return;
+        drawer.classList.toggle('hidden', !v);
+        backdrop.classList.toggle('hidden', !v);
+        document.body.classList.toggle('overflow-hidden', v);
+    }
+    if (open) open.addEventListener('click', function () { setOpen(true); });
+    if (close) close.addEventListener('click', function () { setOpen(false); });
+    if (backdrop) backdrop.addEventListener('click', function () { setOpen(false); });
+})();
+</script>
+@endpush

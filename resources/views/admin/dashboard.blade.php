@@ -3,148 +3,80 @@
 @section('title', 'Dashboard')
 
 @section('content')
-<section class="admin-page-header">
-    <h1 class="admin-page-title">Admin Dashboard</h1>
-    <p class="admin-page-subtitle">Quick overview of your real estate platform.</p>
-</section>
+<h1 class="mb-6 text-xl font-bold text-ink">Dashboard</h1>
 
-<section class="py-4">
-    <div class="row g-3 g-md-4 mb-4">
-        <div class="col-6 col-lg-3">
-            <a href="{{ route('admin.properties.index') }}" class="admin-stat-card">
-                <div class="card admin-card shadow-sm">
-                    <div class="card-body">
-                        <div class="stat-icon bg-primary bg-opacity-10 text-primary">
-                            <i class="fas fa-building"></i>
-                        </div>
-                        <div class="stat-label">Properties</div>
-                        <div class="stat-value">{{ $stats['properties_total'] }}</div>
-                        <small class="text-success">{{ $stats['properties_active'] }} active</small>
-                        <small class="text-muted"> · {{ $stats['properties_sold'] }} sold</small>
-                    </div>
-                </div>
-            </a>
+<div class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+    @foreach([
+        ['Active properties', $stats['properties_active'], 'fa-home'],
+        ['Agents', $stats['agents_total'], 'fa-users'],
+        ['Published blogs', $stats['blogs_published'], 'fa-newspaper'],
+        ['New contacts', $stats['contacts_new'], 'fa-envelope'],
+    ] as [$label, $value, $icon])
+        <div class="rounded-md border border-line bg-white p-5 shadow-sm">
+            <div class="flex items-center justify-between">
+                <p class="text-xs font-semibold uppercase tracking-wide text-ink-muted">{{ $label }}</p>
+                <span class="inline-flex h-10 w-10 items-center justify-center rounded-full bg-brand-light text-brand"><i class="fas {{ $icon }}"></i></span>
+            </div>
+            <p class="mt-3 text-xl font-bold text-ink">{{ number_format($value) }}</p>
         </div>
-        <div class="col-6 col-lg-3">
-            <a href="{{ route('admin.agents.index') }}" class="admin-stat-card">
-                <div class="card admin-card shadow-sm">
-                    <div class="card-body">
-                        <div class="stat-icon bg-primary bg-opacity-10 text-primary">
-                            <i class="fas fa-users"></i>
-                        </div>
-                        <div class="stat-label">Agents</div>
-                        <div class="stat-value">{{ $stats['agents_total'] }}</div>
-                        <small class="text-muted">Active agents</small>
-                    </div>
-                </div>
-            </a>
+    @endforeach
+</div>
+
+<div class="mt-8 grid grid-cols-1 gap-6 xl:grid-cols-2">
+    <div class="overflow-hidden rounded-md border border-line bg-white shadow-sm">
+        <div class="border-b border-line px-5 py-4">
+            <h2 class="text-base font-semibold text-ink">Recent properties</h2>
         </div>
-        <div class="col-6 col-lg-3">
-            <a href="{{ route('admin.blogs.index') }}" class="admin-stat-card">
-                <div class="card admin-card shadow-sm">
-                    <div class="card-body">
-                        <div class="stat-icon bg-primary bg-opacity-10 text-primary">
-                            <i class="fas fa-newspaper"></i>
-                        </div>
-                        <div class="stat-label">Blog Posts</div>
-                        <div class="stat-value">{{ $stats['blogs_published'] }}</div>
-                        <small class="text-muted">Published articles</small>
-                    </div>
-                </div>
-            </a>
-        </div>
-        <div class="col-6 col-lg-3">
-            <a href="{{ route('admin.contacts.index') }}" class="admin-stat-card">
-                <div class="card admin-card shadow-sm">
-                    <div class="card-body">
-                        <div class="stat-icon bg-primary bg-opacity-10 text-primary">
-                            <i class="fas fa-envelope"></i>
-                        </div>
-                        <div class="stat-label">Contacts</div>
-                        <div class="stat-value">{{ $stats['contacts_total'] }}</div>
-                        <small class="text-success">{{ $stats['contacts_new'] }} new</small>
-                    </div>
-                </div>
-            </a>
+        <div class="overflow-x-auto">
+            <table class="min-w-full text-left text-sm">
+                <thead class="bg-canvas text-xs uppercase text-ink-muted">
+                    <tr>
+                        <th class="px-5 py-3 font-semibold">Title</th>
+                        <th class="px-5 py-3 font-semibold">Status</th>
+                        <th class="px-5 py-3 font-semibold">Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse($recentProperties as $property)
+                        <tr class="border-t border-line">
+                            <td class="px-5 py-3 font-medium text-ink">{{ Str::limit($property->title, 40) }}</td>
+                            <td class="px-5 py-3"><x-badge tone="muted">{{ $property->status }}</x-badge></td>
+                            <td class="px-5 py-3 text-ink-secondary">${{ number_format($property->price) }}</td>
+                        </tr>
+                    @empty
+                        <tr><td colspan="3" class="px-5 py-6 text-center text-ink-muted">No properties yet.</td></tr>
+                    @endforelse
+                </tbody>
+            </table>
         </div>
     </div>
 
-    <div class="row g-3 g-md-4">
-        <div class="col-12 col-lg-7">
-            <div class="card admin-card shadow-sm h-100">
-                <div class="card-header">
-                    <h5 class="mb-0">Recent Properties</h5>
-                </div>
-                <div class="card-body p-0 overflow-auto">
-                    @if($recentProperties->count())
-                        <div class="admin-table-wrap">
-                            <table class="table table-sm align-middle mb-0 admin-table">
-                                <thead>
-                                    <tr>
-                                        <th>Title</th>
-                                        <th>Type</th>
-                                        <th>Listing</th>
-                                        <th>City</th>
-                                        <th class="text-end">Price</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach($recentProperties as $property)
-                                        <tr>
-                                            <td>
-                                                <a href="{{ route('properties.show', $property->slug) }}" target="_blank">
-                                                    {{ \Illuminate\Support\Str::limit($property->title, 32) }}
-                                                </a>
-                                            </td>
-                                            <td>{{ ucfirst($property->type) }}</td>
-                                            <td>{{ ucfirst(str_replace('_', ' ', $property->listing_type)) }}</td>
-                                            <td>{{ $property->city }}</td>
-                                            <td class="text-end">${{ number_format($property->price) }}</td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                    @else
-                        <p class="text-muted mb-0 p-3">No properties yet.</p>
-                    @endif
-                </div>
-            </div>
+    <div class="overflow-hidden rounded-md border border-line bg-white shadow-sm">
+        <div class="border-b border-line px-5 py-4">
+            <h2 class="text-base font-semibold text-ink">Recent contacts</h2>
         </div>
-
-        <div class="col-12 col-lg-5">
-            <div class="card admin-card shadow-sm h-100">
-                <div class="card-header">
-                    <h5 class="mb-0">Recent Contacts</h5>
-                </div>
-                <div class="card-body">
-                    @if($recentContacts->count())
-                        <div class="list-group list-group-flush admin-list-group">
-                            @foreach($recentContacts as $contact)
-                                <div class="list-group-item px-0 d-flex justify-content-between align-items-start border-0">
-                                    <div class="me-3 flex-grow-1">
-                                        <div class="fw-bold">{{ $contact->name }}</div>
-                                        <small class="text-muted d-block">
-                                            {{ $contact->email }}
-                                            @if($contact->property_id)
-                                                · Property #{{ $contact->property_id }}
-                                            @endif
-                                        </small>
-                                        <small class="text-muted d-block">
-                                            {{ \Illuminate\Support\Str::limit($contact->subject, 40) }}
-                                        </small>
-                                    </div>
-                                    <small class="text-muted text-nowrap">{{ $contact->created_at->diffForHumans() }}</small>
-                                </div>
-                            @endforeach
-                        </div>
-                    @else
-                        <p class="text-muted mb-0">No contact messages yet.</p>
-                    @endif
-                </div>
-            </div>
+        <div class="overflow-x-auto">
+            <table class="min-w-full text-left text-sm">
+                <thead class="bg-canvas text-xs uppercase text-ink-muted">
+                    <tr>
+                        <th class="px-5 py-3 font-semibold">Name</th>
+                        <th class="px-5 py-3 font-semibold">Subject</th>
+                        <th class="px-5 py-3 font-semibold">Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse($recentContacts as $contact)
+                        <tr class="border-t border-line">
+                            <td class="px-5 py-3 font-medium text-ink">{{ $contact->name }}</td>
+                            <td class="px-5 py-3 text-ink-secondary">{{ Str::limit($contact->subject, 30) }}</td>
+                            <td class="px-5 py-3"><x-badge :tone="$contact->status === 'new' ? 'brand' : 'muted'">{{ $contact->status }}</x-badge></td>
+                        </tr>
+                    @empty
+                        <tr><td colspan="3" class="px-5 py-6 text-center text-ink-muted">No contacts yet.</td></tr>
+                    @endforelse
+                </tbody>
+            </table>
         </div>
     </div>
-</section>
+</div>
 @endsection
-

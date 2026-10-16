@@ -52,11 +52,22 @@ class BlogSeeder extends Seeder
             ],
         ];
 
-        foreach ($posts as $data) {
+        $images = [
+            'https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=1200&q=80',
+            'https://images.unsplash.com/photo-1484154218962-a197022b5858?auto=format&fit=crop&w=1200&q=80',
+            'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1200&q=80',
+            'https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=1200&q=80',
+            'https://images.unsplash.com/photo-1449844908441-8829872d2607?auto=format&fit=crop&w=1200&q=80',
+        ];
+
+        foreach ($posts as $index => $data) {
             $slug = \Illuminate\Support\Str::slug($data['title']);
             Blog::updateOrCreate(
                 ['slug' => $slug],
-                array_merge($data, ['slug' => $slug])
+                array_merge($data, [
+                    'slug' => $slug,
+                    'featured_image' => $images[$index % count($images)],
+                ])
             );
         }
     }

@@ -1,48 +1,25 @@
 @extends('layouts.app')
 
-@section('title', 'Our Agents - FindState')
-@section('meta_description', 'Meet our team of experienced real estate agents ready to help you find or sell your property.')
+@section('title', 'Agents - FindState')
+@section('meta_description', 'Meet FindState real estate agents.')
 
 @section('content')
-{{-- Breadcrumb --}}
-<section class="breadcrumb-section py-4 bg-light">
-    <div class="container">
-        <div class="row align-items-center">
-            <div class="col-md-6">
-                <h1 class="h2 mb-0 fw-bold">Our Agents</h1>
-            </div>
-            <div class="col-md-6">
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb mb-0 justify-content-md-end">
-                        <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Agents</li>
-                    </ol>
-                </nav>
-            </div>
-        </div>
+<section class="border-b border-line bg-white py-8">
+    <div class="container-page">
+        <h1 class="text-xl font-bold text-ink sm:text-2xl">Our agents</h1>
+        <p class="mt-2 text-sm text-ink-secondary">Professionals ready to guide your next move.</p>
     </div>
 </section>
-
-<section class="py-5">
-    <div class="container">
-        @if($agents->count() > 0)
-            <div class="row g-4">
-                @foreach($agents as $agent)
-                    <div class="col-lg-3 col-md-6">
-                        @include('frontend.components.agent-card', ['agent' => $agent])
-                    </div>
-                @endforeach
-            </div>
-            <div class="d-flex justify-content-center mt-5">
-                {{ $agents->links() }}
-            </div>
-        @else
-            <div class="text-center py-5">
-                <i class="fas fa-users fa-4x text-muted mb-3"></i>
-                <h3>No agents yet</h3>
-                <p class="text-muted">Check back soon for our team profiles.</p>
-            </div>
-        @endif
+<section class="py-10">
+    <div class="container-page">
+        <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            @forelse($agents as $agent)
+                <x-agent-card :agent="$agent" />
+            @empty
+                <p class="col-span-full text-sm text-ink-muted">No agents found.</p>
+            @endforelse
+        </div>
+        <div class="mt-8">{{ $agents->links('vendor.pagination.tailwind') }}</div>
     </div>
 </section>
 @endsection

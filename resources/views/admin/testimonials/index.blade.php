@@ -3,6 +3,11 @@
 @section('title', 'Testimonials')
 
 @section('content')
+<x-breadcrumbs :items="[
+    ['label' => 'Dashboard', 'url' => route('admin.dashboard')],
+    ['label' => 'Testimonials'],
+]" />
+
 <div class="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
     <h1 class="text-xl font-bold text-ink">Testimonials</h1>
     <x-button variant="primary" href="{{ route('admin.testimonials.create') }}">Add Testimonial</x-button>
@@ -15,7 +20,9 @@
         <option value="active" @selected(request('status') === 'active')>Active</option>
         <option value="inactive" @selected(request('status') === 'inactive')>Inactive</option>
     </x-select>
-    <x-button variant="ghost" type="submit" block>Filter</x-button>
+    <div class="flex items-end">
+        <x-button variant="ghost" type="submit" block>Filter</x-button>
+    </div>
 </form>
 
 <div class="overflow-hidden rounded-md border border-line bg-white shadow-sm">
@@ -36,16 +43,16 @@
                         <td class="px-4 py-3 font-medium text-ink">{{ $testimonial->name }}</td>
                         <td class="px-4 py-3 text-ink-secondary">{{ $testimonial->designation ?? '—' }}</td>
                         <td class="px-4 py-3 text-ink-secondary">{{ $testimonial->rating }}/5</td>
+                        <td class="px-4 py-3"><x-badge :status="$testimonial->status" /></td>
                         <td class="px-4 py-3">
-                            <x-badge :tone="$testimonial->status === 'active' ? 'brand' : 'muted'">{{ ucfirst($testimonial->status) }}</x-badge>
-                        </td>
-                        <td class="px-4 py-3 text-right whitespace-nowrap">
-                            <a href="{{ route('admin.testimonials.edit', $testimonial) }}" class="mr-2 text-sm font-semibold text-brand">Edit</a>
-                            <form action="{{ route('admin.testimonials.destroy', $testimonial) }}" method="POST" class="inline" onsubmit="return confirm('Delete this testimonial?');">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="text-sm font-semibold text-danger">Delete</button>
-                            </form>
+                            <div class="flex flex-wrap items-center justify-end gap-2">
+                                <x-button variant="secondary" href="{{ route('admin.testimonials.edit', $testimonial) }}">Edit</x-button>
+                                <x-confirm-delete
+                                    :action="route('admin.testimonials.destroy', $testimonial)"
+                                    title="Delete testimonial?"
+                                    message="Delete “{{ $testimonial->name }}”? This cannot be undone."
+                                />
+                            </div>
                         </td>
                     </tr>
                 @empty

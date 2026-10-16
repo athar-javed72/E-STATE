@@ -15,6 +15,15 @@ class ContactController extends Controller
     {
         $query = Contact::with('property')->latest();
 
+        if ($request->filled('search')) {
+            $search = $request->string('search')->toString();
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', '%'.$search.'%')
+                    ->orWhere('email', 'like', '%'.$search.'%')
+                    ->orWhere('subject', 'like', '%'.$search.'%');
+            });
+        }
+
         if ($request->filled('status')) {
             $query->where('status', $request->status);
         }
@@ -26,5 +35,19 @@ class ContactController extends Controller
         $contacts = $query->paginate(15)->withQueryString();
 
         return view('admin.contacts.index', compact('contacts'));
+    }
+
+    /**
+     * Update a contact's status.
+     */
+    public function updateStatus(Request $request, Contact $contact)
+    {
+        $data = $request->validate([
+            'status' => 'required|in:new,read,replied',
+        ]);
+
+        $contact->update(['status' => $data['status']]);
+
+        return back()->with('success', 'Contact status updated.');
     }
 }

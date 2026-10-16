@@ -3,6 +3,13 @@
 @section('title', 'Edit Agent')
 
 @section('content')
+@php use App\Support\Media; @endphp
+<x-breadcrumbs :items="[
+    ['label' => 'Dashboard', 'url' => route('admin.dashboard')],
+    ['label' => 'Agents', 'url' => route('admin.agents.index')],
+    ['label' => 'Edit'],
+]" />
+
 <div class="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
     <h1 class="text-xl font-bold text-ink">Edit Agent</h1>
     <x-button variant="ghost" href="{{ route('admin.agents.index') }}">Back to list</x-button>
@@ -31,10 +38,12 @@
 
             <div class="w-full">
                 <label for="avatar" class="mb-1 block text-xs font-semibold text-ink">Avatar</label>
-                @if($agent->avatar)
+                @php $avatarUrl = Media::url($agent->avatar); @endphp
+                @if($avatarUrl)
                     <div class="mb-3">
-                        <img src="{{ asset('storage/' . $agent->avatar) }}" alt="" class="h-16 w-16 rounded-full object-cover">
-                        <p class="mt-1 text-xs text-ink-muted">Current. Upload new to replace.</p>
+                        <p class="mb-1 text-xs font-semibold text-ink-muted">Current image</p>
+                        <img src="{{ $avatarUrl }}" alt="{{ $agent->name }}" class="h-16 w-16 rounded-full object-cover">
+                        <p class="mt-1 text-xs text-ink-muted">Upload a new file to replace.</p>
                     </div>
                 @endif
                 <input id="avatar" type="file" name="avatar" accept="image/jpeg,image/jpg,image/png,image/gif,image/webp" class="block w-full text-sm text-ink-secondary file:mr-4 file:inline-flex file:h-11 file:items-center file:rounded-sm file:border-0 file:bg-brand-light file:px-4 file:text-sm file:font-semibold file:text-brand @error('avatar') border-danger @enderror">

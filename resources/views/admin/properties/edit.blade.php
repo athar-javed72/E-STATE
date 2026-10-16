@@ -3,6 +3,13 @@
 @section('title', 'Edit Property')
 
 @section('content')
+@php use App\Support\Media; @endphp
+<x-breadcrumbs :items="[
+    ['label' => 'Dashboard', 'url' => route('admin.dashboard')],
+    ['label' => 'Properties', 'url' => route('admin.properties.index')],
+    ['label' => 'Edit'],
+]" />
+
 <div class="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
     <h1 class="text-xl font-bold text-ink">Edit Property</h1>
     <x-button variant="ghost" href="{{ route('admin.properties.index') }}">Back to list</x-button>
@@ -58,10 +65,12 @@
 
             <div class="w-full">
                 <label for="featured_image" class="mb-1 block text-xs font-semibold text-ink">Featured image</label>
-                @if($property->featured_image)
+                @php $currentImage = Media::url($property->featured_image); @endphp
+                @if($currentImage)
                     <div class="mb-3">
-                        <img src="{{ asset('storage/' . $property->featured_image) }}" alt="" class="max-h-40 rounded-sm object-cover">
-                        <p class="mt-1 text-xs text-ink-muted">Current image. Upload new to replace.</p>
+                        <p class="mb-1 text-xs font-semibold text-ink-muted">Current image</p>
+                        <img src="{{ $currentImage }}" alt="{{ $property->title }}" class="max-h-40 rounded-sm object-cover">
+                        <p class="mt-1 text-xs text-ink-muted">Upload a new file to replace.</p>
                     </div>
                 @endif
                 <input id="featured_image" type="file" name="featured_image" accept="image/jpeg,image/jpg,image/png,image/gif,image/webp" class="block w-full text-sm text-ink-secondary file:mr-4 file:inline-flex file:h-11 file:items-center file:rounded-sm file:border-0 file:bg-brand-light file:px-4 file:text-sm file:font-semibold file:text-brand @error('featured_image') border-danger @enderror">

@@ -3,6 +3,12 @@
 @section('title', 'Add Agent')
 
 @section('content')
+<x-breadcrumbs :items="[
+    ['label' => 'Dashboard', 'url' => route('admin.dashboard')],
+    ['label' => 'Agents', 'url' => route('admin.agents.index')],
+    ['label' => 'Add'],
+]" />
+
 <div class="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
     <h1 class="text-xl font-bold text-ink">Add Agent</h1>
     <x-button variant="ghost" href="{{ route('admin.agents.index') }}">Back to list</x-button>

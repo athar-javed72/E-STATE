@@ -3,6 +3,12 @@
 @section('title', 'Agents')
 
 @section('content')
+@php use App\Support\Media; @endphp
+<x-breadcrumbs :items="[
+    ['label' => 'Dashboard', 'url' => route('admin.dashboard')],
+    ['label' => 'Agents'],
+]" />
+
 <div class="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
     <h1 class="text-xl font-bold text-ink">Agents</h1>
     <x-button variant="primary" href="{{ route('admin.agents.create') }}">Add Agent</x-button>
@@ -15,7 +21,9 @@
         <option value="active" @selected(request('status') === 'active')>Active</option>
         <option value="inactive" @selected(request('status') === 'inactive')>Inactive</option>
     </x-select>
-    <x-button variant="ghost" type="submit" block>Filter</x-button>
+    <div class="flex items-end">
+        <x-button variant="ghost" type="submit" block>Filter</x-button>
+    </div>
 </form>
 
 <div class="overflow-hidden rounded-md border border-line bg-white shadow-sm">
@@ -35,8 +43,9 @@
                 @forelse($agents as $agent)
                     <tr class="border-t border-line">
                         <td class="px-4 py-3">
-                            @if($agent->avatar)
-                                <img src="{{ asset('storage/' . $agent->avatar) }}" alt="" class="h-10 w-10 rounded-full object-cover">
+                            @php $avatar = Media::url($agent->avatar); @endphp
+                            @if($avatar)
+                                <img src="{{ $avatar }}" alt="{{ $agent->name }}" class="h-10 w-10 rounded-full object-cover" loading="lazy" width="40" height="40">
                             @else
                                 <span class="text-xs text-ink-muted">No photo</span>
                             @endif
@@ -44,16 +53,16 @@
                         <td class="px-4 py-3 font-medium text-ink">{{ $agent->name }}</td>
                         <td class="px-4 py-3 text-ink-secondary">{{ $agent->email ?? '—' }}</td>
                         <td class="px-4 py-3 text-ink-secondary">{{ $agent->designation ?? '—' }}</td>
+                        <td class="px-4 py-3"><x-badge :status="$agent->status" /></td>
                         <td class="px-4 py-3">
-                            <x-badge :tone="$agent->status === 'active' ? 'brand' : 'muted'">{{ ucfirst($agent->status) }}</x-badge>
-                        </td>
-                        <td class="px-4 py-3 text-right whitespace-nowrap">
-                            <a href="{{ route('admin.agents.edit', $agent) }}" class="mr-2 text-sm font-semibold text-brand">Edit</a>
-                            <form action="{{ route('admin.agents.destroy', $agent) }}" method="POST" class="inline" onsubmit="return confirm('Delete this agent?');">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="text-sm font-semibold text-danger">Delete</button>
-                            </form>
+                            <div class="flex flex-wrap items-center justify-end gap-2">
+                                <x-button variant="secondary" href="{{ route('admin.agents.edit', $agent) }}">Edit</x-button>
+                                <x-confirm-delete
+                                    :action="route('admin.agents.destroy', $agent)"
+                                    title="Delete agent?"
+                                    message="Delete “{{ $agent->name }}”? This cannot be undone."
+                                />
+                            </div>
                         </td>
                     </tr>
                 @empty

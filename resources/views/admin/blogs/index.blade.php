@@ -3,6 +3,12 @@
 @section('title', 'Blogs')
 
 @section('content')
+@php use App\Support\Media; @endphp
+<x-breadcrumbs :items="[
+    ['label' => 'Dashboard', 'url' => route('admin.dashboard')],
+    ['label' => 'Blogs'],
+]" />
+
 <div class="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
     <h1 class="text-xl font-bold text-ink">Blog Posts</h1>
     <x-button variant="primary" href="{{ route('admin.blogs.create') }}">Add Post</x-button>
@@ -16,7 +22,9 @@
         <option value="draft" @selected(request('status') === 'draft')>Draft</option>
         <option value="archived" @selected(request('status') === 'archived')>Archived</option>
     </x-select>
-    <x-button variant="ghost" type="submit" block>Filter</x-button>
+    <div class="flex items-end">
+        <x-button variant="ghost" type="submit" block>Filter</x-button>
+    </div>
 </form>
 
 <div class="overflow-hidden rounded-md border border-line bg-white shadow-sm">
@@ -36,8 +44,9 @@
                 @forelse($blogs as $blog)
                     <tr class="border-t border-line">
                         <td class="px-4 py-3">
-                            @if($blog->featured_image)
-                                <img src="{{ asset('storage/' . $blog->featured_image) }}" alt="" class="h-12 w-16 rounded-sm object-cover">
+                            @php $image = Media::url($blog->featured_image); @endphp
+                            @if($image)
+                                <img src="{{ $image }}" alt="{{ $blog->title }}" class="h-12 w-16 rounded-sm object-cover" loading="lazy" width="64" height="48">
                             @else
                                 <span class="text-xs text-ink-muted">No image</span>
                             @endif
@@ -45,23 +54,16 @@
                         <td class="px-4 py-3 font-medium text-ink">{{ Str::limit($blog->title, 40) }}</td>
                         <td class="px-4 py-3 text-ink-secondary">{{ $blog->category ?? '—' }}</td>
                         <td class="px-4 py-3 text-ink-secondary">{{ $blog->author ?? '—' }}</td>
+                        <td class="px-4 py-3"><x-badge :status="$blog->status" /></td>
                         <td class="px-4 py-3">
-                            @php
-                                $blogTone = match ($blog->status) {
-                                    'published' => 'brand',
-                                    'draft' => 'accent',
-                                    default => 'muted',
-                                };
-                            @endphp
-                            <x-badge :tone="$blogTone">{{ ucfirst($blog->status) }}</x-badge>
-                        </td>
-                        <td class="px-4 py-3 text-right whitespace-nowrap">
-                            <a href="{{ route('admin.blogs.edit', $blog) }}" class="mr-2 text-sm font-semibold text-brand">Edit</a>
-                            <form action="{{ route('admin.blogs.destroy', $blog) }}" method="POST" class="inline" onsubmit="return confirm('Delete this post?');">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="text-sm font-semibold text-danger">Delete</button>
-                            </form>
+                            <div class="flex flex-wrap items-center justify-end gap-2">
+                                <x-button variant="secondary" href="{{ route('admin.blogs.edit', $blog) }}">Edit</x-button>
+                                <x-confirm-delete
+                                    :action="route('admin.blogs.destroy', $blog)"
+                                    title="Delete post?"
+                                    message="Delete “{{ $blog->title }}”? This cannot be undone."
+                                />
+                            </div>
                         </td>
                     </tr>
                 @empty

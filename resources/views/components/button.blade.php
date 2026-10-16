@@ -13,6 +13,7 @@
         'primary' => 'bg-brand text-white hover:bg-brand/90 focus-visible:outline-brand',
         'secondary' => 'bg-brand-light text-brand hover:bg-brand-light/80 focus-visible:outline-brand',
         'ghost' => 'bg-transparent text-ink border border-line hover:bg-canvas focus-visible:outline-brand',
+        'danger' => 'bg-danger text-white hover:bg-danger/90 focus-visible:outline-danger',
     ];
     $classes = $base . ' ' . ($variants[$variant] ?? $variants['primary']) . ($block ? ' w-full' : '');
 @endphp

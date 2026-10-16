@@ -3,6 +3,12 @@
 @section('title', 'Add Testimonial')
 
 @section('content')
+<x-breadcrumbs :items="[
+    ['label' => 'Dashboard', 'url' => route('admin.dashboard')],
+    ['label' => 'Testimonials', 'url' => route('admin.testimonials.index')],
+    ['label' => 'Add'],
+]" />
+
 <div class="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
     <h1 class="text-xl font-bold text-ink">Add Testimonial</h1>
     <x-button variant="ghost" href="{{ route('admin.testimonials.index') }}">Back to list</x-button>

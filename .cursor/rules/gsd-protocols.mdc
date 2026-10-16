@@ -1,0 +1,12 @@
+---
+description: GSD-style file-first planning when using GSD workflows
+alwaysApply: false
+---
+
+# GSD protocols (optional)
+
+When the user runs GSD workflows (`gsd-plan`, `gsd-execute`, `gsd-progress`, etc.):
+
+- Prefer files under `.planning/` as source of truth (`STATE.md`, and future `PROJECT.md` / `ROADMAP.md`).
+- Keep phase handoffs in `STATE.md`: what exists, what passed, gaps, next.
+- Do not invent School ERP fee/ledger requirements into FindState.

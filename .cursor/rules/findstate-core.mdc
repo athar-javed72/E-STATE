@@ -1,0 +1,13 @@
+---
+description: FindState (E-STATE) core stack and security rules
+alwaysApply: true
+---
+
+# FindState core
+
+- Laravel 12 practice real-estate app (Blade + Bootstrap + Tailwind + Vite).
+- Admin: `auth` + `admin` middleware; `users.is_admin` only.
+- Always type-check: `$user instanceof \App\Models\User` before `isAdmin()`.
+- Never commit `.env` or DB dumps (`estate_db`, `e-state-bd`, `*.sqlite`).
+- Work from root `PRD.md` + append `progress.txt`. Prefer one PRD task per turn.
+- Use only git remote `origin` → `athar-javed72/E-STATE` inside `E-STATE-main` (ignore Temp `E-STATE-sync`).

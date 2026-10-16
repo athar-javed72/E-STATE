@@ -1,0 +1,13 @@
+---
+description: Ralph Loop execution — PRD checkboxes and progress.txt
+alwaysApply: true
+---
+
+# Ralph Loop
+
+1. Read `PRD.md` and `progress.txt` from disk at the start of task work.
+2. Do **one** unchecked PRD task per turn unless the user explicitly asks otherwise.
+3. Append results to `progress.txt` (never rewrite history).
+4. Mark the task `[x]` in `PRD.md` only after verification (`php -l` / tests as applicable).
+5. On phase end, update `.planning/STATE.md` and copy PRD to `docs/archive/`.
+6. Git commit/push only when the user asks (this practice repo often does ask).

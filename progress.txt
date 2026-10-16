@@ -1,0 +1,11 @@
+Ralph Loop Progress Log — FindState (E-STATE)
+=============================================
+Created: 2026-10-17
+
+Completed Tasks:
+----------------
+- Bootstrap (pre-PRD): Matched local project to GitHub `athar-javed72/E-STATE`; pushed login UX + removed tracked `estate_db`.
+- Security hardening: Added `users.is_admin`, `EnsureUserIsAdmin` middleware, throttles on login/public POSTs, blog `safeContent()`, property type alignment, Spatie pin `^6.0`, removed stale `Http\Kernel.php`, demo creds only when `APP_DEBUG`, ignored DB dumps (`estate_db`, `e-state-bd`, `*.sqlite`).
+- Git ops: Initialized nested git in `E-STATE-main`, set `origin` to `https://github.com/athar-javed72/E-STATE.git`, tracking `main` @ latest remote. Removed empty parent `Laravel Projects/.git` that caused false 350-untracked SCM view.
+- Typing fixes: `LoginController` + FormRequests use `instanceof User` before `isAdmin()`; navbar uses `is_admin` attribute.
+- Task 1: Installed School-ERP-style process pack into E-STATE — `.agents/` + `.agent/` plugins (gsd, ralph-loop, context7, serena, coderabbit, server-validation), Cursor `.cursor/rules` + `.cursor/mcp.json`, root `PRD.md`, `progress.txt`, `.planning/STATE.md`, `docs/` stubs, `AGENTS.md`. Adapted laravel-stack rules for FindState. STOP after Task 1.

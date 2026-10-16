@@ -2,7 +2,11 @@
 
 **Modern Real Estate Listing & Lead Generation Platform**
 
-E-STATE (brand: **FindState**) is a full-stack real estate web application built with Laravel 12. It enables visitors to browse properties for sale or rent, discover featured agents, read market insights on the blog, and submit inquiries or contact requests. The platform is suitable for portfolio demonstration, client demos, or as a foundation for a production real estate business.
+E-STATE (brand: **FindState**) is a full-stack real estate web application built with **Laravel 12**. Visitors can browse properties for sale or rent, discover agents, read the blog, use a session wishlist, and submit inquiries. Admins manage listings, agents, blogs, testimonials, and contacts from a protected panel.
+
+Suitable for **portfolio demos**, client walkthroughs, or as a starting base for a production real-estate site.
+
+**Repository:** [athar-javed72/E-STATE](https://github.com/athar-javed72/E-STATE)
 
 ---
 
@@ -14,8 +18,11 @@ E-STATE (brand: **FindState**) is a full-stack real estate web application built
 4. [Installation & Setup](#4-installation--setup)
 5. [Routing & Endpoints](#5-routing--endpoints)
 6. [Project Structure](#6-project-structure)
-7. [Portfolio & Business Use](#7-portfolio--business-use)
-8. [License](#8-license)
+7. [Security Notes](#7-security-notes)
+8. [Development Process](#8-development-process)
+9. [Testing](#9-testing)
+10. [Portfolio & Extensions](#10-portfolio--extensions)
+11. [License](#11-license)
 
 ---
 
@@ -23,40 +30,43 @@ E-STATE (brand: **FindState**) is a full-stack real estate web application built
 
 ### Public Website
 
-- **Home** — Hero section, key statistics, featured properties, top agents, testimonials slider, and latest blog posts.
-- **Static pages** — SEO-friendly About, Services, and Contact pages.
-- **Properties** — Listing with filters (type, listing type, price range, bedrooms, location) and sorting; property detail page with agent info, features, and related properties.
-- **Agents** — Agent listing and individual agent profiles with their active listings.
-- **Blog** — Listing with category filtering and search; blog detail pages with related posts.
-- **Contact** — Validated contact form with persistence and flash messages.
-- **SEO** — Sitemap (`/sitemap.xml`) and `robots.txt`.
+- **Home** — Hero, search, featured properties, agents, testimonials, latest blog posts.
+- **Static pages** — About, Services, Contact (SEO-friendly).
+- **Properties** — Filters (type, listing type, price, bedrooms, location) and sorting; detail page with agent and related listings.
+- **Property types** — `house`, `apartment`, `condo`, `villa`, `plot`, `commercial`, `townhouse`.
+- **Agents** — Listing + profile pages with active properties.
+- **Blog** — Category filter, search, detail pages; HTML content sanitized for public display (`safeContent()`).
+- **SEO** — `/sitemap.xml` and `/robots.txt`.
 
 ### Interactive Features
 
-- Session-based property wishlist (no login required).
-- Property and general contact inquiries stored in the database.
-- Property search suggestions (JSON) for autocomplete.
-- Newsletter subscription with subscriber storage.
+- Session-based **wishlist** (no login) with CSRF-aware AJAX toggle on property cards.
+- Property and general **contact inquiries** stored in the database.
+- Property **search suggestions** (JSON).
+- **Newsletter** subscription.
 
-### Admin Panel
+### Admin Panel (`/admin`)
 
-- Authenticated admin area with dashboard and CRUD for properties, agents, and blog posts.
+- Login at `/login` — only users with `is_admin = true` can enter.
+- Dashboard statistics.
+- CRUD for **properties**, **agents**, **blogs**, and **testimonials**.
 - Contact inquiry listing.
-- Laravel Breeze and Spatie Laravel Permission ready for role-based access.
+- Form requests authorize via `User::isAdmin()`.
 
 ---
 
 ## 2. Tech Stack
 
-| Layer           | Technology                                                |
-|-----------------|-----------------------------------------------------------|
-| **Backend**     | PHP 8.2+, Laravel 12                                      |
-| **Frontend**    | Blade templates, Bootstrap 5, Tailwind CSS 4, jQuery     |
-| **Build**       | Vite 6, Laravel Vite Plugin                              |
-| **Database**    | SQLite (default), MySQL/PostgreSQL compatible            |
-| **Auth & Roles**| Laravel Breeze (available), Spatie Laravel Permission     |
-| **HTTP Client** | Axios (AJAX)                                              |
-| **Testing & Dev** | PHPUnit, Laravel Pail, Laravel Pint, Faker, Laravel Sail (optional) |
+| Layer | Technology |
+|-------|------------|
+| **Backend** | PHP 8.2+, Laravel 12 |
+| **Frontend** | Blade, Bootstrap 5, Tailwind CSS 4, jQuery |
+| **Build** | Vite 6, Laravel Vite Plugin |
+| **Database** | SQLite (default), MySQL / PostgreSQL compatible |
+| **Auth** | Session login + `users.is_admin` + `auth` / `admin` middleware |
+| **HTTP / AJAX** | Axios + `fetch` (CSRF token from meta tag) |
+| **Testing** | PHPUnit |
+| **Optional packages** | Spatie Laravel Permission (pinned, not fully wired yet) |
 
 ---
 
@@ -64,28 +74,29 @@ E-STATE (brand: **FindState**) is a full-stack real estate web application built
 
 ### Core Entities
 
-- **User** — Laravel user model (Breeze-ready).
-- **Agent** — Name, slug, contact info, avatar, bio, social links, experience, rating, status.
-- **Property** — Linked to an agent; type (house, apartment, condo, villa), listing type (for_sale, for_rent), price, bedrooms, bathrooms, area, parking, images, featured flag, views, status.
-- **Blog** — Title, slug, category, excerpt, HTML content, featured image, author, views, status.
-- **Testimonial** — Client name, designation, location, image, content, rating, status.
-- **Contact** — General and property inquiries: optional `property_id`, name, email, phone, subject, message, type, status.
-- **NewsletterSubscriber** — Email and active flag.
+| Entity | Notes |
+|--------|--------|
+| **User** | Auth user; `is_admin` flag for admin panel |
+| **Agent** | Slug, contact, avatar, bio, socials, experience, rating, status |
+| **Property** | Linked to agent; type, listing type, price, beds/baths/area/parking, images, featured, views, status |
+| **Blog** | Slug, category, excerpt, HTML content (sanitized on output), image, author, views, status |
+| **Testimonial** | Name, designation, location, image, content, rating, status |
+| **Contact** | Optional `property_id`, name, email, phone, subject, message, type, status |
+| **NewsletterSubscriber** | Email + active flag |
 
 ### Frontend Pages
 
-| Page           | Description                                                                 |
-|----------------|-----------------------------------------------------------------------------|
-| Home           | Hero, search, featured properties, why choose us, agents, testimonials, blog, CTA |
-| About          | Company story, mission, values, team, testimonials                         |
-| Services       | Buying, selling, renting, property management, investment consulting       |
-| Properties     | Grid listing with filters and sorting; reusable property-card component    |
-| Property Detail| Full details, agent panel, related properties                               |
-| Agents         | Agent grid                                                                  |
-| Agent Detail   | Bio and active listings                                                    |
-| Blog           | Posts with search, categories, recent posts sidebar                        |
-| Blog Detail    | Full article, featured image, related posts                                |
-| Contact        | Form with validation and success/error messages                             |
+| Page | Description |
+|------|-------------|
+| Home | Hero, search, featured properties, agents, testimonials, blog, CTA |
+| About | Story, mission, team, testimonials |
+| Services | Buying, selling, renting, management, consulting |
+| Properties | Grid + filters/sort; `property-card` component |
+| Property Detail | Full details, agent panel, related |
+| Agents / Agent Detail | Grid + bio and listings |
+| Blog / Blog Detail | List + article |
+| Contact | Validated form + flash messages |
+| Login | Admin sign-in |
 
 ---
 
@@ -93,17 +104,17 @@ E-STATE (brand: **FindState**) is a full-stack real estate web application built
 
 ### Prerequisites
 
-- **PHP** 8.2+ with extensions: BCMath, Ctype, Fileinfo, JSON, Mbstring, OpenSSL, PDO, Tokenizer, XML
-- **Composer**
-- **Node.js** 18+ and **npm**
-- **Database**: SQLite (default) or MySQL/PostgreSQL
+- PHP 8.2+ (BCMath, Ctype, Fileinfo, JSON, Mbstring, OpenSSL, PDO, Tokenizer, XML)
+- Composer
+- Node.js 18+ and npm
+- SQLite (default) or MySQL/PostgreSQL
 
 ### Steps
 
-**1. Clone and install dependencies**
+**1. Clone and install**
 
 ```bash
-git clone <your-repo-url> E-STATE
+git clone https://github.com/athar-javed72/E-STATE.git E-STATE
 cd E-STATE
 
 composer install
@@ -117,7 +128,14 @@ cp .env.example .env
 php artisan key:generate
 ```
 
-**3. Database (SQLite)**
+Set SQLite (recommended for local):
+
+```env
+DB_CONNECTION=sqlite
+DB_DATABASE=database/database.sqlite
+```
+
+**3. Create SQLite file**
 
 ```bash
 # Linux / macOS
@@ -127,23 +145,23 @@ mkdir -p database && touch database/database.sqlite
 New-Item -ItemType File -Path database/database.sqlite -Force
 ```
 
-For MySQL or PostgreSQL, set `DB_*` in `.env` accordingly.
-
-**4. Migrations**
+**4. Migrate & seed**
 
 ```bash
-php artisan migrate
+php artisan migrate --seed
 ```
 
-This creates: `users`, `password_reset_tokens`, `sessions`, `agents`, `properties`, `blogs`, `testimonials`, `contacts`, `newsletter_subscribers`, and related tables.
+Creates tables: `users` (with `is_admin`), `agents`, `properties`, `blogs`, `testimonials`, `contacts`, `newsletter_subscribers`, sessions, cache, jobs, etc.
 
-**5. Seed demo data**
+Demo admin (local / `APP_DEBUG` only):
 
-```bash
-php artisan db:seed
-```
+| Field | Value |
+|-------|--------|
+| Email | `test@example.com` |
+| Password | `password` |
+| Admin | `is_admin = true` |
 
-This seeds a default user (`test@example.com`), demo agents, properties, blog posts, and testimonials. To run individual seeders:
+Individual seeders:
 
 ```bash
 php artisan db:seed --class=AgentSeeder
@@ -152,75 +170,78 @@ php artisan db:seed --class=BlogSeeder
 php artisan db:seed --class=TestimonialSeeder
 ```
 
-**6. Frontend assets**
+**5. Frontend assets**
 
 ```bash
 npm run build
-```
-
-For development with hot reload:
-
-```bash
+# or for hot reload:
 npm run dev
 ```
 
-**7. Run the application**
+**6. Run**
 
 ```bash
 php artisan serve
 ```
 
-Open **http://localhost:8000** in your browser.
+Open **http://localhost:8000** · Admin: **http://localhost:8000/login**
 
 ### Optional
 
-- **Laravel Breeze** — `php artisan breeze:install blade` (or react/vue) for login/register UI.
-- **Spatie Permission** — `php artisan vendor:publish --provider="Spatie\Permission\PermissionServiceProvider"` then `php artisan migrate` if using roles.
-- **Storage link** — `php artisan storage:link` for uploads under `storage/app/public`.
-- **Placeholder images** — Add `hero-bg.jpg`, `property-placeholder.jpg`, `blog-placeholder.jpg`, `default-avatar.jpg`, `favicon.ico` under `public/assets/images/` as needed.
+```bash
+php artisan storage:link
+```
+
+Spatie roles (future): publish provider migrations if you wire permission middleware. Package is already in `composer.json` at `^6.0`.
 
 ---
 
 ## 5. Routing & Endpoints
 
-### Public routes
+### Public
 
 | Method | Path | Description |
 |--------|------|-------------|
 | GET | `/` | Home |
-| GET | `/about` | About page |
-| GET | `/services` | Services page |
-| GET | `/properties` | Property listing (filters, sort) |
-| GET | `/properties/type/{type}` | Properties by type (JSON) |
-| GET | `/properties/{slug}` | Property detail |
-| GET | `/agents` | Agent listing |
+| GET | `/about` | About |
+| GET | `/services` | Services |
+| GET | `/properties` | Listing (filters, sort) |
+| GET | `/properties/type/{type}` | By type (JSON) |
+| GET | `/properties/{slug}` | Detail |
+| GET | `/agents` | Agents |
 | GET | `/agents/{slug}` | Agent detail |
-| GET | `/blog` | Blog listing |
-| GET | `/blog/category/{category}` | Blog by category |
-| GET | `/blog/{slug}` | Blog post |
-| GET | `/contact` | Contact form |
-| POST | `/contact` | Submit contact |
+| GET | `/blog` | Blog list |
+| GET | `/blog/category/{category}` | By category |
+| GET | `/blog/{slug}` | Post |
+| GET/POST | `/contact` | Contact form |
+| GET/POST | `/login` | Admin login (POST throttled) |
+| POST | `/logout` | Logout |
 
-### Frontend API (AJAX)
+### Frontend API (throttled)
 
 | Method | Path | Description |
 |--------|------|-------------|
-| POST | `/api/frontend/property/wishlist/{property}` | Toggle wishlist (session) |
+| POST | `/api/frontend/property/wishlist/{property}` | Toggle wishlist |
 | POST | `/api/frontend/property/contact/{property}` | Property inquiry |
-| POST | `/api/frontend/contact/property-inquiry` | Generic property inquiry |
-| GET | `/api/frontend/search/suggestions` | Property search suggestions (JSON) |
-| POST | `/api/frontend/newsletter/subscribe` | Newsletter subscribe |
+| POST | `/api/frontend/contact/property-inquiry` | Generic inquiry |
+| GET | `/api/frontend/search/suggestions` | Suggestions |
+| POST | `/api/frontend/newsletter/subscribe` | Newsletter |
 
 ### SEO
 
-- `GET /sitemap.xml` — XML sitemap
-- `GET /robots.txt` — Robots rules
+- `GET /sitemap.xml`
+- `GET /robots.txt`
 
-### Admin (authenticated)
+### Admin (`auth` + `admin`)
 
-- `GET /admin` — Dashboard
-- Resource routes for `properties`, `agents`, `blogs`
-- `GET /admin/contacts` — Contact inquiries
+| Area | Routes |
+|------|--------|
+| Dashboard | `GET /admin` |
+| Properties | resource (except show) |
+| Agents | resource (except show) |
+| Blogs | resource (except show) |
+| Testimonials | resource (except show) |
+| Contacts | `GET /admin/contacts` |
 
 ---
 
@@ -229,23 +250,33 @@ Open **http://localhost:8000** in your browser.
 ```
 E-STATE/
 ├── app/
-│   ├── Http/Controllers/
-│   │   ├── Frontend/    # Home, Property, Agent, Blog, Contact
-│   │   └── Admin/      # Dashboard, Property, Agent, Blog, Contact
-│   ├── Models/         # User, Agent, Property, Blog, Testimonial, Contact, NewsletterSubscriber
-│   └── Http/Requests/
+│   ├── Console/Commands/          # e.g. admin:reset-password
+│   ├── Http/
+│   │   ├── Controllers/
+│   │   │   ├── Auth/              # LoginController
+│   │   │   ├── Frontend/          # Home, Property, Agent, Blog, Contact
+│   │   │   └── Admin/             # Dashboard, Property, Agent, Blog, Testimonial, Contact
+│   │   ├── Middleware/            # EnsureUserIsAdmin
+│   │   └── Requests/              # Store/Update* FormRequests
+│   └── Models/
 ├── database/
-│   ├── migrations/     # users, agents, properties, blogs, testimonials, contacts, newsletter_subscribers
-│   └── seeders/        # AgentSeeder, PropertySeeder, BlogSeeder, TestimonialSeeder
-├── resources/
-│   ├── views/
-│   │   ├── layouts/
-│   │   ├── frontend/pages/      # home, about, services, properties, property-single, agents, agent-single, blog, blog-single, contact
-│   │   ├── frontend/components/ # property-card, agent-card, testimonial, navbar, footer
-│   │   └── admin/
-│   ├── css/
-│   └── js/
+│   ├── migrations/
+│   ├── seeders/
+│   └── database.sqlite            # local DB (gitignored)
+├── docs/
+│   ├── DECISIONS.md
+│   └── archive/                   # completed PRD copies
+├── .planning/STATE.md             # phase handoff snapshot
+├── PRD.md                         # active phase contract
+├── progress.txt                   # append-only work log
+├── AGENTS.md                      # agent/plugin orientation
+├── .agents/ / .agent/             # GSD, Ralph Loop, Context7, etc.
+├── .cursor/rules/                 # Cursor project rules
+├── resources/views/
+│   ├── frontend/
+│   └── admin/
 ├── routes/web.php
+├── tests/Feature/                 # AdminGateTest, smoke tests
 ├── vite.config.js
 ├── composer.json
 └── package.json
@@ -253,32 +284,75 @@ E-STATE/
 
 ---
 
-## 7. Portfolio & Business Use
+## 7. Security Notes
 
-### Why it works for portfolios
+Practice / portfolio defaults — tighten before any real production deploy:
 
-- End-to-end flows: listings, filters, detail pages, contact and inquiry persistence, wishlist, newsletter.
-- Clear domain model and relationships; form validation; reusable Blade components.
-- Modern UI (Bootstrap 5 + Tailwind 4), responsive layout, and basic SEO (sitemap, robots.txt).
+- Admin access requires `is_admin`; non-admins receive **403**.
+- Login and public POSTs are **rate-limited** (`throttle`).
+- Demo credentials on the login page appear **only when `APP_DEBUG=true`**.
+- Blog HTML is output through **`safeContent()`** (allowlisted tags; strips event handlers / `javascript:` URLs).
+- Never commit `.env` or DB dumps (`estate_db`, `e-state-bd`, `*.sqlite` are gitignored).
+- Change the seeded admin password before sharing a public demo URL.
 
-### How to present it
+Reset / create local admin:
 
-- *"Full-stack real estate platform built with Laravel 12, Blade, Tailwind, Bootstrap, and Vite."*
-- *"Implements property and agent listings, blog, testimonials, contact and inquiry handling, and an admin panel for content management."*
-- *"Includes filters, search suggestions, wishlist, and newsletter subscription."*
-
-Consider adding screenshots (home, properties, property detail, agents, blog, contact) and a short video walkthrough.
-
-### Possible extensions
-
-- Role-based admin access with Spatie Permission.
-- Image upload and management for properties and agents (`storage:link`).
-- Full-text or external search (e.g. Meilisearch).
-- API versioning and documentation (e.g. Swagger/OpenAPI).
-- Automated tests (feature and unit).
+```bash
+php artisan admin:reset-password --email=test@example.com --password=password
+```
 
 ---
 
-## 8. License
+## 8. Development Process
 
-This project is based on the Laravel framework and is licensed under the **MIT License**.
+This repo follows the same planning style as larger practice monorepos:
+
+| File | Purpose |
+|------|---------|
+| `PRD.md` | Active phase tasks (checkboxes) |
+| `progress.txt` | Append-only completion log |
+| `.planning/STATE.md` | What exists / gaps / next |
+| `docs/DECISIONS.md` | Short decision ledger |
+| `docs/archive/` | Finished PRD copies |
+| `.agents/` / `.agent/` | Plugins: GSD, Ralph Loop, Context7, Serena, CodeRabbit, server-validation |
+| `.cursor/rules/` | Cursor always-on rules |
+
+**Phase 1 (hardening + process + testimonials CRUD + wishlist AJAX + gate tests) is complete.** See `docs/archive/PRD_phase1.md`.
+
+---
+
+## 9. Testing
+
+```bash
+php artisan test
+```
+
+Includes:
+
+- **AdminGateTest** — guest redirect, non-admin 403, admin OK
+- Home smoke tests (`RefreshDatabase` + `withoutVite()`)
+
+---
+
+## 10. Portfolio & Extensions
+
+### How to present it
+
+- *“Full-stack real estate platform on Laravel 12, Blade, Tailwind, Bootstrap, and Vite.”*
+- *“Property/agent listings, blog, testimonials, inquiries, wishlist, newsletter, and an `is_admin` admin panel.”*
+- *“Includes filters, search suggestions, CSRF-aware AJAX wishlist, and rate-limited public forms.”*
+
+### Possible next steps
+
+- Wire Spatie roles/permissions for multi-admin access.
+- Stronger contact/share UX (modals, slug-based share URLs).
+- Broader PHPUnit / Pest coverage.
+- Meilisearch or full-text search.
+- Image pipeline + `storage:link` in deploy docs.
+- API versioning / OpenAPI.
+
+---
+
+## 11. License
+
+Based on the Laravel framework; licensed under the **MIT License**.
